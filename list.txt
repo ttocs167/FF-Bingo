@@ -36,3 +36,4 @@ Someone discovers something new about their main class
 Someone is out of a stack marker
 Someone gets their left/right wrong
 Someone DCs
+Cancelled countdown

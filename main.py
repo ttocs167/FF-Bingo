@@ -42,11 +42,12 @@ free_space = (2, 2)
 # pop the free space coord out of the list
 free_space_coord = all_coords.pop((free_space[0] * x_cells) + free_space[1])
 
-statements = np.loadtxt("list.txt", dtype=str, comments="#", delimiter="\n", unpack=False)
-free_statements = np.loadtxt("free_list.txt", dtype=str, comments="#", delimiter="\n", unpack=False)
-
 # loop to generate n random bingo cards
 for image_num in range(num_images):
+
+    # lists must be loaded every loop for random.choice to resample ¯\_(ツ)_/¯
+    statements = np.loadtxt("list.txt", dtype=str, comments="#", delimiter="\n", unpack=False)
+    free_statements = np.loadtxt("free_list.txt", dtype=str, comments="#", delimiter="\n", unpack=False)
 
     # generate the random values for this card
     random_choices = np.random.choice(statements, (x_cells * y_cells), replace=False)

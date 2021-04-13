@@ -14,12 +14,10 @@ Melee DPS dies to greed
 Non-ranged dps complains about ranged dps being unga bunga
 Someone shits on PLD
 Healer complains about having to cast a heal
-Prepull
 Someone forgets to pot
 Someone forgot food
 Co-tank kills MT
 Tank kills party member with mechanic
-Wipe
 Clear
 Someone gets knocked off/out
 Devotion more than 3 GCDs late
@@ -37,3 +35,5 @@ Someone is out of a stack marker
 Someone gets their left/right wrong
 Someone DCs
 Cancelled countdown
+"No C/DH might as well wipe"
+See a new mechanic

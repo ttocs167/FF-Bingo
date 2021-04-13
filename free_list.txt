@@ -1,3 +1,5 @@
 Wipe
-Damage Down
+Damage Down/Vuln
 Prepull
+Someone says "Im dead" and survives
+Tank Privilege

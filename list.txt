@@ -11,7 +11,7 @@ Non-Healer has to raise
 Non-tank complains about tank privilege
 Melee DPS gets D down
 Melee DPS dies to greed
-Non-ranged dps complains about ranged dps being unga bunga
+Non phys ranged complains about phys ranged being unga bunga
 Someone shits on PLD
 Healer complains about having to cast a heal
 Someone forgets to pot
@@ -21,7 +21,6 @@ Tank kills party member with mechanic
 Clear
 Someone gets knocked off/out
 Devotion more than 3 GCDs late
-Someone yells "Im dead" and survives
 Failed tank swap
 Late trick attack
 Benediction is wasted and or missed
@@ -37,3 +36,8 @@ Someone DCs
 Cancelled countdown
 "No C/DH might as well wipe"
 See a new mechanic
+Someone starts singing Alex music
+Hardcast raise
+Someone complains about server ticks
+"How did I die?"
+Someone complains about DRK

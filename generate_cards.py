@@ -14,7 +14,7 @@ def draw_text(x_coord, y_coord, text):
              size='xx-large')
 
 
-def generate_card(image_index, num_images=1):
+def generate_card(image_index, guild, num_images=1):
     # number of images to generate and bool to determine if free space is taken from seperate list
     free_space_bool = True
 
@@ -85,6 +85,6 @@ def generate_card(image_index, num_images=1):
 
         ax.imshow(blank)  # must imshow or figure cannot be saved
         # finally save the output images
-        fig.savefig('output_folder/output_' + str(image_index) + '.png', bbox_inches='tight', pad_inches=0)
+        fig.savefig('output_folder/' + guild + '/output_' + str(image_index) + '.png', bbox_inches='tight', pad_inches=0)
         image_index = (image_index + 1) % 5
 

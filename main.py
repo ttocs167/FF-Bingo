@@ -15,7 +15,7 @@ def draw_text(x_coord, y_coord, text):
 
 
 # number of images to generate and bool to determine if free space is taken from seperate list
-num_images = 8
+num_images = 19
 free_space_bool = True
 
 list_path = "list.txt"
@@ -26,7 +26,8 @@ font_path = r"C:\Windows\Fonts\arial.ttf"
 font = ImageFont.truetype(font=font_path, size=30)
 # this value determines how the lines are spaced vertically when text is wrapped
 line_height = 22
-
+# names on the cards
+names = ["Me", "Noah", "Ziggy", "Twink", "Jabber", "Hux", "Fedi", "Robin"]
 # load in the blank bingo card image
 blank = np.array(Image.open("blank.png"))
 
@@ -84,8 +85,13 @@ for image_num in range(num_images):
                       (-len(wrapped_free_statements) * line_height / 2) + free_space_coord[1] + k * line_height,
                       wrapped_free_statements[k])
 
+    if len(names) == num_images:
+        # write names on images
+        draw_text(900, 988, names[image_num])
+
     ax.imshow(blank)  # must imshow or figure cannot be saved
     # finally save the output images
-    plt.savefig('output_folder/output_' + str(image_num) + '_.png', bbox_inches='tight', pad_inches=0)
+    # plt.savefig('output_folder/output_' + str(image_num) + '_.png', bbox_inches='tight', pad_inches=0)
+    fig.savefig('output_folder/output_' + str(image_num) + '.png', bbox_inches='tight', pad_inches=0)
 
 

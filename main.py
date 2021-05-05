@@ -22,7 +22,8 @@ async def on_message(message):
     global rolling_index
 
     guild = str(message.guild)
-
+    msg = utils.emoji_free_text(message.content)
+    
     if not os.path.isdir("output_folder/" + guild):
         os.mkdir("output_folder/" + guild)
         await regenerate_all_images(guild)
@@ -35,7 +36,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('$bingo'):
+    if msg.startswith('$bingo'):
 
         time_since_last_bingo = time.time() - time_of_last_bingo
 
@@ -53,33 +54,33 @@ async def on_message(message):
         else:
             print("bingo command recieved in " + guild + " too soon to generate!")
 
-    if message.content.startswith('$add'):
-        line = message.content.split("$add ", 1)[1]
+    if msg.startswith('$add'):
+        line = utils.emoji_free_text(msg.split("$add ", 1)[1])
         await message.channel.send("New line: \n_" + line + "_ \nAdded to pool!")
         await utils.add_to_list(line, guild)
         print("New line: _" + line + "_ Added to pool in " + guild)
 
-    if message.content.startswith('$addfree'):
-        line = message.content.split("$addfree ", 1)[1]
+    if msg.startswith('$addfree'):
+        line = msg.split("$addfree ", 1)[1]
         await message.channel.send("New line: \n_" + line + "_ \nAdded to free space pool!")
         await utils.add_to_free_list(line, guild)
         print("New line: _" + line + "_ Added to free space pool in " + guild)
 
-    if message.content.startswith('$refresh'):
+    if msg.startswith('$refresh'):
         # regenerate all images
         await regenerate_all_images(guild)
         await message.channel.send("Cards refreshed!")
 
-    if message.content.startswith('$list'):
+    if msg.startswith('$list'):
         lines = await utils.list_all_lines(guild)
         await message.channel.send(lines, delete_after=10)
 
-    if message.content.startswith('$listfree'):
+    if msg.startswith('$listfree'):
         lines = await utils.list_all_free_lines(guild)
         await message.channel.send(lines)
 
-    if message.content.startswith('$del'):
-        argument = message.content.split("$del ", 1)[1]
+    if msg.startswith('$del'):
+        argument = msg.split("$del ", 1)[1]
         try:
             index = int(argument)
             await utils.delete_line(index, guild)
@@ -87,8 +88,8 @@ async def on_message(message):
         except:
             await message.reply(argument + " is not an integer you dingus!")
 
-    if message.content.startswith('$delfree'):
-        argument = message.content.split("$delfree ", 1)[1]
+    if msg.startswith('$delfree'):
+        argument = msg.split("$delfree ", 1)[1]
         try:
             index = int(argument)
             await utils.delete_free_line(index, guild)
@@ -96,15 +97,15 @@ async def on_message(message):
         except:
             await message.reply(argument + " is not an integer you dingus!")
 
-    if message.content.startswith('$RESETLIST'):
+    if msg.startswith('$RESETLIST'):
         await utils.reset_list(guild)
         await message.channel.send("List has been reset to default.")
 
-    if message.content.startswith('$RESETFREELIST'):
+    if msg.startswith('$RESETFREELIST'):
         await utils.reset_free_list(guild)
         await message.channel.send("Free list has been reset to default.")
 
-    if message.content.startswith('$animal'):
+    if msg.startswith('$animal'):
         await message.reply(utils.random_animal_emoji())
 
 

@@ -11,15 +11,17 @@ def draw_text(x_coord, y_coord, text):
              verticalalignment='center',
              clip_on=True,
              wrap=True,
-             size='xx-large')
+             size='xx-large',
+             fontfamily='Comic Sans MS')
+             # fontfamily="Montserrat")
 
 
 def generate_card(image_index, guild, num_images=1):
     # number of images to generate and bool to determine if free space is taken from seperate list
     free_space_bool = True
 
-    list_path = "list.txt"
-    free_space_list_path = "free_list.txt"
+    list_path = "lists/" + guild + "/list.txt"
+    free_space_list_path = "lists/" + guild + "/free_list.txt"
 
     # specify font used
     font_path = r"Montserrat-Regular.ttf"
@@ -87,4 +89,4 @@ def generate_card(image_index, guild, num_images=1):
         # finally save the output images
         fig.savefig('output_folder/' + guild + '/output_' + str(image_index) + '.png', bbox_inches='tight', pad_inches=0)
         image_index = (image_index + 1) % 5
-
+        plt.close(fig)

@@ -1,5 +1,6 @@
 import random
 import re
+import itertools
 
 
 def random_animal_emoji():
@@ -24,17 +25,23 @@ async def add_to_free_list(new_line, guild):
 async def list_all_lines(guild):
     with open("lists/" + guild + "/list.txt", 'r') as file:
         lines = list(enumerate(file.readlines()))
-        lines = [item for sublist in lines for item in sublist]
-        lines = ' '.join(list(map(str, lines)))
-    return lines
+
+    lines = [item for sublist in lines for item in sublist]
+    lines = list(map(str, lines))
+    chunks = [lines[x:x+50] for x in range(0, len(lines), 50)]
+
+    return chunks
 
 
 async def list_all_free_lines(guild):
     with open("lists/" + guild + "/free_list.txt", 'r') as file:
         lines = list(enumerate(file.readlines()))
-        lines = [item for sublist in lines for item in sublist]
-        lines = ' '.join(list(map(str, lines)))
-    return lines
+
+    lines = [item for sublist in lines for item in sublist]
+    lines = list(map(str, lines))
+    chunks = [lines[x:x + 50] for x in range(0, len(lines), 50)]
+
+    return chunks
 
 
 async def delete_line(index, guild):
@@ -98,3 +105,5 @@ def emoji_free_text(text):
 
     text = emoji_pattern.sub(r'', text)
     return text
+
+

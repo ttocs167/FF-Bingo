@@ -12,6 +12,16 @@ def random_animal_emoji():
     return choice
 
 
+def random_8ball_response():
+    responses = ["Yes", "No", "Maybe", "Certainly", "Surely not", "Of Course", "No way",
+                 "Who Cares?", "Fo Sho Dawg", ":frog:"]
+    choice = random.choices(responses, weights=[1, 1, 1, 1, 1, 1, 1, .5, .5, .05])[0]
+
+    output = "_**" + choice + "**_"
+
+    return output
+
+
 async def add_to_list(new_line, guild):
     with open("lists/" + guild + "/list.txt", 'a') as file:
         file.writelines(new_line + "\n")

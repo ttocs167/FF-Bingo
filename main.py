@@ -14,6 +14,7 @@ time_of_last_bingo = time.time()
 rolling_index = 0
 whitelist = ["ttocsicle#1826", "noah#5386"]
 
+
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -26,15 +27,15 @@ async def on_message(message):
 
     guild = str(message.guild)
     msg = utils.emoji_free_text(message.content)
-    
-    if not os.path.isdir("output_folder/" + guild):
-        os.mkdir("output_folder/" + guild)
-        await regenerate_all_images(guild)
 
     if not os.path.isdir("lists/" + guild):
         os.mkdir("lists/" + guild)
         await utils.reset_list(guild)
         await utils.reset_free_list(guild)
+
+    if not os.path.isdir("output_folder/" + guild):
+        os.mkdir("output_folder/" + guild)
+        await regenerate_all_images(guild)
 
     if message.author == client.user:
         return
@@ -189,6 +190,9 @@ async def on_message(message):
         
     if msg.startswith('$frog') and str(message.author) in whitelist:
         await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="🐸"))
+
+    elif msg.startswith('$8ball'):
+        await message.channel.send(utils.random_8ball_response())
 
 
 async def regenerate_images(index, guild):

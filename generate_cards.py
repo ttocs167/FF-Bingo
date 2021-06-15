@@ -16,7 +16,7 @@ def draw_text(x_coord, y_coord, text):
              # fontfamily="Montserrat")
 
 
-def generate_card(image_index, guild, num_images=1):
+def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x=2, free_y=2, beeg=False):
     # number of images to generate and bool to determine if free space is taken from seperate list
     free_space_bool = True
 
@@ -30,12 +30,14 @@ def generate_card(image_index, guild, num_images=1):
     line_height = 22
 
     # load in the blank bingo card image
-    blank = np.array(Image.open("blank.png"))
+    if beeg:
+        blank = np.array(Image.open("blank_7x7.png"))
+    else:
+        blank = np.array(Image.open("blank.png"))
 
     # values of cell spacing on the card
     cell_width = 180
-    x_cells = 5
-    y_cells = 5
+
     x_offset = 50  # number of pixels between left edge and start of the bingo grid in the blank
     y_offset = 72  # number of pixels from top of image to top line of the bingo grid in the blank
 
@@ -49,7 +51,7 @@ def generate_card(image_index, guild, num_images=1):
 
     if free_space_bool:
         # decide where you want the free space
-        free_space = (2, 2)
+        free_space = (free_x, free_y)
         # pop the free space coord out of the list
         free_space_coord = all_coords.pop((free_space[0] * x_cells) + free_space[1])
 
@@ -58,10 +60,19 @@ def generate_card(image_index, guild, num_images=1):
         # lists must be loaded every loop for random.choice to resample ¯\_(ツ)_/¯
         # then generate the random values for this card
         statements = np.loadtxt(list_path, dtype=str, comments="#", delimiter="\n", unpack=False)
-        random_choices = np.random.choice(statements, (x_cells * y_cells), replace=False)
+
+        if len(statements) < ((x_cells * y_cells) - free_space_bool):
+            replace = True
+        else:
+            replace = False
+        random_choices = np.random.choice(statements, (x_cells * y_cells), replace=replace)
 
         # create the plt figure to be drawn on and saved later
-        fig = plt.figure(figsize=(14, 14))
+        if beeg:
+            fig = plt.figure(figsize=(20, 20))
+        else:
+            fig = plt.figure(figsize=(14, 14))
+
         ax = plt.axes(frameon=False, xticks=[], yticks=[])
 
         for i in range(len(all_coords)):
@@ -77,6 +88,7 @@ def generate_card(image_index, guild, num_images=1):
         # handle free space text
         if free_space_bool:
             free_statements = np.loadtxt(free_space_list_path, dtype=str, comments="#", delimiter="\n", unpack=False)
+
             random_free_space = np.random.choice(free_statements, 1, replace=False)
             # write the free space
             wrapped_free_statements = text_wrap(random_free_space[0], font, cell_width * 0.9)
@@ -87,6 +99,13 @@ def generate_card(image_index, guild, num_images=1):
 
         ax.imshow(blank)  # must imshow or figure cannot be saved
         # finally save the output images
-        fig.savefig('output_folder/' + guild + '/output_' + str(image_index) + '.png', bbox_inches='tight', pad_inches=0)
+
+        if beeg:
+            fig.savefig('output_folder/' + guild + '/big_output_' + str(image_index) + '.png',
+                        bbox_inches='tight', pad_inches=0)
+        else:
+            fig.savefig('output_folder/' + guild + '/output_' + str(image_index) + '.png',
+                        bbox_inches='tight', pad_inches=0)
+
         image_index = (image_index + 1) % 5
         plt.close(fig)

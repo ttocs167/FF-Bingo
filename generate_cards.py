@@ -86,8 +86,8 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
                           wrapped_free_statements[k])
 
         if beeg:
-            image.save('output_folder/' + guild + '/big_output_' + str(image_index) + '.png', "PNG")
+            image.save('output_folder/' + guild + '/big_output_' + str(image_index) + '.jpg', "JPEG")
         else:
-            image.save('output_folder/' + guild + '/output_' + str(image_index) + '.png', "PNG")
+            image.save('output_folder/' + guild + '/output_' + str(image_index) + '.jpg', "JPEG")
 
         image_index = (image_index + 1) % 5

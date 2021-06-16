@@ -45,7 +45,7 @@ async def on_message(message):
         time_since_last_bingo = time.time() - time_of_last_bingo
 
         if time_since_last_bingo > 0.5:
-            img = discord.File('output_folder/' + guild + '/output_' + str(rolling_index) + '.png')
+            img = discord.File('output_folder/' + guild + '/output_' + str(rolling_index) + '.jpg')
             await message.reply(utils.random_animal_emoji(), file=img)
 
             await regenerate_images(rolling_index, guild)
@@ -63,7 +63,7 @@ async def on_message(message):
         time_since_last_bingo = time.time() - time_of_last_bingo
 
         if time_since_last_bingo > 0.5:
-            img = discord.File('output_folder/' + guild + '/big_output_' + str(rolling_index) + '.png')
+            img = discord.File('output_folder/' + guild + '/big_output_' + str(rolling_index) + '.jpg')
             await message.reply(utils.random_animal_emoji(), file=img)
 
             await regenerate_big_images(rolling_index, guild)

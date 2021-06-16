@@ -1,19 +1,12 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image, ImageFont, ImageDraw
 from text_wrap import text_wrap
 import itertools
 
 
-def draw_text(x_coord, y_coord, text):
-    plt.text(x_coord, y_coord, text,
-             horizontalalignment='center',
-             verticalalignment='center',
-             clip_on=True,
-             wrap=True,
-             size='xx-large',
-             fontfamily='Comic Sans MS')
-             # fontfamily="Montserrat")
+def draw_text(img, font, x_coord, y_coord, text):
+    draw = ImageDraw.Draw(img)
+    draw.text((x_coord, y_coord), text, font=font, align='left', fill=(0, 0, 0, 255), anchor='mm')
 
 
 def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x=2, free_y=2, beeg=False):
@@ -31,9 +24,9 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
 
     # load in the blank bingo card image
     if beeg:
-        blank = np.array(Image.open("blank_7x7.png"))
+        blank = Image.open("blank_7x7.png")
     else:
-        blank = np.array(Image.open("blank.png"))
+        blank = Image.open("blank.png")
 
     # values of cell spacing on the card
     cell_width = 180
@@ -57,6 +50,9 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
 
     # loop to generate n random bingo cards
     for image_num in range(num_images):
+
+        image = blank.copy()
+
         # lists must be loaded every loop for random.choice to resample ¯\_(ツ)_/¯
         # then generate the random values for this card
         statements = np.loadtxt(list_path, dtype=str, comments="#", delimiter="\n", unpack=False)
@@ -67,21 +63,13 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
             replace = False
         random_choices = np.random.choice(statements, (x_cells * y_cells), replace=replace)
 
-        # create the plt figure to be drawn on and saved later
-        if beeg:
-            fig = plt.figure(figsize=(20, 20))
-        else:
-            fig = plt.figure(figsize=(14, 14))
-
-        ax = plt.axes(frameon=False, xticks=[], yticks=[])
-
         for i in range(len(all_coords)):
 
             # calculate text wrapping (split into lines with text_wrap() func)
             wrapped_statements = text_wrap(random_choices[i], font, cell_width * 0.9)
             # loop through the splits and place the lines with plt.text()
             for k in range(len(wrapped_statements)):
-                draw_text(all_coords[i][0],
+                draw_text(image, font, all_coords[i][0],
                           (-len(wrapped_statements) * line_height / 2) + all_coords[i][1] + k * line_height,
                           wrapped_statements[k])
 
@@ -93,19 +81,13 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
             # write the free space
             wrapped_free_statements = text_wrap(random_free_space[0], font, cell_width * 0.9)
             for k in range(len(wrapped_free_statements)):
-                draw_text(free_space_coord[0],
+                draw_text(image, font, free_space_coord[0],
                           (-len(wrapped_free_statements) * line_height / 2) + free_space_coord[1] + k * line_height,
                           wrapped_free_statements[k])
 
-        ax.imshow(blank)  # must imshow or figure cannot be saved
-        # finally save the output images
-
         if beeg:
-            fig.savefig('output_folder/' + guild + '/big_output_' + str(image_index) + '.png',
-                        bbox_inches='tight', pad_inches=0)
+            image.save('output_folder/' + guild + '/big_output_' + str(image_index) + '.png', "PNG")
         else:
-            fig.savefig('output_folder/' + guild + '/output_' + str(image_index) + '.png',
-                        bbox_inches='tight', pad_inches=0)
+            image.save('output_folder/' + guild + '/output_' + str(image_index) + '.png', "PNG")
 
         image_index = (image_index + 1) % 5
-        plt.close(fig)

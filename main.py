@@ -26,7 +26,7 @@ async def on_message(message):
     global rolling_index
 
     guild = str(message.guild)
-    msg = utils.emoji_free_text(message.content)
+    msg = utils.emoji_free_text(message.content).lower()
 
     if not os.path.isdir("lists/" + guild):
         os.mkdir("lists/" + guild)
@@ -131,11 +131,11 @@ async def on_message(message):
         except:
             await message.reply(argument + " is not an integer you dingus!")
 
-    if msg.startswith('$RESETLIST'):
+    if msg.startswith('$resetlist'):
         await utils.reset_list(guild)
         await message.channel.send("List has been reset to default.")
 
-    if msg.startswith('$RESETFREELIST'):
+    if msg.startswith('$resetfreelist'):
         await utils.reset_free_list(guild)
         await message.channel.send("Free list has been reset to default.")
 

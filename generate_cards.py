@@ -28,7 +28,7 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
         blank = blank.convert('RGB')
     else:
         blank = Image.open("blank.png")
-        blank.convert('RGB')
+        blank = blank.convert('RGB')
 
     # values of cell spacing on the card
     cell_width = 180

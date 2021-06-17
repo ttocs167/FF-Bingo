@@ -2,7 +2,6 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 from text_wrap import text_wrap
 import itertools
-import asyncio
 
 
 def draw_text(img, font, x_coord, y_coord, text):
@@ -50,7 +49,7 @@ async def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, 
         free_space_coord = all_coords.pop((free_space[0] * x_cells) + free_space[1])
 
     # loop to generate n random bingo cards
-    for image_num in range(num_images):
+    for _ in range(num_images):
         image = blank.copy()
         # lists must be loaded every loop for random.choice to resample ¯\_(ツ)_/¯
         # then generate the random values for this card

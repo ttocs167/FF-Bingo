@@ -4,7 +4,6 @@ from generate_cards import generate_card
 import utils
 import time
 from dotenv import load_dotenv
-import asyncio
 
 load_dotenv()
 client = discord.Client()
@@ -12,6 +11,8 @@ client = discord.Client()
 time_of_last_bingo = time.time()
 rolling_index = 0
 whitelist = ["ttocsicle#1826", "noah#5386"]
+rigged_statement = None
+
 
 @client.event
 async def on_ready():
@@ -75,7 +76,18 @@ async def on_message(message):
             print("big bingo command recieved in " + guild + " too soon to generate!")
 
     elif msg.startswith('$8ball'):
-        await message.channel.send(utils.random_8ball_response())
+        global rigged_statement
+        if rigged_statement is not None and message.author == 'ttocsicle#1826':
+            await message.channel.send(str(rigged_statement))
+            rigged_statement = None
+        else:
+            await message.channel.send(utils.random_8ball_response())
+
+    elif msg.startswith('$rig') and str(message.author) == 'ttocsicle#1826':
+        global rigged_statement
+        line = utils.emoji_free_text(msg.split("rig ", 1)[1])
+        message.channel.send("Next message rigged. _our little secret..._")
+        rigged_statement = line
 
     elif msg.startswith('$add'):
         line = utils.emoji_free_text(msg.split("$add ", 1)[1])

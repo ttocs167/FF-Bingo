@@ -23,6 +23,7 @@ async def on_ready():
 async def on_message(message):
     global time_of_last_bingo
     global rolling_index
+    global rigged_statement
 
     guild = str(message.guild)
     msg = utils.emoji_free_text(message.content).lower()
@@ -76,18 +77,18 @@ async def on_message(message):
             print("big bingo command recieved in " + guild + " too soon to generate!")
 
     elif msg.startswith('$8ball'):
-        global rigged_statement
-        if rigged_statement is not None and message.author == 'ttocsicle#1826':
-            await message.channel.send(str(rigged_statement))
+        if (rigged_statement is not None) and (str(message.author) == 'ttocsicle#1826'):
+            await message.channel.send("_**" + str(rigged_statement) + "_**")
             rigged_statement = None
+            print("Rigged message sent.")
         else:
             await message.channel.send(utils.random_8ball_response())
 
     elif msg.startswith('$rig') and str(message.author) == 'ttocsicle#1826':
-        global rigged_statement
         line = utils.emoji_free_text(msg.split("rig ", 1)[1])
-        message.channel.send("Next message rigged. _our little secret..._")
+        await message.channel.send("Next message rigged. _Our little secret..._")
         rigged_statement = line
+        print("Next message rigged: " + str(line))
 
     elif msg.startswith('$add'):
         line = utils.emoji_free_text(msg.split("$add ", 1)[1])

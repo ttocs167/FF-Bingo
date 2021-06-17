@@ -85,7 +85,8 @@ async def on_message(message):
             await message.channel.send(utils.random_8ball_response())
 
     elif msg.startswith('$rig') and str(message.author) == 'ttocsicle#1826':
-        line = utils.emoji_free_text(msg.split("rig ", 1)[1])
+        preserved_message = utils.emoji_free_text(message.content)
+        line = utils.emoji_free_text(preserved_message.split("$rig ", 1)[1])
         await message.channel.send("Next message rigged. _Our little secret..._")
         rigged_statement = line
         print("Next message rigged: " + str(line))

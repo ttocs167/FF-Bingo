@@ -189,7 +189,7 @@ async def on_message(message):
                                                                                     " Note: resticted usage_\n")
         
     if msg.startswith('$frog') and str(message.author) in whitelist:
-        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="🐸"))
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=":frog:"))
 
     elif msg.startswith('$8ball'):
         await message.channel.send(utils.random_8ball_response())

@@ -24,11 +24,9 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
 
     # load in the blank bingo card image
     if beeg:
-        blank = Image.open("blank_7x7.png")
-        blank = blank.convert('RGB')
+        blank = Image.open("blank_7x7.jpg")
     else:
-        blank = Image.open("blank.png")
-        blank = blank.convert('RGB')
+        blank = Image.open("blank.jpg")
 
     # values of cell spacing on the card
     cell_width = 180

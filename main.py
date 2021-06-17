@@ -78,7 +78,7 @@ async def on_message(message):
 
     elif msg.startswith('$8ball'):
         if (rigged_statement is not None) and (str(message.author) == 'ttocsicle#1826'):
-            await message.channel.send("_**" + str(rigged_statement) + "_**")
+            await message.channel.send("_**" + str(rigged_statement) + "**_")
             rigged_statement = None
             print("Rigged message sent.")
         else:

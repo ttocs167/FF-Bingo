@@ -2,6 +2,7 @@ import numpy as np
 from PIL import Image, ImageFont, ImageDraw
 from text_wrap import text_wrap
 import itertools
+import asyncio
 
 
 def draw_text(img, font, x_coord, y_coord, text):
@@ -9,7 +10,7 @@ def draw_text(img, font, x_coord, y_coord, text):
     draw.text((x_coord, y_coord), text, font=font, align='left', fill=(0, 0, 0, 255), anchor='mm')
 
 
-def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x=2, free_y=2, beeg=False):
+async def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x=2, free_y=2, beeg=False):
     # number of images to generate and bool to determine if free space is taken from seperate list
     free_space_bool = True
 
@@ -50,21 +51,16 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
 
     # loop to generate n random bingo cards
     for image_num in range(num_images):
-
         image = blank.copy()
-
         # lists must be loaded every loop for random.choice to resample ¯\_(ツ)_/¯
         # then generate the random values for this card
         statements = np.loadtxt(list_path, dtype=str, comments="#", delimiter="\n", unpack=False)
-
         if len(statements) < ((x_cells * y_cells) - free_space_bool):
             replace = True
         else:
             replace = False
         random_choices = np.random.choice(statements, (x_cells * y_cells), replace=replace)
-
         for i in range(len(all_coords)):
-
             # calculate text wrapping (split into lines with text_wrap() func)
             wrapped_statements = text_wrap(random_choices[i], font, cell_width * 0.9)
             # loop through the splits and place the lines with plt.text()
@@ -72,11 +68,9 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
                 draw_text(image, font, all_coords[i][0],
                           (-len(wrapped_statements) * line_height / 2) + all_coords[i][1] + k * line_height,
                           wrapped_statements[k])
-
         # handle free space text
         if free_space_bool:
             free_statements = np.loadtxt(free_space_list_path, dtype=str, comments="#", delimiter="\n", unpack=False)
-
             random_free_space = np.random.choice(free_statements, 1, replace=False)
             # write the free space
             wrapped_free_statements = text_wrap(random_free_space[0], font, cell_width * 0.9)
@@ -84,10 +78,8 @@ def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, free_x
                 draw_text(image, font, free_space_coord[0],
                           (-len(wrapped_free_statements) * line_height / 2) + free_space_coord[1] + k * line_height,
                           wrapped_free_statements[k])
-
         if beeg:
             image.save('output_folder/' + guild + '/big_output_' + str(image_index) + '.jpg', "JPEG")
         else:
             image.save('output_folder/' + guild + '/output_' + str(image_index) + '.jpg', "JPEG")
-
         image_index = (image_index + 1) % 5

@@ -1,6 +1,5 @@
 import random
 import re
-import itertools
 
 
 def random_animal_emoji():

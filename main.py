@@ -4,6 +4,7 @@ from generate_cards import generate_card
 import utils
 import time
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 client = discord.Client()
@@ -12,11 +13,14 @@ time_of_last_bingo = time.time()
 rolling_index = 0
 whitelist = ["ttocsicle#1826", "noah#5386"]
 rigged_statement = None
+refresh_bools = {}
 
 
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
+    await generate_refresh_bools()
+    client.loop.create_task(timed_refresh())
 
 
 @client.event
@@ -24,6 +28,7 @@ async def on_message(message):
     global time_of_last_bingo
     global rolling_index
     global rigged_statement
+    global refresh_bools
 
     guild = str(message.guild)
     msg = utils.emoji_free_text(message.content).lower()
@@ -96,12 +101,14 @@ async def on_message(message):
         await message.channel.send("New line: \n_" + line + "_ \nAdded to pool!")
         await utils.add_to_list(line, guild)
         print("New line: _" + line + "_ Added to pool in " + guild + " by " + str(message.author))
+        refresh_bools[str(message.guild)] = True
 
     elif msg.startswith('$freeadd'):
         line = msg.split("$freeadd ", 1)[1]
         await message.channel.send("New line: \n_" + line + "_ \nAdded to free space pool!")
         await utils.add_to_free_list(line, guild)
         print("New line: _" + line + "_ Added to free space pool in " + guild)
+        refresh_bools[str(message.guild)] = True
 
     elif msg.startswith('$refresh'):
         # regenerate all images
@@ -193,7 +200,7 @@ async def on_message(message):
                                    "**$freedel** [integer index] \n_deletes statement at index in free list_\n"
                                    "**$add** [bingo statement] \n_adds statement to list_\n"
                                    "**$freeadd** [free space statement] \n_adds statements to free list_\n"
-                                   "**$refresh** \n_refreshes bingo card pool (use after adding new statements)_\n"
+                                   "**$refresh** \n_refreshes bingo card pool (happens automatically every 30s)_\n"
                                    "**$bigrefresh** \n_refreshes big bingo card pool_\n"
                                    "**$animal**\n " + utils.random_animal_emoji() + "\n"
                                    "**$8ball**\n \n_ask the great BingoBot for wisdom_\n"                                         
@@ -242,6 +249,28 @@ async def set_status(activity_type, activity, url=""):
     elif activity_type == "listening":
         # Setting `Listening ` status
         await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=activity))
+
+
+async def timed_refresh():
+    global refresh_bools
+
+    while not client.is_closed():
+        for guild_name in refresh_bools:
+            if refresh_bools[guild_name]:
+                print("automatically regenerating cards in: " + str(guild_name))
+                await regenerate_all_images(guild_name)
+                refresh_bools[guild_name] = False
+
+        await asyncio.sleep(30)  # task runs every 30 seconds
+
+
+async def generate_refresh_bools():  # This function generates a dictionary of bools for every server the bot is in
+    global refresh_bools
+
+    guilds = client.guilds
+
+    for i, guild_name in enumerate(guilds):
+        refresh_bools[guild_name] = False
 
 
 client.run(os.getenv('BINGO_BOT_TOKEN'))

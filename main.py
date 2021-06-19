@@ -191,6 +191,9 @@ async def on_message(message):
 
             await set_status(activity_type, activity, url)
 
+        elif msg.startswith('$fullrefresh') and str(message.author) == 'ttocsicle#1826':
+            await full_refresh_all_servers()
+
         elif msg.startswith("$help"):
             await message.channel.send("\n**Current commands:** \n\n"
                                        "**$bingo** \n_generates a random bingo card_\n"
@@ -273,5 +276,10 @@ async def generate_refresh_bools():  # This function generates a dictionary of b
     for i, guild_name in enumerate(guilds):
         refresh_bools[guild_name] = False
 
+
+async def full_refresh_all_servers():
+    global refresh_bools
+    for guild_name in refresh_bools:
+        await regenerate_all_images(guild_name)
 
 client.run(os.getenv('BINGO_BOT_TOKEN'))

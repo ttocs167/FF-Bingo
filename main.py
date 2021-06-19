@@ -280,6 +280,6 @@ async def generate_refresh_bools():  # This function generates a dictionary of b
 async def full_refresh_all_servers():
     global refresh_bools
     for guild_name in refresh_bools:
-        await regenerate_all_images(guild_name)
+        await regenerate_all_images(str(guild_name))
 
 client.run(os.getenv('BINGO_BOT_TOKEN'))

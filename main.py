@@ -208,13 +208,13 @@ class Bot(commands.Bot):
         print("deleted free line: " + line)
         await ctx.send("deleted free line: " + line)
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def resetlist(ctx):
         """Resets the bingo list to default. WARNING: lost lists are unrecoverable"""
         await utils.reset_list(str(ctx.guild))
         await ctx.send("List has been reset to default.")
 
-    @commands.command()
+    @commands.command(hidden=True)
     async def resetfreelist(ctx):
         """Resets the free space bingo list to default. WARNING: lost lists are unrecoverable"""
         await utils.reset_free_list(str(ctx.guild))

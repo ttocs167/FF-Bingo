@@ -1,5 +1,6 @@
 import random
 import re
+import shutil
 
 
 def random_animal_emoji():
@@ -88,6 +89,7 @@ async def delete_free_line(index, guild):
 
 
 async def reset_list(guild):
+    shutil.copy("lists/" + guild + "/list.txt", "lists/" + guild + "/list_OLD.txt")
     with open("lists/default_list.txt", "r") as default_file:
         default_lines = default_file.readlines()
 
@@ -97,6 +99,7 @@ async def reset_list(guild):
 
 
 async def reset_free_list(guild):
+    shutil.copy("lists/" + guild + "/free_list.txt", "lists/" + guild + "/free_list_OLD.txt")
     with open("lists/default_free_list.txt", "r") as default_file:
         default_lines = default_file.readlines()
 

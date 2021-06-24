@@ -7,6 +7,7 @@ import utils
 import inspect
 import time
 import asyncio
+import requests
 
 load_dotenv()
 description = '''A Bot for Bingo! All hail BingoBot'''
@@ -244,6 +245,14 @@ class Bot(commands.Bot):
             activity = content.split(" ", 1)[1]
 
         await set_status(activity_type, activity, url)
+
+    @commands.command(name='funfact')
+    async def fun_fact(ctx):
+        """Generates fun facts! Sourced from https://uselessfacts.jsph.pl"""
+        response = requests.get("https://uselessfacts.jsph.pl/random.json?language=en").json()
+        text = response['text']
+        # source = response['source']
+        await ctx.send(text)
 
     @set_status.error
     async def set_status_error(ctx, error):

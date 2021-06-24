@@ -148,7 +148,7 @@ class Bot(commands.Bot):
         else:
             print("Big bingo command recieved in " + str(ctx.guild) + " too soon to generate!")
 
-    @commands.command(name='rig')
+    @commands.command(name='rig', hidden=True)
     @commands.is_owner()
     async def rig(ctx, *, line):
         """rigs the next 8ball command to be a custom string. Only available to bot owner"""
@@ -225,13 +225,15 @@ class Bot(commands.Bot):
         """:frog:"""
         await ctx.reply(utils.random_animal_emoji())
 
-    @commands.command(name='fullrefresh')
+    @commands.command(name='fullrefresh', hidden=True)
     async def full_refresh_all_servers(ctx):
+        """Refreshes all cards on all servers."""
         for guild_name in bot.guilds:
             await regenerate_all_images(str(guild_name))
 
-    @commands.command(name="status2")
+    @commands.command(name="status", hidden=True)
     async def set_status(ctx, *, content):
+        """Set status of bot"""
         activity_type = content.split(" ", 1)[0]
         url = ""
         if activity_type == "streaming":

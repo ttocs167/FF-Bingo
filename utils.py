@@ -1,6 +1,10 @@
 import random
 import re
 import shutil
+import csv
+
+
+riddle_answer_pairs = []
 
 
 def random_animal_emoji():
@@ -106,6 +110,28 @@ async def reset_free_list(guild):
     with open("lists/" + guild + "/free_list.txt", "w") as file:
         for line in default_lines:
             file.write(line)
+
+
+def load_riddles():
+    global riddle_answer_pairs
+
+    print("riddles loaded!")
+
+    with open('more riddles.csv', 'r', encoding='utf-8') as read_obj:
+        # pass the file object to reader() to get the reader object
+        csv_reader = csv.reader(read_obj)
+        # Get all rows of csv from csv_reader object as list of tuples
+        list_of_tuples = list(map(tuple, csv_reader))
+        riddle_answer_pairs = list_of_tuples
+    return
+
+
+async def random_riddle_answer():
+    pair = random.choice(riddle_answer_pairs)
+    riddle, answer = str(pair[0]), str(pair[1])
+    answer = answer.strip("\"")
+    out = "_" + riddle + "_" + "\n" + "||" + answer + "||"
+    return out
 
 
 def emoji_free_text(text):

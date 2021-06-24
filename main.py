@@ -13,6 +13,7 @@ load_dotenv()
 description = '''A Bot for Bingo! All hail BingoBot'''
 intents = discord.Intents.default()
 whitelist = ["ttocsicle#1826", "noah#5386"]
+utils.load_riddles()
 
 
 async def regenerate_images(index, guild):
@@ -253,6 +254,12 @@ class Bot(commands.Bot):
         text = response['text']
         # source = response['source']
         await ctx.send(text)
+
+    @commands.command()
+    async def riddle(ctx):
+        """Gives a random riddle and answer"""
+        out = await utils.random_riddle_answer()
+        await ctx.send(out)
 
     @set_status.error
     async def set_status_error(ctx, error):

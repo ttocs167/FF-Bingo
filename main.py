@@ -231,7 +231,8 @@ class Bot(commands.Bot):
         for guild_name in bot.guilds:
             await regenerate_all_images(str(guild_name))
 
-    @commands.command(name="status", hidden=True)
+    @commands.command(name="status")
+    @commands.has_role("Admin")
     async def set_status(ctx, *, content):
         """Set status of bot"""
         activity_type = content.split(" ", 1)[0]
@@ -244,6 +245,12 @@ class Bot(commands.Bot):
             activity = content.split(" ", 1)[1]
 
         await set_status(activity_type, activity, url)
+
+    @set_status.error
+    async def set_status_error(ctx, error):
+        """Send this message if the setstatus command is called by non-Admin"""
+        if isinstance(error, commands.CheckFailure):
+            await ctx.send('Only Admins can set my status...')
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

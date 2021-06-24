@@ -53,6 +53,18 @@ async def list_all_free_lines(guild):
     return chunks
 
 
+async def get_line(index, guild):
+    with open("lists/" + guild + "/list.txt", "r") as infile:
+        lines = infile.readlines()
+    return lines[index]
+
+
+async def get_free_line(index, guild):
+    with open("lists/" + guild + "/free_list.txt", "r") as infile:
+        lines = infile.readlines()
+    return lines[index]
+
+
 async def delete_line(index, guild):
     with open("lists/" + guild + "/list.txt", "r") as infile:
         lines = infile.readlines()

@@ -92,8 +92,8 @@ class Bot(commands.Bot):
     async def add(ctx, *, line):
         """Adds a new statement to the bingo pool"""
         await ctx.send("New line: \n_" + line + "_ \nAdded to pool!")
-        await utils.add_to_list(line, str(ctx.message.guild))
-        print("New line: _" + line + "_ Added to pool in " + str(ctx.message.guild) +
+        await utils.add_to_list(line, str(ctx.guild))
+        print("New line: _" + line + "_ Added to pool in " + str(ctx.guild) +
               " by " + (str(ctx.message.author)))
         Bot.refresh_bools[str(ctx.guild)] = True
 
@@ -103,8 +103,8 @@ class Bot(commands.Bot):
         msg = ctx.message.content
         line = msg.split("$freeadd ", 1)[1]
         await ctx.send("New line: \n_" + line + "_ \nAdded to free space pool!")
-        await utils.add_to_free_list(line, str(ctx.message.guild))
-        print("New line: _" + line + "_ Added to free space pool in " + str(ctx.message.guild) +
+        await utils.add_to_free_list(line, str(ctx.guild))
+        print("New line: _" + line + "_ Added to free space pool in " + str(ctx.guild) +
               " by " + (str(ctx.message.author)))
         Bot.refresh_bools[str(ctx.guild)] = True
 
@@ -112,13 +112,12 @@ class Bot(commands.Bot):
     async def bingo(ctx):
         """Sends pre-generated bingo card as reply to command"""
         time_since_last_bingo = time.time() - Bot.time_of_last_bingo
-        print(time_since_last_bingo)
 
         if time_since_last_bingo > 0.5:
             img = discord.File('output_folder/' + str(ctx.guild) + '/output_' + str(Bot.rolling_index) + '.jpg')
             await ctx.reply(utils.random_animal_emoji(), file=img)
 
-            await regenerate_images(Bot.rolling_index, ctx.guild)
+            await regenerate_images(Bot.rolling_index, str(ctx.guild))
 
             print('image generated for ' + str(ctx.guild))
 
@@ -165,19 +164,19 @@ class Bot(commands.Bot):
     @commands.command()
     async def refresh(ctx):
         """Regenerate all images. Called automatically on list change"""
-        await regenerate_all_images(ctx.guild)
+        await regenerate_all_images(str(ctx.guild))
         await ctx.send("Cards refreshed!")
 
     @commands.command()
     async def bigrefresh(ctx):
         """regenerate all big images"""
-        await regenerate_all_big_images(ctx.guild)
+        await regenerate_all_big_images(str(ctx.guild))
         await ctx.send("Big Cards refreshed!")
 
     @commands.command()
     async def list(ctx):
         """Lists all items in bingo pool. Use the index with the del command."""
-        lines = await utils.list_all_lines(ctx.guild)
+        lines = await utils.list_all_lines(str(ctx.guild))
 
         for line in lines:
             line = ' '.join(line).lstrip()
@@ -186,7 +185,7 @@ class Bot(commands.Bot):
     @commands.command()
     async def freelist(ctx):
         """Lists all items in free space pool. Use the index with the freedel command."""
-        lines = await utils.list_all_free_lines(ctx.guild)
+        lines = await utils.list_all_free_lines(str(ctx.guild))
 
         for line in lines:
             line = ' '.join(line).lstrip()

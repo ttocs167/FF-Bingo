@@ -134,6 +134,18 @@ async def random_riddle_answer():
     return out
 
 
+async def random_lotr_quote():
+    return
+
+
+async def random_wipe_reason():
+    reasons = ["Tank", "DPS", "Healer"]
+    weights = [99, 1, 1]
+    reason = random.choices(reasons, weights=weights)[0]
+    output = "_**It was the " + reason + "**_"
+    return output
+
+
 def emoji_free_text(text):
     emoji_pattern = re.compile("["
                                u"\U0001F600-\U0001F64F"  # emoticons

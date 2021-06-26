@@ -1,4 +1,6 @@
 import os
+import random
+
 import discord
 from discord.ext import commands
 from generate_cards import generate_card
@@ -255,11 +257,27 @@ class Bot(commands.Bot):
         # source = response['source']
         await ctx.send(text)
 
+    @commands.command(name='lotr')
+    async def lotr_quote(ctx):
+        """Generates a random Lord of the Rings Quote. From: https://the-one-api.dev/v2"""
+        quote_id = random.randint(0, 179047)
+        token = "Bearer " + os.getenv('LOTR_API_TOKEN')
+        response = requests.get("https://the-one-api.dev/v2/quote/" + str(quote_id),
+                                headers={'Authorization': token})
+        quote = response.content
+        await ctx.send(quote)
+
     @commands.command()
     async def riddle(ctx):
         """Gives a random riddle and answer"""
         out = await utils.random_riddle_answer()
         await ctx.send(out)
+
+    @commands.command(name='blame')
+    async def who_killed_us(ctx):
+        """Who killed us?"""
+        out = utils.random_wipe_reason()
+        return ctx.send(out)
 
     @set_status.error
     async def set_status_error(ctx, error):

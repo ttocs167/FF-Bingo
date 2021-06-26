@@ -276,7 +276,7 @@ class Bot(commands.Bot):
     @commands.command(name='blame')
     async def who_killed_us(ctx):
         """Who killed us?"""
-        out = utils.random_wipe_reason()
+        out = await utils.random_wipe_reason()
         return ctx.send(out)
 
     @set_status.error

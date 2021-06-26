@@ -139,10 +139,10 @@ async def random_lotr_quote():
 
 
 async def random_wipe_reason():
-    reasons = ["Tank", "DPS", "Healer"]
-    weights = [99, 1, 1]
+    reasons = ["Tank", "Off-Tank", "DPS", "Healer"]
+    weights = [1, 1, 1, 1]
     reason = random.choices(reasons, weights=weights)[0]
-    output = "_**It was the " + reason + "**_"
+    output = "_It was the **" + reason + "**_"
     return output
 
 

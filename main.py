@@ -14,7 +14,6 @@ import requests
 load_dotenv()
 description = '''A Bot for Bingo! All hail BingoBot'''
 intents = discord.Intents.default()
-whitelist = ["ttocsicle#1826", "noah#5386"]
 utils.load_riddles()
 
 

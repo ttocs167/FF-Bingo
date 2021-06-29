@@ -4,6 +4,7 @@ import random
 import discord
 from discord.ext import commands
 from generate_cards import generate_card
+from generate_card_data import generate_card_data
 from dotenv import load_dotenv
 import utils
 import inspect
@@ -256,7 +257,7 @@ class Bot(commands.Bot):
         # source = response['source']
         await ctx.send(text)
 
-    @commands.command(name='lotr')
+    @commands.command(name='lotr', hidden=True)
     async def lotr_quote(ctx):
         """Generates a random Lord of the Rings Quote. From: https://the-one-api.dev/v2"""
         quote_id = random.randint(0, 179047)
@@ -283,6 +284,15 @@ class Bot(commands.Bot):
         """Send this message if the setstatus command is called by non-Admin"""
         if isinstance(error, commands.CheckFailure):
             await ctx.send('Only Admins can set my status...')
+
+    @commands.command(name="wingo", hidden=True)
+    # Stop snooping on my code >:(
+    async def web_card(ctx):
+        """Returns card data in JSON format"""
+        data = generate_card_data(str(ctx.guild))
+        # TODO stuff with json
+        print(data)
+        await ctx.reply(utils.random_animal_emoji())
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

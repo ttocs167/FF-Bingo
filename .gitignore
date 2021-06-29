@@ -11,3 +11,7 @@ __pycache__/
 lists/
 
 output_folder/
+
+Web/server/node_modules/
+
+Web/.vscode/

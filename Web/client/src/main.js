@@ -14,6 +14,9 @@ Vue.use(Vuetify)
 new Vue({
   el: '#app',
   router,
+  vuetify: new Vuetify({
+    theme: { dark: true }
+  }),
   components: { App },
   template: '<App/>'
 })

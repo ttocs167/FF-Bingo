@@ -285,6 +285,12 @@ class Bot(commands.Bot):
         if isinstance(error, commands.CheckFailure):
             await ctx.send('Only Admins can set my status...')
 
+    @commands.command(hidden=True)
+    async def adv_rel(ctx):
+        """sends e12 P2 advanced relativity"""
+        img = discord.File('resources/images/e12p2_adv_rel.png')
+        await ctx.reply("", file=img)
+
     @commands.command(name="wingo", hidden=True)
     # Stop snooping on my code >:(
     async def web_card(ctx):
@@ -293,6 +299,14 @@ class Bot(commands.Bot):
         # TODO stuff with json
         print(data)
         await ctx.reply(utils.random_animal_emoji())
+
+    @commands.command(name="yolo")
+    async def yolo_detect(ctx):
+        url = ctx.message.attachments[0].url
+
+        image_path = utils.yolo_response(url)
+        img = discord.File(image_path)
+        await ctx.reply("", file=img)
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

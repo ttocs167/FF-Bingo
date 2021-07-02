@@ -2,7 +2,7 @@ import random
 import re
 import shutil
 import csv
-
+import requests
 
 riddle_answer_pairs = []
 
@@ -152,6 +152,16 @@ def random_wipe_reason():
     reason = random.choices(reasons, weights=weights)[0]
     output = "_It was the **" + reason + "**_"
     return output
+
+
+def yolo_response(img_url):
+    DETECTION_URL = "http://localhost:5000/v1/object-detection/yolov5s"
+    response = requests.post(DETECTION_URL, json={"image_url": img_url})
+
+    if response.status_code == 200:
+        img_path = "yolo/out.jpg"
+        return img_path
+    return ""
 
 
 def emoji_free_text(text):

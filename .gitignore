@@ -15,3 +15,5 @@ output_folder/
 Web/server/node_modules/
 
 Web/.vscode/
+
+Web/server/*.sqlite

@@ -15,7 +15,7 @@ new Vue({
   el: '#app',
   router,
   vuetify: new Vuetify({
-    theme: { dark: true }
+    theme: { dark: false }
   }),
   components: { App },
   template: '<App/>'

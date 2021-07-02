@@ -125,7 +125,7 @@ def load_riddles():
 
     print("riddles loaded!")
 
-    with open('more riddles.csv', 'r', encoding='utf-8') as read_obj:
+    with open('resources/riddles/more riddles.csv', 'r', encoding='utf-8') as read_obj:
         # pass the file object to reader() to get the reader object
         csv_reader = csv.reader(read_obj)
         # Get all rows of csv from csv_reader object as list of tuples

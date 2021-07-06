@@ -273,6 +273,14 @@ class Bot(commands.Bot):
         out = await utils.random_riddle_answer()
         await ctx.send(out)
 
+    @commands.command(name="answer")
+    async def answer_riddle(ctx, *, answer):
+        """Try to answer the riddle!"""
+        if await utils.check_riddle(answer):
+            await ctx.reply("Correct!")
+        else:
+            await ctx.reply("Wrong!")
+
     @commands.command(name='blame')
     async def who_killed_us(ctx):
         """Who killed us?"""

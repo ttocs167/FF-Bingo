@@ -3,8 +3,10 @@ import re
 import shutil
 import csv
 import requests
+from difflib import SequenceMatcher
 
 riddle_answer_pairs = []
+current_riddle_answer = ""
 
 
 def random_animal_emoji():
@@ -135,11 +137,23 @@ def load_riddles():
 
 
 async def random_riddle_answer():
+    global current_riddle_answer
+
     pair = random.choice(riddle_answer_pairs)
     riddle, answer = str(pair[0]), str(pair[1])
     answer = answer.strip("\"")
     out = "_" + riddle + "_" + "\n" + pad_spoiler_with_spaces(answer)
+
+    current_riddle_answer = answer
     return out
+
+
+async def check_riddle(text):
+    global current_riddle_answer
+    if SequenceMatcher(None, text.lower(), current_riddle_answer.lower()).ratio() > 0.8:
+        return True
+    else:
+        return False
 
 
 async def random_lotr_quote():

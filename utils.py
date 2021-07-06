@@ -138,7 +138,7 @@ async def random_riddle_answer():
     pair = random.choice(riddle_answer_pairs)
     riddle, answer = str(pair[0]), str(pair[1])
     answer = answer.strip("\"")
-    out = "_" + riddle + "_" + "\n" + "||" + answer + "||"
+    out = "_" + riddle + "_" + "\n" + pad_spoiler_with_spaces(answer)
     return out
 
 
@@ -162,6 +162,14 @@ def yolo_response(img_url):
         img_path = "yolo/out.jpg"
         return img_path
     return ""
+
+
+def pad_spoiler_with_spaces(text):
+    if len(text) < 10:
+        for _ in range(10 - len(text)):
+            text += " "
+    out = "||" + text + "||"
+    return out
 
 
 def emoji_free_text(text):

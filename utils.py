@@ -141,7 +141,7 @@ async def random_riddle_answer():
 
     pair = random.choice(riddle_answer_pairs)
     riddle, answer = str(pair[0]), str(pair[1])
-    answer = answer.strip("\"")
+    answer = answer.strip(" \"")
     out = "_" + riddle + "_" + "\n" + pad_spoiler_with_spaces(answer)
 
     current_riddle_answer = answer

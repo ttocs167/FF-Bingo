@@ -257,15 +257,11 @@ class Bot(commands.Bot):
         # source = response['source']
         await ctx.send(text)
 
-    @commands.command(name='lotr', hidden=True)
-    async def lotr_quote(ctx):
-        """Generates a random Lord of the Rings Quote. From: https://the-one-api.dev/v2"""
-        quote_id = random.randint(0, 179047)
-        token = "Bearer " + os.getenv('LOTR_API_TOKEN')
-        response = requests.get("https://the-one-api.dev/v2/quote/" + str(quote_id),
-                                headers={'Authorization': token})
-        quote = response.content
-        await ctx.send(quote)
+    @commands.command(hidden=True)
+    async def frog(ctx):
+        """sends frog emote!"""
+        frog = "🐸"
+        await ctx.reply(frog)
 
     @commands.command()
     async def riddle(ctx):

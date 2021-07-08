@@ -156,10 +156,6 @@ async def check_riddle(text):
         return False
 
 
-async def random_lotr_quote():
-    return
-
-
 def random_wipe_reason():
     reasons = ["Tank", "Off-Tank", "DPS", "Healer", "Yuki"]
     weights = [1, 1, 1, 1, 1]

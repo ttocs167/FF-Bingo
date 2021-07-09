@@ -342,6 +342,11 @@ class Bot(commands.Bot):
         for i, guild_name in enumerate(guilds):
             Bot.refresh_bools[guild_name] = False
 
+if not os.path.isdir("lists/"):
+    os.mkdir("lists/")
+
+if not os.path.isdir("output_folder/"):
+    os.mkdir("output_folder/")
 
 bot = Bot()
 bot.run(os.getenv('BINGO_BOT_TOKEN'))

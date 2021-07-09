@@ -1,0 +1,16 @@
+version: '3.7'
+services: 
+  ffbingo:
+    image: ff-bingo
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/app
+    working_dir: /opt/app
+    env_file: .env
+
+  alpine:
+      image: alpine
+      volumes:
+        - .:/opt/app
+      working_dir: /opt/app

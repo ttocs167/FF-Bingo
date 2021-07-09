@@ -1,15 +1,15 @@
-COMPOSE_RUN_BINGO = docker-compose up ffbingo
-COMPOSE_RUN_ALPINE = docker-compose run --rm alpine
+COMPOSE_RUN_BINGO = docker-compose run --rm ffbingo
+COMPOSE_RUN_ALPINE = docker-compose -f docker-compose.utils.yml run --rm alpine
 ENVFILE ?= env.template
 
 envfile:
-	$(COMPOSE_RUN_ALPINE) cp -f $(ENVFILE) .env
+	$(COMPOSE_RUN_ALPINE) cp -f ${ENVFILE} .env
 
-build:
-	docker build -t ff-bingo .
+deps:
+	docker build -t bingo-python .
 
 run:
-	$(COMPOSE_RUN_BINGO)
+	$(COMPOSE_RUN_BINGO) python main.py
 
 cleanDocker:
 	docker-compose down --remove-orphans

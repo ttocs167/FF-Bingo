@@ -1,0 +1,10 @@
+version: '3.7'
+services: 
+  ffbingo:
+    image: bingo-python
+    volumes:
+      - type: bind
+        source: .
+        target: /opt/app
+    working_dir: /opt/app
+    env_file: .env

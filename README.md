@@ -23,7 +23,7 @@ docker-compose
 run the following commands
 
 ```
-make build
+make deps
 make envfile
 ```
 update the `BINGO_BOT_TOKEN` value in the `.env` file

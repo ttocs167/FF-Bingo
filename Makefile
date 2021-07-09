@@ -16,4 +16,4 @@ cleanDocker:
 
 clean:
 	$(MAKE) cleanDocker
-	rm -f .env
+	$(COMPOSE_RUN_ALPINE) rm -f .env

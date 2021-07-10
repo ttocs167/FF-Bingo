@@ -204,4 +204,24 @@ def emoji_free_text(text):
     text = emoji_pattern.sub(r'', text)
     return text
 
+def analyze_tea_fight(id, apiKey):
+    response = requests.get(f"https://www.fflogs.com:443/v1/report/fights/{id}?api_key={apiKey}").json()
 
+    teaFights = [fight for fight in response['fights'] if fight['boss'] == 1050]
+
+    def getPhaseCount(phase):
+        return len([fight for fight in teaFights if fight['lastPhaseForPercentageDisplay'] == phase])
+    bestFight = min(teaFights, key=lambda f:f['fightPercentage'])
+    return {
+        "total": len(teaFights),
+        "phase1": getPhaseCount(1),
+        "phase2": getPhaseCount(2),
+        "phase3": getPhaseCount(3),
+        "phase4": getPhaseCount(4),
+        "bestFight": {
+            "id": bestFight["id"],
+            "length": (bestFight["end_time"] - bestFight["start_time"])/1000,
+            "fightPercentage": 100 - bestFight['fightPercentage']/100,
+            "currentPhaseProg": 100 - bestFight['bossPercentage']/100
+        }
+    }

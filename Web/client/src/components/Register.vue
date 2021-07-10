@@ -3,25 +3,27 @@
     <v-layout column>
       <v-container>
         <v-flex xs6 offset-xs3>
-            <div class="white elevation-2">
-              <v-toolbar flat dense dark>
+            <v-card flat dark>
+              <v-toolbar flat dense>
                 <v-toolbar-title>Register</v-toolbar-title>
               </v-toolbar>
 
               <div class="pl-4 pr-4 pt-2 pb-2">
-                <v-container>
-                  <v-text-field
+                <v-container dark>
+                  <v-text-field dark
                     dense
                     label="Email"
                     required
                     v-model="email"
+                    color="white"
                   ></v-text-field>
                   <br>
-                  <v-text-field
+                  <v-text-field dark
                     dense
                     label="Password"
                     required
                     v-model="password"
+                    color="white"
                   ></v-text-field>
                   <br>
                   <v-flex class="error" v-html="error" />
@@ -32,7 +34,7 @@
                   </v-btn>
                 </v-container>
               </div>
-            </div>
+            </v-card>
         </v-flex>
       </v-container>
     </v-layout>

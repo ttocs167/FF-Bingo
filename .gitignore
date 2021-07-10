@@ -8,9 +8,7 @@ __pycache__/
 .env
 
 
-lists/
-
-output_folder/
+lists/**/
 
 Web/server/node_modules/
 

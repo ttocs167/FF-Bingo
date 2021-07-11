@@ -205,9 +205,12 @@ def emoji_free_text(text):
     return text
 
 def analyze_tea_fight(id, apiKey):
-    response = requests.get(f"https://www.fflogs.com:443/v1/report/fights/{id}?api_key={apiKey}").json()
+    response = requests.get(f"https://www.fflogs.com:443/v1/report/fights/{id}?api_key={apiKey}")
 
-    teaFights = [fight for fight in response['fights'] if fight['boss'] == 1050]
+    if response.status_code != 200:
+        return None
+
+    teaFights = [fight for fight in response.json()['fights'] if fight['boss'] == 1050]
 
     if len(teaFights) == 0:
         return None

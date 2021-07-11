@@ -205,10 +205,13 @@ def emoji_free_text(text):
     return text
 
 
-def analyze_tea_fight(log_id, apiKey):
-    response = requests.get(f"https://www.fflogs.com:443/v1/report/fights/{log_id}?api_key={apiKey}").json()
+def analyze_tea_fight(log_id, api_key):
+    response = requests.get(f"https://www.fflogs.com:443/v1/report/fights/{log_id}?api_key={api_key}")
 
-    tea_fights = [fight for fight in response['fights'] if fight['boss'] == 1050]
+    if response.status_code != 200:
+        return None
+
+    tea_fights = [fight for fight in response.json()['fights'] if fight['boss'] == 1050]
 
     def get_phase_count(phase):
         return len([fight for fight in tea_fights if fight['lastPhaseForPercentageDisplay'] == phase])

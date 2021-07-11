@@ -314,13 +314,11 @@ class Bot(commands.Bot):
 
     @commands.command()
     async def teanalyse(ctx, *, report_id):
-        # msg = ctx.message.content
-        # report_id = msg.split("$teanalyze ", 1)[1]
         api_key = os.getenv('FFLOGS_API_KEY')
         if api_key is None:
             await ctx.send("Command is not currently configured on")
             return
-        results = utils.analyze_tea_fight(reportId, apiKey)
+        results = utils.analyze_tea_fight(report_id, api_key)
 
         if results == None:
             await ctx.send("No TEA fights found")

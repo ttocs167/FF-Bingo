@@ -322,6 +322,11 @@ class Bot(commands.Bot):
             await ctx.send("Command is not currently configured on")
             return
         results = utils.analyze_tea_fight(reportId, apiKey)
+
+        if results == None:
+            await ctx.send("No TEA fights found")
+            return;
+            
         bestFight = results["bestFight"]
         bestFightTime = bestFight["length"]
         if bestFightTime > 60:

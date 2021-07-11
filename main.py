@@ -312,42 +312,39 @@ class Bot(commands.Bot):
         img = discord.File(image_path)
         await ctx.reply("", file=img)
 
-
     @commands.command()
-    async def teanalyze(ctx):
-        msg = ctx.message.content
-        reportId = msg.split("$teanalyze ", 1)[1]
-        apiKey = os.getenv('FFLOGS_API_KEY')
-        if apiKey == None:
+    async def teanalyse(ctx, *, report_id):
+        api_key = os.getenv('FFLOGS_API_KEY')
+        if api_key is None:
             await ctx.send("Command is not currently configured on")
             return
-        results = utils.analyze_tea_fight(reportId, apiKey)
+        results = utils.analyze_tea_fight(report_id, api_key)
 
         if results == None:
             await ctx.send("No TEA fights found")
-            return;
-            
-        bestFight = results["bestFight"]
-        bestFightTime = bestFight["length"]
-        if bestFightTime > 60:
-            bestFightTime = f"{int(bestFightTime/60)}:{int(bestFightTime%60)}"
+            return
+        best_fight = results["best_fight"]
+        best_fight_time = best_fight["length"]
+        if best_fight_time > 60:
+            best_fight_time = f"{int(best_fight_time/60)}:{int(best_fight_time%60)}"
         total = results["total"]
-        def phaseFormat(phaseId):
-            phaseCount = results[f"phase{phaseId}"]
-            if phaseCount == 0:
-                return phaseCount
-            return f"{phaseCount} ({phaseCount/total*100:.1f}%)"
+
+        def phase_format(phase_id):
+            phase_count = results[f"phase{phase_id}"]
+            if phase_count == 0:
+                return phase_count
+            return f"{phase_count} ({phase_count/total*100:.1f}%)"
 
         await ctx.send(f"""```
 Total:   {total}
-Phase 1: {phaseFormat(1)}
-Phase 2: {phaseFormat(2)}
-Phase 3: {phaseFormat(3)}
-Phase 4: {phaseFormat(4)}
+Phase 1: {phase_format(1)}
+Phase 2: {phase_format(2)}
+Phase 3: {phase_format(3)}
+Phase 4: {phase_format(4)}
 
-Best #{bestFight["id"]} {bestFightTime} (higher % the better)
-Fight prog: {bestFight["fightPercentage"]:.2f}%
-Phase prog: {bestFight["currentPhaseProg"]:.2f}%```""")
+Best #{best_fight["id"]} {best_fight_time} (higher % the better)
+Fight prog: {best_fight["fightPercentage"]:.2f}%
+Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

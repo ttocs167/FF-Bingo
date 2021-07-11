@@ -213,6 +213,9 @@ def analyze_tea_fight(log_id, api_key):
 
     tea_fights = [fight for fight in response.json()['fights'] if fight['boss'] == 1050]
 
+    if len(tea_fights) == 0:
+        return None;
+
     def get_phase_count(phase):
         return len([fight for fight in tea_fights if fight['lastPhaseForPercentageDisplay'] == phase])
     best_fight = min(tea_fights, key=lambda f: f['fightPercentage'])

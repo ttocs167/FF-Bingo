@@ -156,10 +156,12 @@ async def check_riddle(text):
         return False
 
 
-def random_wipe_reason():
-    reasons = ["Tank", "Off-Tank", "DPS", "Healer", "Yuki"]
-    weights = [1, 1, 1, 1, 1]
+def random_wipe_reason(caller):
+    reasons = ["Tank", "Off-Tank", "DPS", "Healer", "Yuki", "@" + caller, "🐸"]
+    weights = [1, 1, 1, 1, 1, 1, 0.05]
     reason = random.choices(reasons, weights=weights)[0]
+    if reason == "@" + caller:
+        return "_It was the **" + "<" + reason + ">" + "**_"
     output = "_It was the **" + reason + "**_"
     return output
 

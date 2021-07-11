@@ -280,7 +280,8 @@ class Bot(commands.Bot):
     @commands.command(name='blame')
     async def who_killed_us(ctx):
         """Who killed us?"""
-        out = utils.random_wipe_reason()
+        caller = ctx.author.id
+        out = utils.random_wipe_reason(str(caller))
         await ctx.send(out)
 
     @set_status.error
@@ -320,7 +321,7 @@ class Bot(commands.Bot):
             return
         results = utils.analyze_tea_fight(report_id, api_key)
 
-        if results == None:
+        if results is None:
             await ctx.send("No TEA fights found")
             return
         best_fight = results["best_fight"]

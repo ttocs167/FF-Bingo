@@ -17,7 +17,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIE
 # sp = spotipy.Spotify(auth_manager=SpotifyOAuth())
 
 # albums = sp.current_user_saved_albums(limit=50, offset=250)
-recently_played = sp.current_user_recently_played(limit=50)
+# recently_played = sp.current_user_recently_played(limit=50)
 
 # for idx, item in enumerate(recently_played['items']):
 #     track = item['track']
@@ -32,7 +32,30 @@ recently_played = sp.current_user_recently_played(limit=50)
 def get_random_recently_played():
     """returns a random song from my last 50 played songs"""
     i = random.randint(0, 49)
+
+    recently_played = sp.current_user_recently_played(limit=50)
+
     track = recently_played['items'][i]['track']
     link = "https://open.spotify.com/track/" + track['uri'].split(":")[-1]
     out = track['artists'][0]['name'] + " – " + track['name'] + '\n' + link
     return out
+
+
+def get_random_from_library():
+    """returns a random song from my library"""
+    i = random.randint(0, 49)
+    offset = random.randint(0, 218)
+
+    albums = sp.current_user_saved_albums(limit=50, offset=offset)
+
+    album = albums['items'][i]['album']
+    tracks = album['tracks']['items']
+
+    j = random.randint(0, len(tracks) - 1)
+
+    track = tracks[j]
+
+    link = "https://open.spotify.com/track/" + track['uri'].split(":")[-1]
+    out = track['artists'][0]['name'] + " – " + track['name'] + '\n' + link
+    return out
+

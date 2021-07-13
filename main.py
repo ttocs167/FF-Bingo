@@ -350,8 +350,8 @@ Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
         @commands.command()
         async def random_song(ctx):
             """Returns a random song from my recently played list"""
-            from utilities.spotipy_test import get_random_recently_played
-            out = get_random_recently_played()
+            from utilities.spotipy_test import get_random_from_library
+            out = get_random_from_library()
             await ctx.reply(out)
 
     async def on_message(self, message):

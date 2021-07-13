@@ -4,7 +4,7 @@ services:
     image: bingo-python
     volumes:
       - type: bind
-        source: .
+        source: ../
         target: /opt/app
     working_dir: /opt/app
-    env_file: .env
+    env_file: ../.env

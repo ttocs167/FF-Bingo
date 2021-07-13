@@ -3,5 +3,5 @@ services:
   alpine:
       image: alpine
       volumes:
-        - .:/opt/app
+        - ../:/opt/app
       working_dir: /opt/app

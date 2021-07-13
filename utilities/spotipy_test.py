@@ -11,7 +11,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv("SPOTIPY_CLIE
                                                client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
                                                redirect_uri='http://localhost/',
                                                scope="user-library-read user-read-recently-played",
-                                               cache_path="../.cache"))
+                                               cache_path="./.cache"))
 
 
 # sp = spotipy.Spotify(auth_manager=SpotifyOAuth())

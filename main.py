@@ -1,10 +1,8 @@
 import os
-
 import discord
 from discord.ext import commands
 from utilities.generate_cards import generate_card
 from utilities.generate_card_data import generate_card_data
-from utilities.spotipy_test import get_random_recently_played
 from dotenv import load_dotenv
 from utilities import utils
 import inspect
@@ -348,11 +346,13 @@ Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%
 Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
 
-    @commands.command()
-    async def random_song(ctx):
-        """Returns a random song from my recently played list"""
-        out = get_random_recently_played()
-        await ctx.reply(out)
+    if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
+        @commands.command()
+        async def random_song(ctx):
+            """Returns a random song from my recently played list"""
+            from utilities.spotipy_test import get_random_recently_played
+            out = get_random_recently_played()
+            await ctx.reply(out)
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

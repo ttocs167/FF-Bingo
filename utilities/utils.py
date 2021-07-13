@@ -100,7 +100,7 @@ async def reset_list(guild):
     except Exception:
         print("There is no old list to backup. New server being initialised.")
 
-    with open("lists/default_list.txt", "r") as default_file:
+    with open("./lists/default_list.txt", "r") as default_file:
         default_lines = default_file.readlines()
 
     with open("lists/" + guild + "/list.txt", "w") as file:
@@ -114,7 +114,7 @@ async def reset_free_list(guild):
     except Exception:
         print("There is no old list to backup. New server being initialised.")
 
-    with open("lists/default_free_list.txt", "r") as default_file:
+    with open("./lists/default_free_list.txt", "r") as default_file:
         default_lines = default_file.readlines()
 
     with open("lists/" + guild + "/free_list.txt", "w") as file:
@@ -125,14 +125,15 @@ async def reset_free_list(guild):
 def load_riddles():
     global riddle_answer_pairs
 
-    print("riddles loaded!")
-
-    with open('resources/riddles/more riddles.csv', 'r', encoding='utf-8') as read_obj:
+    with open('./resources/riddles/more riddles.csv', 'r', encoding='utf-8') as read_obj:
         # pass the file object to reader() to get the reader object
         csv_reader = csv.reader(read_obj)
         # Get all rows of csv from csv_reader object as list of tuples
         list_of_tuples = list(map(tuple, csv_reader))
         riddle_answer_pairs = list_of_tuples
+
+    print("riddles loaded!")
+
     return
 
 
@@ -171,7 +172,7 @@ def yolo_response(img_url):
     response = requests.post(DETECTION_URL, json={"image_url": img_url})
 
     if response.status_code == 200:
-        img_path = "yolo/out.jpg"
+        img_path = "./yolo/out.jpg"
         return img_path
     return ""
 

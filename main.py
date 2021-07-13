@@ -1,12 +1,12 @@
 import os
-import random
 
 import discord
 from discord.ext import commands
-from generate_cards import generate_card
-from generate_card_data import generate_card_data
+from utilities.generate_cards import generate_card
+from utilities.generate_card_data import generate_card_data
+from utilities.spotipy_test import get_random_recently_played
 from dotenv import load_dotenv
-import utils
+from utilities import utils
 import inspect
 import time
 import asyncio
@@ -305,7 +305,7 @@ class Bot(commands.Bot):
         print(data)
         await ctx.reply(utils.random_animal_emoji())
 
-    @commands.command(name="yolo")
+    @commands.command(name="yolo", hidden=True)
     async def yolo_detect(ctx):
         url = ctx.message.attachments[0].url
 
@@ -315,6 +315,7 @@ class Bot(commands.Bot):
 
     @commands.command()
     async def teanalyse(ctx, *, report_id):
+        """Gives statistics on FF logs reports from The Epic of Alexander. Requires log URL"""
         api_key = os.getenv('FFLOGS_API_KEY')
         if api_key is None:
             await ctx.send("Command is not currently configured on")
@@ -347,6 +348,12 @@ Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%
 Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
 
+    @commands.command()
+    async def random_song(ctx):
+        """Returns a random song from my recently played list"""
+        out = get_random_recently_played()
+        await ctx.reply(out)
+
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""
         if not os.path.isdir("lists/" + str(message.guild)):
@@ -376,6 +383,7 @@ Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
         guilds = bot.guilds
         for i, guild_name in enumerate(guilds):
             Bot.refresh_bools[guild_name] = False
+
 
 if not os.path.isdir("lists/"):
     os.mkdir("lists/")

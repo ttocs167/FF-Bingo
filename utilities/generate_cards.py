@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw
-from text_wrap import text_wrap
+from utilities.text_wrap import text_wrap
 import itertools
 
 
@@ -17,16 +17,16 @@ async def generate_card(image_index, guild, num_images=1, x_cells=5, y_cells=5, 
     free_space_list_path = "lists/" + guild + "/free_list.txt"
 
     # specify font used
-    font_path = r"resources/fonts/Montserrat-Regular.ttf"
+    font_path = r"./resources/fonts/Montserrat-Regular.ttf"
     font = ImageFont.truetype(font=font_path, size=28)
     # this value determines how the lines are spaced vertically when text is wrapped
     line_height = 22
 
     # load in the blank bingo card image
     if beeg:
-        blank = Image.open("resources/images/blank_7x7.jpg")
+        blank = Image.open("./resources/images/blank_7x7.jpg")
     else:
-        blank = Image.open("resources/images/blank.jpg")
+        blank = Image.open("./resources/images/blank.jpg")
 
     # values of cell spacing on the card
     cell_width = 180

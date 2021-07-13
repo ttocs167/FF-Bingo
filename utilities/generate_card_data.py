@@ -6,8 +6,8 @@ def generate_card_data(guild, x_cells=5, y_cells=5, free_x=2, free_y=2, beeg=Fal
     # number of images to generate and bool to determine if free space is taken from seperate list
     free_space_bool = True
 
-    list_path = "lists/" + guild + "/list.txt"
-    free_space_list_path = "lists/" + guild + "/free_list.txt"
+    list_path = "./lists/" + guild + "/list.txt"
+    free_space_list_path = "./lists/" + guild + "/free_list.txt"
 
     # then generate the random values for this card
     statements = np.loadtxt(list_path, dtype=str, comments="#", delimiter="\n", unpack=False)

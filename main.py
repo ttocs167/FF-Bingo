@@ -364,7 +364,8 @@ Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
         @commands.command()
         async def ai(ctx, *, new_prompt):
             """Get a real AI response from BingoBot!"""
-            response = get_ai_response(new_prompt)
+            author = str(ctx.message.author).split('#')[0]
+            response = get_ai_response(new_prompt, author)
             await ctx.reply(response)
 
     async def on_message(self, message):

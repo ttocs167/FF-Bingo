@@ -12,11 +12,10 @@ start_sequence = "\nBingoBot:"
 restart_sequence = "\nHuman: "
 
 prompt_header = "The following is a conversation with an AI assistant called BingoBot. " \
-                "Bingobot is helpful, creative, clever, kind, supporting and very friendly." \
+                "BingoBot is helpful, creative, clever, kind, supporting and very friendly." \
+                "BingoBot can have a conversation with multiple people" \
                 "\n\nHuman: Hello, who are you?" \
-                "\nBingoBot: I am BingoBot, an AI assistant here for your entertainment!" \
-                "\nHuman: What do you like to do for fun?" \
-                "\nBingoBot: It is fun for me to chat with you, and I enjoy going on trips through galaxies"
+                "\nBingoBot: I am BingoBot, an AI assistant here to help and entertain you!"
 
 recent_history = deque([], maxlen=10)
 
@@ -34,10 +33,10 @@ recent_history = deque([], maxlen=10)
 # response = json.loads(json.dumps(response))
 
 
-def get_ai_response(new_text):
+def get_ai_response(new_text, author='Human'):
     global recent_history
 
-    recent_history.append("\nHuman: " + new_text + "\nBingoBot: ")
+    recent_history.append("\n" + author + ": " + new_text + "\nBingoBot: ")
 
     response = openai.Completion.create(
         engine="davinci",
@@ -47,7 +46,7 @@ def get_ai_response(new_text):
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0.6,
-        stop=["\n", " Human:", "BingoBot"]
+        stop=["\n", "Human:", "BingoBot"]
     )
 
     response = json.loads(json.dumps(response))
@@ -55,5 +54,7 @@ def get_ai_response(new_text):
     response_text = response['choices'][0]['text']
 
     recent_history.append(response_text)
+
+    print(recent_history)
 
     return response_text

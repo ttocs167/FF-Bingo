@@ -18,7 +18,7 @@ prompt_header = "The following is a conversation with an AI assistant called Bin
                 "\nHuman: What do you like to do for fun?" \
                 "\nBingoBot: It is fun for me to chat with you, and I enjoy going on trips through galaxies"
 
-recent_history = deque([], maxlen=30)
+recent_history = deque([], maxlen=10)
 
 # response = openai.Completion.create(
 #                                     engine="davinci",

@@ -360,11 +360,12 @@ Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
             out = get_random_from_library()
             await ctx.reply(out)
 
-    @commands.command()
-    async def ai(ctx, *, new_prompt):
-        """Get a real AI response from BingoBot!"""
-        response = get_ai_response(new_prompt)
-        await ctx.reply(response)
+    if "OPENAI_API_KEY" in os.environ:
+        @commands.command()
+        async def ai(ctx, *, new_prompt):
+            """Get a real AI response from BingoBot!"""
+            response = get_ai_response(new_prompt)
+            await ctx.reply(response)
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

@@ -11,6 +11,14 @@ import asyncio
 import requests
 
 load_dotenv()
+
+if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
+    from utilities.spotipy_test import get_random_from_library
+
+if "OPENAI_API_KEY" in os.environ:
+    import openai
+    from utilities.openAI_test import get_ai_response
+
 description = '''A Bot for Bingo! All hail BingoBot'''
 intents = discord.Intents.default()
 utils.load_riddles()
@@ -349,10 +357,15 @@ Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
         @commands.command()
         async def random_song(ctx):
-            """Returns a random song from my recently played list"""
-            from utilities.spotipy_test import get_random_from_library
+            """Returns a random song from my library"""
             out = get_random_from_library()
             await ctx.reply(out)
+
+    @commands.command()
+    async def ai(ctx, *, new_prompt):
+        """Get a real AI response from BingoBot!"""
+        response = get_ai_response(new_prompt)
+        await ctx.reply(response)
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

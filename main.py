@@ -16,7 +16,6 @@ if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
     from utilities.spotipy_test import get_random_from_library
 
 if "OPENAI_API_KEY" in os.environ:
-    import openai
     from utilities.openAI_test import get_ai_response
 
 description = '''A Bot for Bingo! All hail BingoBot'''

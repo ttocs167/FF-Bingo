@@ -38,7 +38,7 @@ def get_ai_response(new_text, author='Human'):
     recent_history.append("\n" + author + ": " + new_text + "\nBingoBot: ")
 
     response = openai.Completion.create(
-        engine="curie",
+        engine="davinci",
         prompt=prompt_header + ''.join(recent_history),
         temperature=0.9,
         max_tokens=64,

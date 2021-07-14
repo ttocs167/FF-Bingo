@@ -50,8 +50,6 @@ def get_ai_response(new_text):
         stop=["\n", " Human:", "BingoBot"]
     )
 
-    print(recent_history)
-
     response = json.loads(json.dumps(response))
 
     response_text = response['choices'][0]['text']

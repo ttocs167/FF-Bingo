@@ -219,6 +219,18 @@ def analyze_tea_fight(log_id, api_key):
     if len(tea_fights) == 0:
         return None;
 
+    embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
+    embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
+
+    id = 1
+    active_time = 0
+
+    for fight in tea_fights:
+        fight["id"] = id
+        id = id + 1
+
+        active_time = active_time + fight["end_time"]/1000 - fight["start_time"]/1000
+
     def get_phase_count(phase):
         return len([fight for fight in tea_fights if fight['lastPhaseForPercentageDisplay'] == phase])
     best_fight = min(tea_fights, key=lambda f: f['fightPercentage'])
@@ -228,6 +240,8 @@ def analyze_tea_fight(log_id, api_key):
         "phase2": get_phase_count(2),
         "phase3": get_phase_count(3),
         "phase4": get_phase_count(4),
+        "active_time": active_time,
+        "embolus_wipes": embolus_wipes,
         "best_fight": {
             "id": best_fight["id"],
             "length": (best_fight["end_time"] - best_fight["start_time"])/1000,

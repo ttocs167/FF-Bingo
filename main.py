@@ -5,6 +5,7 @@ from utilities.generate_cards import generate_card
 from utilities.generate_card_data import generate_card_data
 from dotenv import load_dotenv
 from utilities import utils
+import time
 import inspect
 import time
 import asyncio
@@ -331,9 +332,8 @@ class Bot(commands.Bot):
             await ctx.send("No TEA fights found")
             return
         best_fight = results["best_fight"]
-        best_fight_time = best_fight["length"]
-        if best_fight_time > 60:
-            best_fight_time = f"{int(best_fight_time/60)}:{int(best_fight_time%60)}"
+        best_fight_time = time.strftime('%M:%S', time.gmtime(best_fight["length"]))
+        active_time = time.strftime('%H:%M:%S', time.gmtime(results["active_time"]))
         total = results["total"]
 
         def phase_format(phase_id):
@@ -348,6 +348,8 @@ Phase 1: {phase_format(1)}
 Phase 2: {phase_format(2)}
 Phase 3: {phase_format(3)}
 Phase 4: {phase_format(4)}
+Active time: {active_time}
+Embolus wipes: {results["embolus_wipes"]}
 
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%

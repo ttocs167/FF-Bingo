@@ -27,3 +27,5 @@ yarg==0.1.9
 yarl==1.6.3
 spotipy==2.18.0
 openai==0.9.4
+beautifulsoup4==4.9.3
+lxml==4.6.3

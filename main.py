@@ -305,6 +305,7 @@ class Bot(commands.Bot):
 
     @commands.command(name="wingo", hidden=True)
     # Stop snooping on my code >:(
+    # new cowwand owo
     async def web_card(ctx):
         """Returns card data in JSON format"""
         data = generate_card_data(str(ctx.guild))

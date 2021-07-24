@@ -358,6 +358,7 @@ Embolus wipes: {results["embolus_wipes"]}
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%
 Phase prog: {best_fight["currentPhaseProg"]:.2f}%
+
 Deaths:"""
         death_counts = results["death_counts"]
         for death_key in death_counts:

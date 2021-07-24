@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from utilities.generate_cards import generate_card
 from utilities.generate_card_data import generate_card_data
+from utilities.html_creator import htmlCreator
 from dotenv import load_dotenv
 from utilities import utils
 import time
@@ -304,9 +305,12 @@ class Bot(commands.Bot):
 
     @commands.command(name="wingo", hidden=True)
     # Stop snooping on my code >:(
+    # new cowwand owo
     async def web_card(ctx):
         """Returns card data in JSON format"""
         data = generate_card_data(str(ctx.guild))
+        htmlcreator = htmlCreator()
+        htmlcreator.generate_html_file(data)
         # TODO stuff with json
         print(data)
         await ctx.reply(utils.random_animal_emoji())

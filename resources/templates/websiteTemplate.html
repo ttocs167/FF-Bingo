@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+        <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: 150px 150px 150px 150px 150px;
+            grid-template-rows: 150px 150px 150px 150px 150px;
+            padding: 10px;
+        }
+  
+        .grid-item {
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 17px;
+            text-align: center;
+            display: flex;
+            justify-content: center; /* align horizontal */
+            align-items: center; /* align vertical */
+        }
+
+        .free-item {
+            font-weight: bold;
+        }
+        </style>
+        <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    main()
+ }, false);
+
+function main() {
+    addEvents()
+}
+
+function addEvents(){
+    var items = document.getElementsByClassName("grid-item")
+
+    for (const id in items) {
+        items[id].onclick = (event) => {
+            var currentNode = document.getElementById(event.originalTarget.id)
+
+            if (currentNode.style.backgroundColor === "") {
+                currentNode.style.backgroundColor = "lightblue"
+                checkWin(items)
+            }
+            else {
+                currentNode.style.backgroundColor = ""
+            }
+        }
+    }
+}
+
+function checkWin(items)
+{
+    const verticalNumbers = [0, 1, 2, 3, 4]
+    const horizontalNumbers = [0, 5, 10, 15, 20]
+    const crossNumbers = [0, 4]
+    for (const id in items) {
+        if (verticalNumbers.includes(Number(id))) {
+            verticalCheck(items, id)
+        }
+
+        if (horizontalNumbers.includes(Number(id))) {
+            horizontalCheck(items, id)
+        }
+        
+        if (crossNumbers.includes(Number(id))) {
+            crossCheck(items, id)
+        }
+    }
+    
+}
+
+function crossCheck(items, id) {
+    var secondSummandMultiplier = 0
+
+    if (id == 0) {
+        secondSummandMultiplier = 6
+    } else {
+        secondSummandMultiplier = 4
+    }
+    
+    for (var i = 0; i < 5; i++) {
+        var index = Number(id) + Number(i * secondSummandMultiplier)
+        if (items[index].style.backgroundColor === "") {
+            return
+        }
+    }
+
+    for (var i = 0; i < 5; i++)
+    {
+        var index = Number(id) + Number(i * secondSummandMultiplier)
+        items[index].style.backgroundColor = "gold"
+    }
+}
+
+function horizontalCheck(items, id)
+{
+    for (var i = 0; i < 5; i++)
+    {
+        var index = Number(id) + Number(i)
+        if (items[index].style.backgroundColor === "") {
+            return
+        }
+    }
+
+    for (var i = 0; i < 5; i++)
+    {
+        var index = Number(id) + Number(i)
+        items[index].style.backgroundColor = "gold"
+    }
+}
+
+function verticalCheck(items, id)
+{
+    for (var i = 0; i < 5; i++)
+    {
+        var index = Number(id) + Number(i * 5)
+        if (items[index].style.backgroundColor === "") {
+            return
+        }
+    }
+
+    for (var i = 0; i < 5; i++)
+    {
+        var index = Number(id) + Number(i * 5)
+        items[index].style.backgroundColor = "gold"
+    }
+}
+        </script>
+    </head>
+    <body>
+        <h1>FF Bingo</h1>
+        
+        <div class="grid-container" id="container">
+            <!-- grid-item -->
+        </div>
+    </body>
+</html> 

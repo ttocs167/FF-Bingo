@@ -346,7 +346,7 @@ class Bot(commands.Bot):
                 return phase_count
             return f"{phase_count} ({phase_count/total*100:.1f}%)"
 
-        await ctx.send(f"""```
+        message = f"""```
 Total:   {total}
 Phase 1: {phase_format(1)}
 Phase 2: {phase_format(2)}
@@ -357,7 +357,14 @@ Embolus wipes: {results["embolus_wipes"]}
 
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%
-Phase prog: {best_fight["currentPhaseProg"]:.2f}%```""")
+Phase prog: {best_fight["currentPhaseProg"]:.2f}%
+
+Deaths:"""
+        death_counts = results["death_counts"]
+        for death_key in death_counts:
+            message = message + f"\n{death_key}: {death_counts[death_key]}"
+        message = message + "```"
+        await ctx.send(message)
 
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
         @commands.command()

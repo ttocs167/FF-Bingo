@@ -217,7 +217,27 @@ def analyze_tea_fight(log_id, api_key):
     tea_fights = [fight for fight in response.json()['fights'] if fight['boss'] == 1050]
 
     if len(tea_fights) == 0:
-        return None;
+        return None
+
+    def get_deaths():
+        last_fight = tea_fights[-1]
+        death_reponse = requests.get(f"https://www.fflogs.com:443/v1/report/events/deaths/{log_id}?end={last_fight['end_time']}&api_key={api_key}")
+
+        if death_reponse.status_code != 200:
+            return None;
+        
+        party_member_deaths = [death for death in death_reponse.json()['events'] if death['targetIsFriendly'] == True]
+        
+        death_counts = {}
+        for death in party_member_deaths:
+            killing_ability = death.get('killingAbility')
+            killing_ability_name = "Suicide" if killing_ability == None else death['killingAbility']['name']
+            if death_counts.get(killing_ability_name) != None:
+                death_counts[killing_ability_name] = death_counts[killing_ability_name] + 1
+            else:
+                death_counts[killing_ability_name] = 1
+        
+        return death_counts
 
     embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
     embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
@@ -247,5 +267,6 @@ def analyze_tea_fight(log_id, api_key):
             "length": (best_fight["end_time"] - best_fight["start_time"])/1000,
             "fightPercentage": 100 - best_fight['fightPercentage']/100,
             "currentPhaseProg": 100 - best_fight['bossPercentage']/100
-        }
+        },
+        "death_counts": get_deaths()
     }

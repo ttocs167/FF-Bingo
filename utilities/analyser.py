@@ -64,6 +64,7 @@ Titan: {phase_format(3)}
 Limit break: {phase_format(4)}
 Ultima: {phase_format(5)}
 Active time: {active_time}
+Gaol wipes: {results.get("gaol_wipes", 0)}
 
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)
 Fight prog: {best_fight["fightPercentage"]:.2f}%
@@ -85,15 +86,16 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
 
     if len(ultimate_fights) == 0:
         return None
+        
+    last_fight = ultimate_fights[-1]
+    death_reponse = requests.get(f"https://www.fflogs.com:443/v1/report/events/deaths/{log_id}?end={last_fight['end_time']}&api_key={api_key}")
+
+    deaths = None if death_reponse.status_code != 200 else death_reponse.json()['events']
 
     def get_deaths():
-        last_fight = ultimate_fights[-1]
-        death_reponse = requests.get(f"https://www.fflogs.com:443/v1/report/events/deaths/{log_id}?end={last_fight['end_time']}&api_key={api_key}")
-
-        if death_reponse.status_code != 200:
-            return None;
-        
-        party_member_deaths = [death for death in death_reponse.json()['events'] if death['targetIsFriendly'] == True]
+        if deaths is None:
+            return None;    
+        party_member_deaths = [death for death in deaths if death['targetIsFriendly'] == True]
         
         death_counts = {}
         for death in party_member_deaths:
@@ -139,5 +141,12 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
         embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
         embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
         results["embolus_wipes"] = embolus_wipes
+
+    if ultimate_id is 1048 and deaths is not None:
+        gaol_deaths = [death for death in deaths if death.get('killingAbility') is not None and death['killingAbility']['name'] == 'Granite Impact']
+        gaol_death_fights = {}
+        for gaol_death in gaol_deaths:
+            gaol_death_fights[gaol_death["fight"]] = True
+        results["gaol_wipes"] = len(gaol_death_fights)
 
     return results

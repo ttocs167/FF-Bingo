@@ -21,8 +21,8 @@ def analyse_tea_fight(log_id, api_key):
 
     message = f"""```
 Total:   {total}
-Phase 1: {phase_format(1)}
-Phase 2: {phase_format(2)}
+Living liquid: {phase_format(1)}
+Brute Justice: {phase_format(2)}
 Phase 3: {phase_format(3)}
 Phase 4: {phase_format(4)}
 Active time: {active_time}
@@ -58,11 +58,11 @@ def analyse_uwu_fight(log_id, api_key):
 
     message = f"""```
 Total:   {total}
-Phase 1: {phase_format(1)}
-Phase 2: {phase_format(2)}
-Phase 3: {phase_format(3)}
-Phase 4: {phase_format(4)}
-Phase 5: {phase_format(5)}
+Garuda: {phase_format(1)}
+Ifrit: {phase_format(2)}
+Titan: {phase_format(3)}
+Limit break: {phase_format(4)}
+Ultima: {phase_format(5)}
 Active time: {active_time}
 
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)

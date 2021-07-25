@@ -124,6 +124,7 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
         "phase2": get_phase_count(2),
         "phase3": get_phase_count(3),
         "phase4": get_phase_count(4),
+        "phase5": get_phase_count(5),
         "active_time": active_time,
         "best_fight": {
             "id": best_fight["id"],

@@ -62,6 +62,7 @@ Phase 1: {phase_format(1)}
 Phase 2: {phase_format(2)}
 Phase 3: {phase_format(3)}
 Phase 4: {phase_format(4)}
+Phase 5: {phase_format(5)}
 Active time: {active_time}
 
 Best #{best_fight["id"]} {best_fight_time} (higher % the better)

@@ -21,7 +21,7 @@ def analyse_tea_fight(log_id, api_key):
 
     message = f"""```
 Total:   {total}
-Living liquid: {phase_format(1)}
+Living Liquid: {phase_format(1)}
 Brute Justice: {phase_format(2)}
 Phase 3: {phase_format(3)}
 Phase 4: {phase_format(4)}

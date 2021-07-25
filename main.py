@@ -6,9 +6,9 @@ from utilities.generate_card_data import generate_card_data
 from utilities.html_creator import htmlCreator
 from dotenv import load_dotenv
 from utilities import utils
+from utilities import analyser
 import time
 import inspect
-import time
 import asyncio
 import requests
 
@@ -330,40 +330,25 @@ class Bot(commands.Bot):
         if api_key is None:
             await ctx.send("Command is not currently configured on")
             return
-        results = utils.analyze_tea_fight(report_id, api_key)
+        message = analyser.analyse_tea_fight(report_id, api_key)
 
-        if results is None:
+        if message is None:
             await ctx.send("No TEA fights found")
             return
-        best_fight = results["best_fight"]
-        best_fight_time = time.strftime('%M:%S', time.gmtime(best_fight["length"]))
-        active_time = time.strftime('%H:%M:%S', time.gmtime(results["active_time"]))
-        total = results["total"]
+        await ctx.send(message)
 
-        def phase_format(phase_id):
-            phase_count = results[f"phase{phase_id}"]
-            if phase_count == 0:
-                return phase_count
-            return f"{phase_count} ({phase_count/total*100:.1f}%)"
+    @commands.command()
+    async def uwunalyse(ctx, *, report_id):
+        """Gives statistics on FF logs reports from the Weapon's Refrain (Ultimate). Requires log URL"""
+        api_key = os.getenv('FFLOGS_API_KEY')
+        if api_key is None:
+            await ctx.send("Command is not currently configured on")
+            return
+        message = analyser.analyse_uwu_fight(report_id, api_key)
 
-        message = f"""```
-Total:   {total}
-Phase 1: {phase_format(1)}
-Phase 2: {phase_format(2)}
-Phase 3: {phase_format(3)}
-Phase 4: {phase_format(4)}
-Active time: {active_time}
-Embolus wipes: {results["embolus_wipes"]}
-
-Best #{best_fight["id"]} {best_fight_time} (higher % the better)
-Fight prog: {best_fight["fightPercentage"]:.2f}%
-Phase prog: {best_fight["currentPhaseProg"]:.2f}%
-
-Deaths:"""
-        death_counts = results["death_counts"]
-        for death_key in death_counts:
-            message = message + f"\n{death_key}: {death_counts[death_key]}"
-        message = message + "```"
+        if message is None:
+            await ctx.send("No UWU fights found")
+            return
         await ctx.send(message)
 
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:

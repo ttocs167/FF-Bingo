@@ -4,6 +4,10 @@ import time
 
 def analyse_tea_fight(log_id, api_key):
     results = analyze_ultimate_fight(log_id, api_key, 1050)
+
+    if results is None:
+        return None
+
     best_fight = results["best_fight"]
     best_fight_time = time.strftime('%M:%S', time.gmtime(best_fight["length"]))
     active_time = time.strftime('%H:%M:%S', time.gmtime(results["active_time"]))
@@ -37,6 +41,10 @@ Deaths:"""
 
 def analyse_uwu_fight(log_id, api_key):
     results = analyze_ultimate_fight(log_id, api_key, 1048)
+
+    if results is None:
+        return None
+
     best_fight = results["best_fight"]
     best_fight_time = time.strftime('%M:%S', time.gmtime(best_fight["length"]))
     active_time = time.strftime('%H:%M:%S', time.gmtime(results["active_time"]))
@@ -72,13 +80,13 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
     if response.status_code != 200:
         return None
 
-    tea_fights = [fight for fight in response.json()['fights'] if fight['boss'] == ultimate_id]
+    ultimate_fights = [fight for fight in response.json()['fights'] if fight['boss'] == ultimate_id]
 
-    if len(tea_fights) == 0:
+    if len(ultimate_fights) == 0:
         return None
 
     def get_deaths():
-        last_fight = tea_fights[-1]
+        last_fight = ultimate_fights[-1]
         death_reponse = requests.get(f"https://www.fflogs.com:443/v1/report/events/deaths/{log_id}?end={last_fight['end_time']}&api_key={api_key}")
 
         if death_reponse.status_code != 200:
@@ -100,17 +108,17 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
     fightId = 1
     active_time = 0
 
-    for fight in tea_fights:
+    for fight in ultimate_fights:
         fight["id"] = fightId
         fightId = fightId + 1
 
         active_time = active_time + fight["end_time"]/1000 - fight["start_time"]/1000
 
     def get_phase_count(phase):
-        return len([fight for fight in tea_fights if fight['lastPhaseForPercentageDisplay'] == phase])
-    best_fight = min(tea_fights, key=lambda f: f['fightPercentage'])
+        return len([fight for fight in ultimate_fights if fight['lastPhaseForPercentageDisplay'] == phase])
+    best_fight = min(ultimate_fights, key=lambda f: f['fightPercentage'])
     results = {
-        "total": len(tea_fights),
+        "total": len(ultimate_fights),
         "phase1": get_phase_count(1),
         "phase2": get_phase_count(2),
         "phase3": get_phase_count(3),

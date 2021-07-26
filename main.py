@@ -303,6 +303,12 @@ class Bot(commands.Bot):
         img = discord.File('resources/images/e12p2_adv_rel.png')
         await ctx.reply("", file=img)
 
+    @commands.command(hidden=True)
+    async def get_guild(ctx):
+        """returns the name of the guild this command was used in"""
+        current_guild = str(ctx.guild)
+        await ctx.reply(current_guild)
+
     @commands.command(name="wingo", hidden=True)
     # Stop snooping on my code >:(
     # new cowwand owo
@@ -362,9 +368,13 @@ class Bot(commands.Bot):
         @commands.command()
         async def ai(ctx, *, new_prompt):
             """Get a real AI response from BingoBot!"""
-            author = str(ctx.message.author).split('#')[0]
-            response = get_ai_response(new_prompt, author)
-            await ctx.reply(response)
+
+            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                author = str(ctx.message.author).split('#')[0]
+                response = get_ai_response(new_prompt, author)
+                await ctx.reply(response)
+            else:
+                await ctx.reply("Sorry, this guild is not authorised to use the AI function.")
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""

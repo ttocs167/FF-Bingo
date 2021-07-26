@@ -108,12 +108,12 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
         
         return death_counts
 
-    fightId = 1
+    fight_id = 1
     active_time = 0
 
     for fight in ultimate_fights:
-        fight["id"] = fightId
-        fightId = fightId + 1
+        fight["id"] = fight_id
+        fight_id = fight_id + 1
 
         active_time = active_time + fight["end_time"]/1000 - fight["start_time"]/1000
 

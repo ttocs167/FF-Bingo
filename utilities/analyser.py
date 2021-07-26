@@ -88,7 +88,7 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
 
     if len(ultimate_fights) == 0:
         return None
-        
+
     last_fight = ultimate_fights[-1]
     death_reponse = requests.get(f"https://www.fflogs.com:443/v1/report/events/deaths/"
                                  f"{log_id}?end={last_fight['end_time']}&api_key={api_key}")
@@ -97,9 +97,9 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
 
     def get_deaths():
         if deaths is None:
-            return None;    
-        party_member_deaths = [death for death in deaths if death['targetIsFriendly'] == True]
-        
+            return None
+        party_member_deaths = [death for death in deaths if death['targetIsFriendly'] is True]
+
         death_counts = {}
         for death in party_member_deaths:
             killing_ability = death.get('killingAbility')
@@ -108,7 +108,7 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
                 death_counts[killing_ability_name] = death_counts[killing_ability_name] + 1
             else:
                 death_counts[killing_ability_name] = 1
-        
+
         return death_counts
 
     fight_id = 1
@@ -140,12 +140,12 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
         "death_counts": get_deaths()
     }
 
-    if ultimate_id is 1050:
+    if ultimate_id == 1050:
         embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
         embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
         results["embolus_wipes"] = embolus_wipes
 
-    if (ultimate_id is 1048) and (deaths is not None):
+    if (ultimate_id == 1048) and (deaths is not None):
         gaol_deaths = [death for death in deaths if death.get('killingAbility') is not None
                        and (death['killingAbility']['name'] == 'Granite Impact')]
         gaol_death_fights = {}

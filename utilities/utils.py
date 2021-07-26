@@ -242,12 +242,12 @@ def analyze_tea_fight(log_id, api_key):
     embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
     embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
 
-    id = 1
+    fight_id = 1
     active_time = 0
 
     for fight in tea_fights:
-        fight["id"] = id
-        id += 1
+        fight["id"] = fight_id
+        fight_id += 1
 
         active_time = active_time + fight["end_time"]/1000 - fight["start_time"]/1000
 

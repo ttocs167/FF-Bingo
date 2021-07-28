@@ -24,7 +24,7 @@ def analyse_tea_fight(log_id, api_key):
 Total:   {total}
 Living Liquid: {phase_format(1)}
 Brute Justice: {phase_format(2)}
-Phase 3: {phase_format(3)}
+Alexander Prime: {phase_format(3)}
 Phase 4: {phase_format(4)}
 Active time: {active_time}
 Embolus wipes: {results["embolus_wipes"]}

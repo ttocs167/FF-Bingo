@@ -108,9 +108,11 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
     deaths = None if death_reponse.status_code != 200 else death_reponse.json()['events']
 
     def get_deaths():
+        def death_in_ultimate_fight(death):
+            return [fight for fight in ultimate_fights if fight["id"] == death["fight"]]
         if deaths is None:
             return None
-        party_member_deaths = [death for death in deaths if death['targetIsFriendly'] is True]
+        party_member_deaths = [death for death in deaths if death['targetIsFriendly'] is True and death_in_ultimate_fight(death)]
 
         death_counts = {}
         for death in party_member_deaths:
@@ -120,14 +122,13 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
                 death_counts[killing_ability_name] = death_counts[killing_ability_name] + 1
             else:
                 death_counts[killing_ability_name] = 1
-
         return death_counts
 
     fight_id = 1
     active_time = 0
 
     for fight in ultimate_fights:
-        fight["id"] = fight_id
+        fight["fight_id"] = fight_id
         fight_id = fight_id + 1
 
         active_time = active_time + fight["end_time"]/1000 - fight["start_time"]/1000
@@ -139,7 +140,7 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
 
     def fight_summary(fight):
         return {
-            "id": fight["id"],
+            "id": fight["fight_id"],
             "length": (fight["end_time"] - fight["start_time"])/1000,
             "fightPercentage": 100 - fight['fightPercentage']/100,
             "currentPhaseProg": 100 - fight['bossPercentage']/100

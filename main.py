@@ -421,6 +421,8 @@ class Bot(commands.Bot):
                 os.mkdir("output_folder/" + str(message.guild))
 
             await bot.process_commands(message)
+        elif str(message.content).lower().startswith("i love you"):
+            await message.reply("<3")
 
     async def timed_refresh(ctx):
         """Automatically refreshes bingo card pools for servers if any new lines have been added"""

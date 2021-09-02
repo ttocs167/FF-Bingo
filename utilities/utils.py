@@ -112,12 +112,26 @@ async def reset_free_list(guild):
     try:
         shutil.copy("lists/" + guild + "/free_list.txt", "lists/" + guild + "/free_list_OLD.txt")
     except Exception:
-        print("There is no old list to backup. New server being initialised.")
+        print("There is no old free list to backup. New server being initialised.")
 
     with open("./lists/default_free_list.txt", "r") as default_file:
         default_lines = default_file.readlines()
 
     with open("lists/" + guild + "/free_list.txt", "w") as file:
+        for line in default_lines:
+            file.write(line)
+
+
+async def reset_secret_list(guild):
+    try:
+        shutil.copy("lists/" + guild + "/secret_list.txt", "lists/" + guild + "/secret_list_OLD.txt")
+    except Exception:
+        print("There is no old secret list to backup. New server being initialised.")
+
+    with open("./lists/default_secret_list.txt", "r") as default_file:
+        default_lines = default_file.readlines()
+
+    with open("lists/" + guild + "/secret_list.txt", "w") as file:
         for line in default_lines:
             file.write(line)
 

@@ -7,6 +7,7 @@ from utilities.html_creator import htmlCreator
 from dotenv import load_dotenv
 from utilities import utils
 from utilities import analyser
+from utilities import generate_secret_bingo as gsb
 import time
 import inspect
 import asyncio
@@ -158,6 +159,31 @@ class Bot(commands.Bot):
         else:
             print("Big bingo command recieved in " + str(ctx.guild) + " too soon to generate!")
 
+    @commands.command()
+    async def secretbingo(ctx):
+        """DMs the user with 3 secret tasks"""
+        await ctx.reply("Secret missions on the way...")
+
+        out = gsb.generate_secret_bingo(str(ctx.guild))
+
+        author = ctx.author
+        dm = await author.create_dm()
+
+        await dm.send(out)
+
+    @commands.command()
+    async def secretrules(ctx):
+        """explains the rules to secret bingo!"""
+
+        out = "Use the _$secretbingo_ command to receive 3 secret missions.\n" \
+              "Complete 3 missions first to win.\n" \
+              "When you complete a mission you must immediately claim it.\n" \
+              "When attempting to complete a mission, if another player asks you" \
+              " if what you are doing is for the mission, the mission is failed and cannot be completed.\n" \
+              "Good luck!"
+
+        await ctx.reply(out)
+
     @commands.command(name='rig', hidden=True)
     @commands.is_owner()
     async def rig(ctx, *, line):
@@ -229,6 +255,12 @@ class Bot(commands.Bot):
         """Resets the free space bingo list to default. WARNING: lost lists are unrecoverable"""
         await utils.reset_free_list(str(ctx.guild))
         await ctx.send("Free list has been reset to default.")
+
+    @commands.command(hidden=True)
+    async def resetsecretlist(ctx):
+        """Resets the secret bingo list to default. WARNING: lost lists are unrecoverable"""
+        await utils.reset_secret_list(str(ctx.guild))
+        await ctx.send("Secret list has been reset to default.")
 
     @commands.command()
     async def animal(ctx):
@@ -378,15 +410,17 @@ class Bot(commands.Bot):
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""
-        if not os.path.isdir("lists/" + str(message.guild)):
-            os.mkdir("lists/" + str(message.guild))
-            await utils.reset_list(str(message.guild))
-            await utils.reset_free_list(str(message.guild))
+        if message.guild is not None:
+            if not os.path.isdir("lists/" + str(message.guild)):
+                os.mkdir("lists/" + str(message.guild))
+                await utils.reset_list(str(message.guild))
+                await utils.reset_free_list(str(message.guild))
+                await utils.reset_secret_list(str(message.guild))
 
-        if not os.path.isdir("output_folder/" + str(message.guild)):
-            os.mkdir("output_folder/" + str(message.guild))
+            if not os.path.isdir("output_folder/" + str(message.guild)):
+                os.mkdir("output_folder/" + str(message.guild))
 
-        await bot.process_commands(message)
+            await bot.process_commands(message)
 
     async def timed_refresh(ctx):
         """Automatically refreshes bingo card pools for servers if any new lines have been added"""

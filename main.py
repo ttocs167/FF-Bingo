@@ -161,7 +161,7 @@ class Bot(commands.Bot):
 
     @commands.command()
     async def secretbingo(ctx):
-        """DMs the user with 3 secret tasks"""
+        """DMs the user with secret tasks"""
         await ctx.reply("Secret missions on the way...")
 
         out = gsb.generate_secret_bingo(str(ctx.guild))
@@ -175,7 +175,7 @@ class Bot(commands.Bot):
     async def secretrules(ctx):
         """explains the rules to secret bingo!"""
 
-        out = "Use the _$secretbingo_ command to receive 3 secret missions.\n" \
+        out = "Use the _$secretbingo_ command to receive 4 secret missions.\n" \
               "Complete 3 missions first to win.\n" \
               "When you complete a mission you must immediately claim it.\n" \
               "When attempting to complete a mission, if another player asks you" \

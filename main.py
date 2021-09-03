@@ -256,12 +256,6 @@ class Bot(commands.Bot):
         await utils.reset_free_list(str(ctx.guild))
         await ctx.send("Free list has been reset to default.")
 
-    @commands.command(hidden=True)
-    async def resetsecretlist(ctx):
-        """Resets the secret bingo list to default. WARNING: lost lists are unrecoverable"""
-        await utils.reset_secret_list(str(ctx.guild))
-        await ctx.send("Secret list has been reset to default.")
-
     @commands.command()
     async def animal(ctx):
         """:frog:"""
@@ -369,10 +363,7 @@ class Bot(commands.Bot):
         custom_guild = split[1]
         list_type = split[0]
 
-        if list_type == "secret":
-            await utils.reset_secret_list(custom_guild)
-            print("resetting " + str(custom_guild) + "'s secret list")
-        elif list_type == "free":
+        if list_type == "free":
             await utils.reset_free_list(custom_guild)
             print("resetting " + str(custom_guild) + "'s free list")
         else:
@@ -433,7 +424,6 @@ class Bot(commands.Bot):
                 os.mkdir("lists/" + str(message.guild))
                 await utils.reset_list(str(message.guild))
                 await utils.reset_free_list(str(message.guild))
-                await utils.reset_secret_list(str(message.guild))
 
             if not os.path.isdir("output_folder/" + str(message.guild)):
                 os.mkdir("output_folder/" + str(message.guild))

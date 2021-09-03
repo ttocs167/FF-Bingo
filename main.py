@@ -361,6 +361,24 @@ class Bot(commands.Bot):
         img = discord.File(image_path)
         await ctx.reply("", file=img)
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def silent_reset(ctx, *, content):
+        """Resets a list for another guild"""
+        split = content.split(" ", 1)
+        custom_guild = split[1]
+        list_type = split[0]
+
+        if list_type == "secret":
+            await utils.reset_secret_list(custom_guild)
+            print("resetting " + str(custom_guild) + "'s secret list")
+        elif list_type == "free":
+            await utils.reset_free_list(custom_guild)
+            print("resetting " + str(custom_guild) + "'s free list")
+        else:
+            await utils.reset_list(custom_guild)
+            print("resetting " + str(custom_guild) + "'s list")
+
     @commands.command()
     async def teanalyse(ctx, *, report_id):
         """Gives statistics on FF logs reports from The Epic of Alexander. Requires log URL"""

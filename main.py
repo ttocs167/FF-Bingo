@@ -164,7 +164,7 @@ class Bot(commands.Bot):
         """DMs the user with secret tasks"""
         await ctx.reply("Secret missions on the way...")
 
-        out = gsb.generate_secret_bingo(str(ctx.guild))
+        out = gsb.generate_secret_bingo()
 
         author = ctx.author
         dm = await author.create_dm()

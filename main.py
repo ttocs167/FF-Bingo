@@ -180,6 +180,7 @@ class Bot(commands.Bot):
               "When you complete a mission you must immediately claim it.\n" \
               "When attempting to complete a mission, if another player asks you" \
               " if what you are doing is for the mission, the mission is failed and cannot be completed.\n" \
+              "You must be honest when confronted about your mission if they are correct.\n" \
               "Good luck!"
 
         await ctx.reply(out)

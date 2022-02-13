@@ -4,7 +4,7 @@ import time
 
 
 def analyse_tea_fight(log_id, api_key):
-    results = analyze_ultimate_fight(log_id, api_key, 1050)
+    results = analyze_ultimate_fight(log_id, api_key, [1050, 1062])
 
     if results is None:
         return None
@@ -47,7 +47,7 @@ Deaths:"""
 
 
 def analyse_uwu_fight(log_id, api_key):
-    results = analyze_ultimate_fight(log_id, api_key, 1048)
+    results = analyze_ultimate_fight(log_id, api_key, [1048])
 
     if results is None:
         return None
@@ -96,8 +96,8 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
     if response.status_code != 200:
         return None
 
-    ultimate_fights = [fight for fight in response.json()['fights'] if fight['boss'] == ultimate_id]
-
+    ultimate_fights = [fight for fight in response.json()['fights'] if (fight['boss'] in ultimate_id)]
+    print(response.json())
     if len(ultimate_fights) == 0:
         return None
 
@@ -159,12 +159,12 @@ def analyze_ultimate_fight(log_id, api_key, ultimate_id):
         "death_counts": get_deaths()
     }
 
-    if ultimate_id == 1050:
+    if ultimate_id == [1050, 1062]:
         embolus = [enemy for enemy in response.json()['enemies'] if enemy['name'] == "Embolus"]
         embolus_wipes = len(embolus[0]['fights']) if len(embolus) == 1 else 0
         results["embolus_wipes"] = embolus_wipes
 
-    if (ultimate_id == 1048) and (deaths is not None):
+    if (ultimate_id == [1048]) and (deaths is not None):
         gaol_deaths = [death for death in deaths if death.get('killingAbility') is not None
                        and (death['killingAbility']['name'] == 'Granite Impact')]
         gaol_death_fights = {}

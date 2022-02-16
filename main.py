@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from utilities import utils
 from utilities import analyser
 from utilities import generate_secret_bingo as gsb
+from utilities import wordle_cheat
 import time
 import inspect
 import asyncio
@@ -319,6 +320,13 @@ class Bot(commands.Bot):
             await ctx.reply("Correct!")
         else:
             await ctx.reply("Wrong!")
+
+    @commands.command(hidden=True)
+    async def wordle_cheat(ctx):
+        """Stop cheating!"""
+        out = await wordle_cheat.get_todays_word()
+        out = "|| " + out + " ||"
+        await ctx.send(out)
 
     @commands.command(name='blame')
     async def who_killed_us(ctx):

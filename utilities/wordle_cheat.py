@@ -5,7 +5,7 @@ word_list=["cigar","rebut","sissy","humph","awake","blush","focal","evade","nava
 day_0 = datetime.date(2021, 6, 19)
 
 
-def get_todays_word():
+async def get_todays_word():
     today = datetime.date.today()
     today_index = (today - day_0).days
-    return word_list[today_index]
+    return word_list[today_index].upper()

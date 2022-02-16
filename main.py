@@ -321,11 +321,25 @@ class Bot(commands.Bot):
         else:
             await ctx.reply("Wrong!")
 
-    @commands.command(hidden=True)
-    async def wordle_cheat(ctx):
-        """Stop cheating!"""
-        out = await wordle_cheat.get_todays_word()
-        out = "|| " + out + " ||"
+    @commands.command(hidden=False)
+    async def today_wordle(ctx, *, answer):
+        """The real Wordle!"""
+        out = await wordle_cheat.today_wordle(answer)
+        out = out
+        await ctx.send(out)
+
+    @commands.command(hidden=False)
+    async def wordle(ctx, *, answer):
+        """Wordle!"""
+        out = await wordle_cheat.wordle(answer)
+        out = out
+        await ctx.send(out)
+
+    @commands.command(hidden=False)
+    async def reset_wordle(ctx):
+        """Resets the internal wordle word"""
+        old_word = await wordle_cheat.reset_word()
+        out = "Internal word reset!" + "\nThe old word was: ||" + old_word + "||"
         await ctx.send(out)
 
     @commands.command(name='blame')

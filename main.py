@@ -322,22 +322,29 @@ class Bot(commands.Bot):
             await ctx.reply("Wrong!")
 
     @commands.command(hidden=False)
-    async def today_wordle(ctx, *, answer):
-        """The real Wordle!"""
-        out = await wordle_cheat.today_wordle(answer)
-        out = out
+    async def daily_wordle(ctx, *, answer):
+        """A daily Wordle! Not the same as the real wordle, no spoilerino!"""
+        out = await wordle_cheat.daily_wordle(answer)
+        out = "||" + out + "||"
+        await ctx.send(out)
+
+    @commands.command(hidden=True)
+    async def reveal_daily_wordle(ctx):
+        """Reveals the daily wordle word with spoiler tags"""
+        out = await wordle_cheat.reveal_daily_wordle()
+        out = "||" + out + "||"
         await ctx.send(out)
 
     @commands.command(hidden=False)
     async def wordle(ctx, *, answer):
-        """Wordle!"""
+        """Wordle! Now infinitely repeatable"""
         out = await wordle_cheat.wordle(answer)
-        out = out
+        out = "||" + out + "||"
         await ctx.send(out)
 
     @commands.command(hidden=False)
     async def reset_wordle(ctx):
-        """Resets the internal wordle word"""
+        """Resets the repeatable wordle word"""
         old_word = await wordle_cheat.reset_word()
         out = "Internal word reset!" + "\nThe old word was: ||" + old_word + "||"
         await ctx.send(out)

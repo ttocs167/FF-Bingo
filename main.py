@@ -321,7 +321,7 @@ class Bot(commands.Bot):
         else:
             await ctx.reply("Wrong!")
 
-    @commands.command(hidden=False)
+    @commands.command(hidden=False, aliases=['dailywordle', 'dwordle'])
     async def daily_wordle(ctx, *, answer):
         """A daily Wordle! Not the same as the real wordle, no spoilerino!"""
         out = await wordle_cheat.daily_wordle(answer)

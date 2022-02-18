@@ -47,8 +47,12 @@ async def check_word(test_word, answer_word):
             answer_word = "".join(answer_list)
 
     for i, test_char in enumerate(test_word):
+        if answer_word[i] == "_":
+            continue
         if test_char in answer_word:
             out[i] = "1"
+            if test_word.count(test_char) > 1 and answer_word.count(test_char) == 1:
+                answer_word = answer_word.replace(test_char, "_")
         elif out[i] != "2":
             out[i] = "0"
 

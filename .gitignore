@@ -16,3 +16,5 @@ Web/.vscode/
 
 Web/server/*.sqlite
 .cache
+
+wordle_user_data.json

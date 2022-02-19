@@ -1,6 +1,19 @@
 import datetime
 import numpy as np
 import random
+import json
+
+
+def log_user(user_id):
+    if user_id not in user_data:
+        user_data.update({user_id: 0})
+        print("logging new user id: " + str(user_id))
+    save_user_data()
+
+
+def save_user_data():
+    with open("wordle_user_data.json", "w") as f:
+        json.dump(user_data, f)
 
 
 async def reset_word():
@@ -16,8 +29,23 @@ async def get_todays_word():
     return word_list[today_index].upper()
 
 
-async def daily_wordle(test_word):
-    return await check_word(test_word, (await get_todays_word()).lower())
+async def daily_wordle(test_word, user_id):
+
+    log_user(user_id)
+
+    if user_data[user_id] >= 6:
+        return "You are out of attempts for today!"
+
+    user_data[user_id] += 1
+    save_user_data()
+
+    attempts = "    " + str(user_data[user_id]) + "/6"
+    return (await check_word(test_word, (await get_todays_word()).lower())) + attempts
+
+
+async def moar_guesses_please(user_id):
+    user_data[user_id] = 0
+    save_user_data()
 
 
 async def wordle(test_word):
@@ -73,5 +101,12 @@ day_0 = datetime.date(2021, 6, 19)
 random.Random(80085).shuffle(word_list)
 
 rand_word = np.random.choice(word_list)
+
+try:
+    with open("wordle_user_data.json") as f:
+        user_data = json.load(f)
+except FileNotFoundError:
+    user_data = {"000000000000000000": 0}
+    save_user_data()
 
 print("Wordle loaded!")

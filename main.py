@@ -9,6 +9,7 @@ from utilities import utils
 from utilities import analyser
 from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
+from utilities import scheduled_tasks
 import time
 import inspect
 import asyncio
@@ -25,7 +26,6 @@ if "OPENAI_API_KEY" in os.environ:
 description = '''A Bot for Bingo! All hail BingoBot'''
 intents = discord.Intents.default()
 utils.load_riddles()
-
 
 async def regenerate_images(index, guild):
     await generate_card(index, guild)
@@ -90,6 +90,7 @@ class Bot(commands.Bot):
         print(bot.user.name)
         print(bot.user.id)
         print('------')
+        await scheduled_tasks.start_scheduled_tasks()
 
     @commands.command(name='8ball')
     async def _ball(ctx):
@@ -324,7 +325,7 @@ class Bot(commands.Bot):
     @commands.command(hidden=False, aliases=['dailywordle', 'dwordle'])
     async def daily_wordle(ctx, *, answer):
         """A daily Wordle! Not the same as the real wordle, no spoilerino!"""
-        out = await wordle_cheat.daily_wordle(answer)
+        out = await wordle_cheat.daily_wordle(answer, str(ctx.author.id))
         out = "||" + out + "||"
         await ctx.send(out)
 
@@ -334,6 +335,12 @@ class Bot(commands.Bot):
         out = await wordle_cheat.reveal_daily_wordle()
         out = "||" + out + "||"
         await ctx.send(out)
+
+    @commands.command(hidden=True)
+    async def moar_guesses_please(ctx):
+        """resets your attempts at the daily wordle"""
+        await wordle_cheat.moar_guesses_please(str(ctx.author.id))
+        await ctx.send("Okay, okay. fine... Here you go.")
 
     @commands.command(hidden=False)
     async def wordle(ctx, *, answer):

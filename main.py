@@ -27,6 +27,7 @@ description = '''A Bot for Bingo! All hail BingoBot'''
 intents = discord.Intents.default()
 utils.load_riddles()
 
+
 async def regenerate_images(index, guild):
     await generate_card(index, guild)
 

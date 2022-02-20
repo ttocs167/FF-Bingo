@@ -4,7 +4,7 @@ import json
 import threading
 
 
-def run_continuously(interval=60):
+def run_continuously(interval=30):
     """Continuously run, while executing pending jobs at each
     elapsed time interval.
     @return cease_continuous_run: threading. Event which can
@@ -48,4 +48,3 @@ async def start_scheduled_tasks():
 
 
 schedule.every().day.at("00:00").do(reset_wordle_counts)
-

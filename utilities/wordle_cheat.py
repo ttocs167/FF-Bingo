@@ -36,8 +36,9 @@ async def daily_wordle(test_word, user_id):
     if user_data[user_id] >= 6:
         return "You are out of attempts for today!"
 
-    user_data[user_id] += 1
-    save_user_data()
+    if test_word in full_list + word_list:
+        user_data[user_id] += 1
+        save_user_data()
 
     attempts = "    " + str(user_data[user_id]) + "/6"
     return (await check_word(test_word, (await get_todays_word()).lower())) + attempts

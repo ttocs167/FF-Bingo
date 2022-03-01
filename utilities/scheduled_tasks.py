@@ -2,7 +2,7 @@ import schedule
 import time
 import json
 import threading
-from wordle_cheat import save_user_data
+from utilities.wordle_cheat import save_user_data
 
 
 def run_continuously(interval=30):

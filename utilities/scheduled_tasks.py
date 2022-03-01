@@ -2,6 +2,7 @@ import schedule
 import time
 import json
 import threading
+from wordle_cheat import save_user_data
 
 
 def run_continuously(interval=30):
@@ -38,8 +39,7 @@ def reset_wordle_counts():
         user_data[user] = 0
 
     # Save the reset data back to file
-    with open("wordle_user_data.json", "w") as f:
-        json.dump(user_data, f)
+    save_user_data()
 
 
 async def start_scheduled_tasks():

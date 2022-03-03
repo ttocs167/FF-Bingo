@@ -61,11 +61,11 @@ async def check_word(test_word, answer_word):
     test_word = test_word.lower().strip("||")
     test_word = test_word.replace("_", "")
 
-    if test_word not in full_list + word_list:
-        return "Word not recognised!"
-
     if len(test_word) != 5:
         return "Wordle is done with 5 letter words you dingus!"
+
+    if test_word not in full_list + word_list:
+        return "Word not recognised!"
 
     out = ["0", "0", "0", "0", "0"]
     answer_list = list(answer_word)
@@ -104,7 +104,7 @@ random.Random(80085).shuffle(word_list)
 rand_word = np.random.choice(word_list)
 
 try:
-    with open("wordle_user_data.json") as f:
+    with open("wordle_user_data.json", "r") as f:
         user_data = json.load(f)
 except FileNotFoundError:
     user_data = {"000000000000000000": 0}

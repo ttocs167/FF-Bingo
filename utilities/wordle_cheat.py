@@ -5,6 +5,7 @@ import json
 
 
 def log_user(user_id):
+    global user_data
     if user_id not in user_data:
         user_data.update({user_id: 0})
         print("logging new user id: " + str(user_id))
@@ -12,6 +13,7 @@ def log_user(user_id):
 
 
 def save_user_data():
+    global user_data
     with open("wordle_user_data.json", "w") as f:
         json.dump(user_data, f)
 
@@ -30,7 +32,7 @@ async def get_todays_word():
 
 
 async def daily_wordle(test_word, user_id):
-
+    global user_data
     log_user(user_id)
 
     if user_data[user_id] >= 6:
@@ -45,6 +47,7 @@ async def daily_wordle(test_word, user_id):
 
 
 async def moar_guesses_please(user_id):
+    global user_data
     user_data[user_id] = 0
     save_user_data()
 

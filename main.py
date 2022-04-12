@@ -275,6 +275,7 @@ class Bot(commands.Bot):
         await ctx.reply(utils.random_animal_emoji())
 
     @commands.command(name='fullrefresh', hidden=True)
+    @commands.is_owner()
     async def full_refresh_all_servers(ctx):
         """Refreshes all cards on all servers."""
         for guild_name in bot.guilds:

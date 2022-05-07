@@ -18,3 +18,5 @@ Web/server/*.sqlite
 .cache
 
 wordle_user_data.json
+
+resources/plant_images/

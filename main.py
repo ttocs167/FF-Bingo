@@ -10,6 +10,7 @@ from utilities import analyser
 from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
 from utilities import scheduled_tasks
+from utilities import webcam_photo
 import time
 import inspect
 import asyncio
@@ -445,6 +446,13 @@ class Bot(commands.Bot):
             await ctx.send("No UWU fights found")
             return
         await ctx.send(message)
+
+    @commands.command(name="plant", hidden=False)
+    async def webcam_image(ctx):
+
+        image_path = await webcam_photo.take_image()
+        img = discord.File(image_path)
+        await ctx.reply("", file=img)
 
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
         @commands.command()

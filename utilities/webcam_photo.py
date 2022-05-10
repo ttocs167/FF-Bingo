@@ -1,3 +1,5 @@
+import asyncio
+
 import cv2
 from datetime import datetime
 import subprocess
@@ -15,16 +17,15 @@ def set_camera_settings():
                         shell=True)
 
 
-set_camera_settings()
-
-cam = cv2.VideoCapture(0)
-
-
 async def take_image():
 
     print("initialising webcam...")
+    set_camera_settings()
 
+    cam = cv2.VideoCapture(0)
     # cam.set(cv2.CAP_PROP_EXPOSURE, 1)
+
+    await asyncio.sleep(1)
 
     timestamp = datetime.now().strftime("%m_%d_%Y, %H-%M-%S")
     filename = "resources/plant_images/" + timestamp + ".png"
@@ -35,8 +36,5 @@ async def take_image():
         cv2.imwrite(filename, frame)
         print("new image saved!")
 
-    return filename
-
-
-def release_cam():
     cam.release()
+    return filename

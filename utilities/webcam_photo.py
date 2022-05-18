@@ -4,10 +4,9 @@ import cv2
 from datetime import datetime
 import subprocess
 
-cam_props = {'brightness': 10, 'contrast': 128, 'saturation': 180,
-             'gain': 0, 'sharpness': 128, 'exposure_auto': 1,
+cam_props = {'brightness': -32, 'contrast': 64, 'saturation': 100,
+             'gain': 0, 'gamma': 250, 'sharpness': 5, 'exposure_auto': 1,
              'exposure_absolute': 10, 'exposure_auto_priority': 1,
-             'focus_auto': 0, 'focus_absolute': 30, 'zoom_absolute': 250,
              'white_balance_temperature_auto': 1}
 
 

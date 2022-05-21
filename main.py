@@ -10,7 +10,7 @@ from utilities import analyser
 from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
 from utilities import scheduled_tasks
-from utilities import webcam_photo
+from utilities import webcam_photo, picam_photo
 import time
 import inspect
 import asyncio
@@ -450,7 +450,7 @@ class Bot(commands.Bot):
     @commands.command(name="plant", hidden=False)
     async def webcam_image(ctx):
 
-        image_path = await webcam_photo.take_image()
+        image_path = await picam_photo.take_image()
         img = discord.File(image_path)
         await ctx.reply("", file=img)
 

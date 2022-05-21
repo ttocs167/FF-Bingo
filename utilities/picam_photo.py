@@ -1,5 +1,5 @@
 from datetime import datetime
-import PiCamera
+from picamera import PiCamera
 from time import sleep
 
 print("Initialising PiCam...")

@@ -243,12 +243,15 @@ class Bot(commands.Bot):
             await ctx.send(line, delete_after=20)
 
     @commands.command(name='del')
-    async def delete_line(ctx, index: int):
-        """Deletes the line at [index] in the list. Use $list command to view indices"""
-        line = await utils.get_line(index, str(ctx.guild))
-        await utils.delete_line(index, str(ctx.guild))
-        print("deleted line: " + line)
-        await ctx.send("deleted line: " + line)
+    async def delete_line(ctx, *, indices):
+        """Deletes the lines at indices given in the list. Use $list command to view indices"""
+        indices = indices.split(" ")
+        for index in indices:
+            index = int(index)
+            line = await utils.get_line(index, str(ctx.guild))
+            await utils.delete_line(index, str(ctx.guild))
+            print("deleted line: " + line)
+            await ctx.send("deleted line: " + line)
 
     @commands.command(name='freedel')
     async def delete_free_line(ctx, index: int):

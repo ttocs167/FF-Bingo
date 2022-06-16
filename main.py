@@ -245,7 +245,8 @@ class Bot(commands.Bot):
     @commands.command(name='del')
     async def delete_line(ctx, *, indices):
         """Deletes the lines at indices given in the list. Use $list command to view indices"""
-        indices = indices.split(" ").sort(reverse=True)
+        indices = indices.split(" ")
+        indices.sort(reverse=True)
         for index in indices:
             index = int(index)
             line = await utils.get_line(index, str(ctx.guild))

@@ -14,7 +14,7 @@ matplotlib==3.4.1
 multidict==5.1.0
 numpy==1.20.2
 opencv-python==4.5.1.48
-Pillow==8.2.0
+Pillow==9.2.0
 pipreqs==0.4.10
 pyparsing==2.4.7
 python-dateutil==2.8.1

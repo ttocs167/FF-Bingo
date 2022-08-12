@@ -10,7 +10,8 @@ from utilities import analyser
 from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
 from utilities import scheduled_tasks
-from utilities import webcam_photo, picam_photo
+from utilities.maps_solver import get_closest_match
+# from utilities import webcam_photo, picam_photo
 import time
 import inspect
 import asyncio
@@ -369,6 +370,17 @@ class Bot(commands.Bot):
         caller = ctx.author.id
         out = utils.random_wipe_reason(str(caller))
         await ctx.send(out)
+
+    @commands.command(name='maps')
+    async def map_solver(ctx, *, expac):
+        """attempts to find the location of a treasure map image"""
+        for attachment in ctx.message.attachments:
+            filepath = "resources/images/maps/temp.png"
+            await attachment.save(filepath)
+
+        best_match, coords = get_closest_match(filepath, expac)
+        img = discord.File(best_match)
+        await ctx.send("closest match: " + str(coords), file=img)
 
     @set_status.error
     async def set_status_error(ctx, error):

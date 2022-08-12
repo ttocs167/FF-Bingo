@@ -7,10 +7,6 @@ import os
 # import matplotlib.pyplot as plt
 
 
-coordinates = csv.reader(open("resources/images/maps/coordinates.csv",
-                         "r"), delimiter=",")
-
-
 def get_closest_match(test_image_path, database):
 
     test_image = cv2.imread(test_image_path)
@@ -79,10 +75,12 @@ def crop_around_cross(image, center_x, center_y, size=70):
 
 
 def get_coords(filename):
-    for row in coordinates:
-        if filename == row[0]:
-            print(row[1:])
-            return row[1:]
+    with open("resources/images/maps/coordinates.csv", "r") as csv_file:
+        coordinates = csv.reader(csv_file, delimiter=',')
+        for row in coordinates:
+            if filename == row[0]:
+                print(row[1:])
+                return row[1:]
 
 # test = cv2.imread(r"C:\Users\ttocs\PycharmProjects\FF Bingo\resources\images\maps\test.png")
 #

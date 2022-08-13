@@ -11,7 +11,7 @@ from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
 from utilities import scheduled_tasks
 from utilities.maps_solver import get_closest_match
-# from utilities import webcam_photo, picam_photo
+from utilities import webcam_photo, picam_photo
 import time
 import inspect
 import asyncio

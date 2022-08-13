@@ -20,3 +20,5 @@ Web/server/*.sqlite
 wordle_user_data.json
 
 resources/plant_images/
+
+utilities/hsv_colour_helper.py

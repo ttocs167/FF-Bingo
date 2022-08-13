@@ -5,6 +5,7 @@ import numpy as np
 import csv
 import os
 # import matplotlib.pyplot as plt
+from sewar.full_ref import mse
 
 
 def get_closest_match(test_image_path, database):
@@ -16,24 +17,35 @@ def get_closest_match(test_image_path, database):
 
     test_image = resize_image(crop)
 
+    test_image = cv2.cvtColor(test_image, cv2.COLOR_BGR2GRAY)
+
     # plt.figure()
     # plt.imshow(test_image)
+    # plt.show()
 
-    possible_images = glob.glob("resources/images/maps/" + database + "/*.png")
+    if database == "":
+        possible_images = glob.glob("resources/images/maps/" + "sb" + "/*.png")\
+                          + glob.glob("resources/images/maps/" + "shb" + "/*.png")\
+                          + glob.glob("resources/images/maps/" + "ew" + "/*.png")
+    else:
+        possible_images = glob.glob("resources/images/maps/" + database + "/*.png")
 
-    max_sim = 0
+    max_sim = 99999999999999999999
     best_image_path = ""
 
     for image in possible_images:
         im = cv2.imread(image)
         im = resize_image(im)
+        im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
-        sim = ssim(im, test_image, channel_axis=2, data_range=255)
+        # sim = ssim(im, test_image, data_range=255)
+        sim = mse(im, test_image)
 
-        if sim > max_sim:
+        if sim < max_sim:
             max_sim = sim
             best_image_path = image
 
+    # print("similarity: " + str(max_sim))
     coords = get_coords(os.path.basename(best_image_path)[:-4])
 
     return best_image_path, coords
@@ -48,12 +60,12 @@ def get_cross_location(image):
     img_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # lower mask (0-10)
-    lower_red = np.array([0, 50, 50])
+    lower_red = np.array([0, 70, 50])
     upper_red = np.array([5, 255, 255])
     mask0 = cv2.inRange(img_hsv, lower_red, upper_red)
 
     # upper mask (170-180)
-    lower_red = np.array([170, 50, 50])
+    lower_red = np.array([170, 70, 50])
     upper_red = np.array([180, 255, 255])
     mask1 = cv2.inRange(img_hsv, lower_red, upper_red)
 

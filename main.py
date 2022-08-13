@@ -11,7 +11,12 @@ from utilities import generate_secret_bingo as gsb
 from utilities import wordle_cheat
 from utilities import scheduled_tasks
 from utilities.maps_solver import get_closest_match
-from utilities import webcam_photo, picam_photo
+
+try:
+    from utilities import webcam_photo, picam_photo
+except:
+    print("could not import picam module")
+
 import time
 import inspect
 import asyncio
@@ -372,8 +377,8 @@ class Bot(commands.Bot):
         await ctx.send(out)
 
     @commands.command(name='maps')
-    async def map_solver(ctx, *, expac):
-        """attempts to find the location of a treasure map image"""
+    async def map_solver(ctx, *, expac=""):
+        """attempts to find the location of a treasure map image. Give expansion for a limited search eg. $maps ew"""
         for attachment in ctx.message.attachments:
             filepath = "resources/images/maps/temp.png"
             await attachment.save(filepath)

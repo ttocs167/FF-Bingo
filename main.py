@@ -387,6 +387,18 @@ class Bot(commands.Bot):
         img = discord.File(best_match)
         await ctx.send("closest match: " + str(coords), file=img)
 
+    @commands.command(name='booba')
+    async def days_since_booba(ctx):
+        days = utils.booba()
+        await ctx.send("Days since last Booba: " + str(days))
+
+    @commands.command(name='resetbooba')
+    async def reset_booba_count(ctx):
+        utils.reset_booba()
+        await ctx.send("Booba reset")
+        days = utils.booba()
+        await ctx.send("Days since last Booba: " + str(days))
+    
     @set_status.error
     async def set_status_error(ctx, error):
         """Send this message if the setstatus command is called by non-Admin"""

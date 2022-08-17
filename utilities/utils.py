@@ -7,6 +7,7 @@ from difflib import SequenceMatcher
 
 riddle_answer_pairs = []
 current_riddle_answer = ""
+days_since_booba = 0
 
 
 def random_animal_emoji():
@@ -165,6 +166,15 @@ def random_wipe_reason(caller):
         return "_It was the **" + "<" + reason + ">" + "**_"
     output = "_It was the **" + reason + "**_"
     return output
+
+
+def booba():
+    return days_since_booba
+
+
+def reset_booba():
+    global days_since_booba
+    days_since_booba = 0
 
 
 def yolo_response(img_url):

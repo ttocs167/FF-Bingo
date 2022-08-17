@@ -398,7 +398,7 @@ class Bot(commands.Bot):
         await ctx.send("Booba reset")
         days = utils.booba()
         await ctx.send("Days since last Booba: " + str(days))
-    
+
     @set_status.error
     async def set_status_error(ctx, error):
         """Send this message if the setstatus command is called by non-Admin"""

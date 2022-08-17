@@ -2,8 +2,9 @@ import schedule
 import time
 import json
 import threading
-import utils
+from utilities import utils
 from utilities.wordle_cheat import save_user_data
+
 
 def run_continuously(interval=30):
     """Continuously run, while executing pending jobs at each

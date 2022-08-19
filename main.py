@@ -390,15 +390,15 @@ class Bot(commands.Bot):
     @commands.command(name='booba')
     async def days_since_booba(ctx):
         days = utils.booba()
-        await ctx.send("Days since last Booba: " + str(days))
+        await ctx.send("Days since last Booba: **" + str(days) + "**")
 
     @commands.command(name='resetbooba')
     async def reset_booba_count(ctx):
         days = utils.booba()
-        await ctx.send("Days since last Booba: " + str(days))
+        await ctx.send("It was **" + str(days) + "** days since last Booba")
         utils.reset_booba()
         await ctx.send("Booba reset")
-        await ctx.send("Days since last Booba: 0")
+        await ctx.send("Days since last Booba: **0**")
 
     @set_status.error
     async def set_status_error(ctx, error):

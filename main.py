@@ -402,6 +402,7 @@ class Bot(commands.Bot):
 
     @commands.command(name='role')
     async def give_role(ctx, *, role_name):
+        """Use this to give yourself a role! (can only gives roles lower rank than the bot."""
         user = ctx.message.author  # user
 
         # await ctx.send("""Attempting to Verify {}""".format(user))

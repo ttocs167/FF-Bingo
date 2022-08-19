@@ -4,10 +4,19 @@ import shutil
 import csv
 import requests
 from difflib import SequenceMatcher
+from datetime import datetime
+import shelve
 
 riddle_answer_pairs = []
 current_riddle_answer = ""
-days_since_booba = 0
+
+booba_db = shelve.open("booba.db")
+try:
+    time_of_last_booba = booba_db['booba']
+except:
+    time_of_last_booba = datetime.now()
+finally:
+    booba_db.close()
 
 
 def random_animal_emoji():
@@ -169,12 +178,21 @@ def random_wipe_reason(caller):
 
 
 def booba():
-    return days_since_booba
+    time_since_last_booba = datetime.now() - time_of_last_booba
+
+    days = time_since_last_booba.days
+    minutes = time_since_last_booba.seconds // 60
+    seconds = time_since_last_booba.seconds
+
+    return days, minutes, seconds
 
 
 def reset_booba():
-    global days_since_booba
-    days_since_booba = 0
+    s = shelve.open('booba.db')
+    try:
+        s['booba_time'] = {'datetime.datetime': datetime.now()}
+    finally:
+        s.close()
 
 
 def yolo_response(img_url):

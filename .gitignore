@@ -22,3 +22,9 @@ wordle_user_data.json
 resources/plant_images/
 
 utilities/hsv_colour_helper.py
+
+booba.db.bak
+
+booba.db.dat
+
+booba.db.dir

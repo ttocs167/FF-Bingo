@@ -389,16 +389,22 @@ class Bot(commands.Bot):
 
     @commands.command(name='booba')
     async def days_since_booba(ctx):
-        days = utils.booba()
-        await ctx.send("Days since last Booba: **" + str(days) + "**")
+        days, minutes, seconds = utils.booba()
+        await ctx.send("It has been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(days,
+                                                                                                             minutes,
+                                                                                                             seconds))
 
     @commands.command(name='resetbooba')
     async def reset_booba_count(ctx):
-        days = utils.booba()
-        await ctx.send("It was **" + str(days) + "** days since last Booba")
+        days, minutes, seconds = utils.booba()
+        await ctx.send("It had been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(days,
+                                                                                                             minutes,
+                                                                                                             seconds))
         utils.reset_booba()
         await ctx.send("Booba reset")
-        await ctx.send("Days since last Booba: **0**")
+        await ctx.send("It now has been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(0,
+                                                                                                                 0,
+                                                                                                                 0))
 
     @commands.command(name='role')
     async def give_role(ctx, *, role_name):

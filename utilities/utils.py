@@ -181,10 +181,11 @@ def booba():
     time_since_last_booba = datetime.now() - time_of_last_booba
 
     days = time_since_last_booba.days
+    hours = time_since_last_booba.seconds // 3600
     minutes = time_since_last_booba.seconds // 60
     seconds = time_since_last_booba.seconds % 60
 
-    return days, minutes, seconds
+    return days, hours, minutes, seconds
 
 
 def reset_booba():

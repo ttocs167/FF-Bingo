@@ -389,22 +389,19 @@ class Bot(commands.Bot):
 
     @commands.command(name='booba')
     async def days_since_booba(ctx):
-        days, minutes, seconds = utils.booba()
-        await ctx.send("It has been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(days,
-                                                                                                             minutes,
-                                                                                                             seconds))
+        days, hours, minutes, seconds = utils.booba()
+        await ctx.send("It has been **{}** Days, **{}** Hours,"
+                       " **{}** Minutes, and **{}** seconds since last booba".format(days, hours, minutes, seconds))
 
     @commands.command(name='resetbooba')
     async def reset_booba_count(ctx):
-        days, minutes, seconds = utils.booba()
-        await ctx.send("It had been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(days,
-                                                                                                             minutes,
-                                                                                                             seconds))
+        days, hours, minutes, seconds = utils.booba()
+        await ctx.send("It had been **{}** Days, **{}** Hours,"
+                       " **{}** Minutes, and **{}** seconds since last booba".format(days, hours, minutes, seconds))
         utils.reset_booba()
         await ctx.send("Booba reset")
-        await ctx.send("It now has been **{}** Days, **{}** Minutes, and **{}** seconds since last booba".format(0,
-                                                                                                                 0,
-                                                                                                                 0))
+        await ctx.send("It now has been **{}** Days, **{}** Hours,"
+                       " **{}** Minutes, and **{}** seconds since last booba".format(0, 0, 0, 0))
 
     @commands.command(name='role')
     async def give_role(ctx, *, role_name):

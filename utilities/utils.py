@@ -182,7 +182,7 @@ def booba():
 
     days = time_since_last_booba.days
     minutes = time_since_last_booba.seconds // 60
-    seconds = time_since_last_booba.seconds
+    seconds = time_since_last_booba.seconds % 60
 
     return days, minutes, seconds
 

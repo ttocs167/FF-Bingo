@@ -400,6 +400,18 @@ class Bot(commands.Bot):
         await ctx.send("Booba reset")
         await ctx.send("Days since last Booba: **0**")
 
+    @commands.command(name='role')
+    async def give_role(ctx, *, role_name):
+        user = ctx.message.author  # user
+
+        # await ctx.send("""Attempting to Verify {}""".format(user))
+        try:
+            await user.add_roles(discord.utils.get(user.guild.roles, name=role_name))  # add the role
+        except Exception as e:
+            await ctx.send('There was an error running this command ' + str(e))  # if error
+        else:
+            await ctx.send("""Giving Role: {} to user {}""".format(role_name, user))  # no errors, say verified
+
     @set_status.error
     async def set_status_error(ctx, error):
         """Send this message if the setstatus command is called by non-Admin"""

@@ -43,14 +43,9 @@ def reset_wordle_counts():
     save_user_data()
 
 
-def increment_booba():
-    utils.days_since_booba += 1
-
-
 async def start_scheduled_tasks():
     print("scheduling tasks...")
     stop_run_continuously = run_continuously()
 
 
 schedule.every().day.at("00:00").do(reset_wordle_counts)
-schedule.every().day.at("00:00").do(increment_booba)

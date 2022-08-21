@@ -190,11 +190,14 @@ def booba():
 
 
 def reset_booba():
+    global time_of_last_booba
     s = shelve.open('booba.db')
     try:
         s['booba_time'] = datetime.now()
+        time_of_last_booba = datetime.now()
     finally:
         s.close()
+
 
 
 def yolo_response(img_url):

@@ -12,7 +12,7 @@ current_riddle_answer = ""
 
 booba_db = shelve.open("booba.db")
 try:
-    time_of_last_booba = booba_db['booba']
+    time_of_last_booba = booba_db['booba_time']
 except:
     time_of_last_booba = datetime.now()
 finally:
@@ -191,7 +191,7 @@ def booba():
 def reset_booba():
     s = shelve.open('booba.db')
     try:
-        s['booba_time'] = {'datetime.datetime': datetime.now()}
+        s['booba_time'] = datetime.now()
     finally:
         s.close()
 

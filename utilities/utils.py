@@ -13,7 +13,8 @@ current_riddle_answer = ""
 booba_db = shelve.open("booba.db")
 try:
     time_of_last_booba = booba_db['booba_time']
-except:
+except KeyError:
+    print("no booba database found. Creating variable at datetime.now()")
     time_of_last_booba = datetime.now()
 finally:
     booba_db.close()

@@ -199,7 +199,6 @@ def reset_booba():
         s.close()
 
 
-
 def yolo_response(img_url):
     DETECTION_URL = "http://localhost:5000/v1/object-detection/yolov5s"
     response = requests.post(DETECTION_URL, json={"image_url": img_url})

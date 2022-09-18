@@ -15,8 +15,9 @@ class QotdCog(commands.Cog):
         guild = ctx.guild.id
         channel_id = ctx.channel.id
         await enable_qotd(channel_id)
+        await ctx.reply("Question of the day has been enabled in this channel!")
 
-    @tasks.loop(time=[datetime.time(22, 0, 0)])
+    @tasks.loop(time=[datetime.time(8, 0, 0)])
     async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
         question = get_todays_question()

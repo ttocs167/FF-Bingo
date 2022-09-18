@@ -10,7 +10,7 @@ def get_question_at_index(index):
         # Get all rows of csv from csv_reader object as list of tuples
         questions = list(csv_reader)
         num_questions = len(questions)
-        question = "**__" + questions[index % num_questions][0] + "__**"
+        question = "**_" + questions[index % num_questions][0] + "_**"
     return question
 
 

@@ -14,14 +14,14 @@ class QotdCog(commands.Cog):
         """Enable the question of the day message in the channel this command is sent"""
         channel_id = ctx.channel.id
         await enable_qotd(channel_id)
-        await ctx.reply("__Question of the day has been enabled in this channel!__")
+        await ctx.reply("_Question of the day has been enabled in this channel!_")
 
     @commands.command()
     async def disable_qotd(self, ctx: commands.Context):
         """disables the question of the day message in the channel this command is sent"""
         channel_id = ctx.channel.id
         await disable_qotd(channel_id)
-        await ctx.reply("__Question of the day has been disabled in this channel!__")
+        await ctx.reply("_Question of the day has been disabled in this channel!_")
 
     @tasks.loop(time=[datetime.time(11, 0, 0)])
     async def send_qotd(self):

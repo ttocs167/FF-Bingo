@@ -21,7 +21,18 @@ async def enable_qotd(channel_id):
         if channel_id not in channels:
             channels.append(channel_id)
             s['enabled_channels'] = channels
+    finally:
+        s.close()
+    return
 
+
+async def disable_qotd(channel_id):
+    s = shelve.open('qotd.db')
+    try:
+        channels = s['enabled_channels']
+        if channel_id in channels:
+            channels.remove(channel_id)
+            s['enabled_channels'] = channels
     finally:
         s.close()
     return

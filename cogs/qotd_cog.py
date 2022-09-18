@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, get_channels
+from utilities.qotd import enable_qotd, get_todays_question, get_channels, disable_qotd
 import datetime
 
 
@@ -12,12 +12,18 @@ class QotdCog(commands.Cog):
     @commands.command()
     async def enable_qotd(self, ctx: commands.Context):
         """Enable the question of the day message in the channel this command is sent"""
-        guild = ctx.guild.id
         channel_id = ctx.channel.id
         await enable_qotd(channel_id)
-        await ctx.reply("Question of the day has been enabled in this channel!")
+        await ctx.reply("__Question of the day has been enabled in this channel!__")
 
-    @tasks.loop(time=[datetime.time(8, 0, 0)])
+    @commands.command()
+    async def disable_qotd(self, ctx: commands.Context):
+        """disables the question of the day message in the channel this command is sent"""
+        channel_id = ctx.channel.id
+        await disable_qotd(channel_id)
+        await ctx.reply("__Question of the day has been disabled in this channel!__")
+
+    @tasks.loop(time=[datetime.time(11, 0, 0)])
     async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
         question = get_todays_question()

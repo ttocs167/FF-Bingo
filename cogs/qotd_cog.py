@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_question, get_channels
+from utilities.qotd import enable_qotd, get_todays_question, get_channels
 import datetime
 
 
@@ -19,7 +19,7 @@ class QotdCog(commands.Cog):
     @tasks.loop(time=[datetime.time(12, 2, 0)])
     async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
-        question = get_question()
+        question = get_todays_question()
         channel_ids = get_channels()
         for channel_id in channel_ids:
             channel = self.bot.get_channel(int(channel_id))

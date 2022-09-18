@@ -1,11 +1,11 @@
 import cv2
-from skimage.metrics import structural_similarity as ssim
+# from skimage.metrics import structural_similarity as ssim
 import glob
 import numpy as np
 import csv
 import os
-# import matplotlib.pyplot as plt
-from sewar.full_ref import mse
+import matplotlib.pyplot as plt
+from sewar.full_ref import ssim
 
 
 def get_closest_match(test_image_path, database):
@@ -13,15 +13,18 @@ def get_closest_match(test_image_path, database):
     test_image = cv2.imread(test_image_path)
 
     x, y = get_cross_location(test_image)
-    crop = crop_around_cross(test_image, x, y)
 
-    test_image = resize_image(crop)
+    test_image = crop_around_cross(test_image, x, y)
 
-    test_image = cv2.cvtColor(test_image, cv2.COLOR_BGR2GRAY)
+    test_image = resize_image(test_image)
 
-    # plt.figure()
-    # plt.imshow(test_image)
-    # plt.show()
+    # test_image = cv2.cvtColor(test_image, cv2.COLOR_BGR2GRAY)
+
+    # test_image = cv2.GaussianBlur(test_image, (3, 3), 0)
+    # _, test_image = cv2.threshold(test_image, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+
+    plt.figure()
+    plt.imshow(test_image)
 
     if database == "":
         possible_images = glob.glob("resources/images/maps/" + "sb" + "/*.png")\
@@ -30,22 +33,28 @@ def get_closest_match(test_image_path, database):
     else:
         possible_images = glob.glob("resources/images/maps/" + database + "/*.png")
 
-    max_sim = 99999999999999999999
+    max_sim = 0
     best_image_path = ""
 
     for image in possible_images:
         im = cv2.imread(image)
         im = resize_image(im)
-        im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+        # im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
-        # sim = ssim(im, test_image, data_range=255)
-        sim = mse(im, test_image)
+        # im = cv2.GaussianBlur(im, (3, 3), 0)
 
-        if sim < max_sim:
+        # sim = ssim(im, test_image, data_range=1)
+        sim, _ = ssim(im, test_image)
+
+        if sim > max_sim:
             max_sim = sim
             best_image_path = image
+            best_im = im
 
-    # print("similarity: " + str(max_sim))
+    plt.figure()
+    plt.imshow(best_im)
+    plt.show()
+    print("similarity: " + str(max_sim))
     coords = get_coords(os.path.basename(best_image_path)[:-4])
 
     return best_image_path, coords
@@ -71,6 +80,9 @@ def get_cross_location(image):
 
     # join my masks
     mask = mask0 + mask1
+
+    kernel = np.ones((3, 3), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
 
     # plt.figure()
     # plt.imshow(mask)

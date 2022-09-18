@@ -32,3 +32,9 @@ class QotdCog(commands.Cog):
             channel = self.bot.get_channel(int(channel_id))
             if channel is not None:
                 await channel.send(question)
+
+    @commands.command()
+    async def force_qotd(self, ctx: commands.Context):
+        """forces the question of the day to be sent in this channel"""
+        question = get_todays_question()
+        await ctx.reply(question)

@@ -6,7 +6,6 @@ from utilities import utils
 from utilities import generate_secret_bingo as gsb
 import requests
 from utilities import wordle_cheat
-from utilities.maps_solver import get_closest_match
 import json
 from utilities.wordle_cheat import save_user_data
 
@@ -211,18 +210,6 @@ class FunCog(commands.Cog):
                 " https://secure.square-enix.com/account/app/svc/ffxivregister?lng=en-gb"
 
         await ctx.send(pasta)
-
-    @commands.command(name='maps')
-    async def map_solver(self, ctx, *, expac=""):
-        """attempts to find the location of a treasure map image. Give expansion for a limited search eg. $maps ew"""
-        filepath = None
-        for attachment in ctx.message.attachments:
-            filepath = "resources/images/maps/temp.png"
-            await attachment.save(filepath)
-
-        best_match, coords = get_closest_match(filepath, expac)
-        img = discord.File(best_match)
-        await ctx.send("closest match: " + str(coords), file=img)
 
     @commands.command(name='booba')
     async def days_since_booba(self, ctx):

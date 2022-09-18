@@ -7,6 +7,7 @@ from cogs.bingo_cog import BingoCog
 from cogs.fun_cog import FunCog
 from cogs.admin_cog import AdminCog
 from cogs.qotd_cog import QotdCog
+from cogs.maps_cog import MapsCog
 
 
 class Bot(commands.Bot):
@@ -23,6 +24,7 @@ class Bot(commands.Bot):
         await self.add_cog(FunCog(bot))
         await self.add_cog(AdminCog(bot))
         await self.add_cog(QotdCog(bot))
+        await self.add_cog(MapsCog(bot))
 
     @staticmethod
     async def on_ready():

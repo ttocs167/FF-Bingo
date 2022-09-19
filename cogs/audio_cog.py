@@ -13,7 +13,7 @@ class AudioCog(commands.Cog):
         if voice_channel is not None:
             vc = await voice_channel.connect()
             print("playing voice clip: " + args)
-            vc.play(discord.FFmpegPCMAudio('resources/audio_clips/args.mp3'), after=lambda e: print('done', e))
+            vc.play(discord.FFmpegPCMAudio('resources/audio_clips/' + args + '.mp3'), after=lambda e: print('done', e))
             while vc.is_playing():
                 time.sleep(.1)
             await vc.disconnect()

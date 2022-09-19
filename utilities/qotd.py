@@ -42,7 +42,6 @@ def get_todays_question():
     s = shelve.open('qotd.db')
     try:
         todays_index = s['day_index']
-        s['day_index'] += 1
     except KeyError:
         s['day_index'] = 0
         todays_index = 0

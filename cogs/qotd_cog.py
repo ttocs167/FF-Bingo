@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 from utilities.qotd import enable_qotd, get_todays_question, get_channels, disable_qotd
 import datetime
+import shelve
 
 
 class QotdCog(commands.Cog):
@@ -26,6 +27,15 @@ class QotdCog(commands.Cog):
     @tasks.loop(time=[datetime.time(11, 0, 0)])
     async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
+
+        s = shelve.open('qotd.db')
+        try:
+            s['day_index'] += 1
+        except KeyError:
+            s['day_index'] = 0
+        finally:
+            s.close()
+
         question = get_todays_question()
         channel_ids = get_channels()
         for channel_id in channel_ids:
@@ -38,3 +48,13 @@ class QotdCog(commands.Cog):
         """forces the question of the day to be sent in this channel"""
         question = get_todays_question()
         await ctx.reply(question)
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def set_qotd(self, index: int):
+        s = shelve.open('qotd.db')
+        try:
+            s['day_index'] = index
+        finally:
+            s.close()
+

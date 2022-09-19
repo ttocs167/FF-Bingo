@@ -4,9 +4,9 @@ from datetime import datetime
 
 
 def get_question_at_index(index):
-    with open('./resources/qotd/questions.csv', 'r', encoding='utf-8') as read_obj:
+    with open('./resources/qotd/shuffled_questions.csv', 'r', encoding='utf-8') as read_obj:
         # pass the file object to reader() to get the reader object
-        csv_reader = csv.reader(read_obj)
+        csv_reader = csv.reader(read_obj, delimiter='\n')
         # Get all rows of csv from csv_reader object as list of tuples
         questions = list(csv_reader)
         num_questions = len(questions)

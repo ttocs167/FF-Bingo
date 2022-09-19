@@ -40,7 +40,6 @@ class AudioCog(commands.Cog):
 
     @commands.command(name='soundurl')
     async def play_sound_from_url(self, ctx: commands.Context, args):
-
         search = args
         ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                           'options': '-vn'}
@@ -62,7 +61,7 @@ class AudioCog(commands.Cog):
         html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search)
         video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
-        await ctx.send("https://www.youtube.com/watch?v=" + video_ids[0])
+        # await ctx.send("https://www.youtube.com/watch?v=" + video_ids[0])
 
         song = pafy.new(video_ids[0])  # creates a new pafy object
 
@@ -72,5 +71,8 @@ class AudioCog(commands.Cog):
                                         **ffmpeg_options)  # converts the youtube audio source into a source discord can use
 
         vc.play(source)  # play the source
+        while vc.is_playing():
+            time.sleep(.1)
+        await vc.disconnect()
 
 

@@ -39,9 +39,9 @@ class AudioCog(commands.Cog):
             await ctx.send(str(ctx.author.name) + "is not in a channel.")
 
     @commands.command(name='soundurl')
-    async def play_sound_from_url(self, ctx: commands.Context):
+    async def play_sound_from_url(self, ctx: commands.Context, args):
 
-        search = "morpheus tutorials discord bot python"
+        search = args
         ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                           'options': '-vn'}
 

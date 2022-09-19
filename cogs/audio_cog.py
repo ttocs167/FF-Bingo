@@ -1,14 +1,18 @@
 import discord
 from discord.ext import commands
 import time
+from os.path import exists
 
 
 class AudioCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command(name="sound")
     async def play_soundbite(self, ctx: commands.Context, args):
+
+        if not exists('resources/audio_clips/' + args + '.mp3'):
+            return
 
         if ctx.message.author.voice is None:
             await ctx.send("You need to be in a voice channel to use this command!")

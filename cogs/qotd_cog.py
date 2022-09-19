@@ -51,7 +51,7 @@ class QotdCog(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def set_qotd(self, index: int):
+    async def set_qotd(self, ctx: commands.Context, index: int):
         s = shelve.open('qotd.db')
         try:
             s['day_index'] = index

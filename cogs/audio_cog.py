@@ -9,6 +9,11 @@ class AudioCog(commands.Cog):
 
     @commands.command()
     async def play_soundbite(self, ctx: commands.Context, args):
+
+        if ctx.message.author.voice is None:
+            await ctx.send("You need to be in a voice channel to use this command!")
+            return
+
         voice_channel = ctx.author.voice.channel
         if voice_channel is not None:
             vc = await voice_channel.connect()

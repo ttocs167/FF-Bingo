@@ -8,6 +8,7 @@ from cogs.fun_cog import FunCog
 from cogs.admin_cog import AdminCog
 from cogs.qotd_cog import QotdCog
 from cogs.maps_cog import MapsCog
+from cogs.audio_cog import AudioCog
 
 
 class Bot(commands.Bot):
@@ -25,6 +26,7 @@ class Bot(commands.Bot):
         await self.add_cog(AdminCog(bot))
         await self.add_cog(QotdCog(bot))
         await self.add_cog(MapsCog(bot))
+        await self.add_cog(AudioCog(bot))
 
     @staticmethod
     async def on_ready():

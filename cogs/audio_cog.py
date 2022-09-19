@@ -26,7 +26,8 @@ class AudioCog(commands.Cog):
                 await ctx.reply("connection to voice channel timed out")
                 return
             print("playing voice clip: " + args)
-            vc.play(discord.FFmpegPCMAudio('resources/audio_clips/' + args + '.mp3'), after=lambda e: print('done', e))
+            vc.play(discord.FFmpegPCMAudio('resources/audio_clips/' + args + '.mp3', options="volume=0.5"),
+                    after=lambda e: print('done', e))
             while vc.is_playing():
                 time.sleep(.1)
             await vc.disconnect()

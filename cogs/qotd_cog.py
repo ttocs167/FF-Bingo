@@ -24,8 +24,8 @@ class QotdCog(commands.Cog):
         await disable_qotd(channel_id)
         await ctx.reply("_Question of the day has been disabled in this channel!_")
 
-    @tasks.loop(time=[datetime.time(15, 28, 0)])
-    async def send_qotd(self, ctx: commands.Context):
+    @tasks.loop(time=[datetime.time(15, 30, 0)])
+    async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
 
         s = shelve.open('qotd.db')
@@ -42,7 +42,7 @@ class QotdCog(commands.Cog):
             s['old_pin_ids'] = []
 
         for pin_id in old_pin_ids:
-            old_message = await ctx.fetch_message(pin_id)
+            old_message = await self.bot.fetch_message(pin_id)
             await old_message.unpin()
 
         question = get_todays_question(s)

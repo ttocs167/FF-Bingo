@@ -24,7 +24,7 @@ class QotdCog(commands.Cog):
         await disable_qotd(channel_id)
         await ctx.reply("_Question of the day has been disabled in this channel!_")
 
-    @tasks.loop(time=[datetime.time(11, 0, 0)])
+    @tasks.loop(time=[datetime.time(15, 28, 0)])
     async def send_qotd(self, ctx: commands.Context):
         """sends the question of the day to the enabled servers every day at UTC time"""
 

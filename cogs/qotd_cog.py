@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, get_channels, disable_qotd
+from utilities.qotd import enable_qotd, get_todays_question, disable_qotd
 import datetime
 import shelve
 

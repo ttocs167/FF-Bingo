@@ -38,22 +38,13 @@ async def disable_qotd(channel_id):
     return
 
 
-def get_todays_question():
-    s = shelve.open('qotd.db')
+def get_todays_question(s):
+
     try:
         todays_index = s['day_index']
     except KeyError:
         s['day_index'] = 0
         todays_index = 0
-    finally:
-        s.close()
 
     question = get_question_at_index(todays_index)
     return question
-
-
-def get_channels():
-    s = shelve.open('qotd.db')
-    channels = s['enabled_channels']
-    s.close()
-    return channels

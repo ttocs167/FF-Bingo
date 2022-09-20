@@ -45,8 +45,8 @@ class QotdCog(commands.Cog):
             old_message = await ctx.fetch_message(pin_id)
             await old_message.unpin()
 
-        question = get_todays_question()
-        channel_ids = get_channels()
+        question = get_todays_question(s)
+        channel_ids = s['enabled_channels']
         for channel_id in channel_ids:
             channel = self.bot.get_channel(int(channel_id))
             if channel is not None:

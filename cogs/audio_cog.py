@@ -38,11 +38,16 @@ class AudioCog(commands.Cog):
         else:
             await ctx.send(str(ctx.author.name) + "is not in a channel.")
 
+    @commands.command()
+    async def soundlist(self, ctx: commands.Context):
+
+        return NotImplementedError
+
     @commands.command(name='soundurl')
     async def play_sound_from_url(self, ctx: commands.Context, args):
         search = args
         ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-                          'options': '-vn'}
+                          'options': '-vn -filter:a "volume=0.5"'}
 
         if ctx.message.author.voice is None:
             await ctx.send("You need to be in a voice channel to use this command!")

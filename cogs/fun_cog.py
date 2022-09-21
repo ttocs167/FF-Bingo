@@ -8,6 +8,7 @@ import requests
 from utilities import wordle_cheat
 import json
 from utilities.wordle_cheat import save_user_data
+import random
 
 try:
     from utilities import webcam_photo, picam_photo
@@ -126,9 +127,74 @@ class FunCog(commands.Cog):
 
     @commands.command(hidden=True)
     async def frog(self, ctx):
-        """sends frog emote!"""
-        frog = "🐸"
-        await ctx.reply(frog)
+        """🐸"""
+        button = discord.ui.Button(emoji="🐸", style=discord.ButtonStyle.blurple)
+
+        async def frog_callback(interaction: discord.Interaction):
+            await interaction.response.send_message("🐸")
+
+        button.callback = frog_callback
+
+        view = discord.ui.View(timeout=None)
+        view.add_item(button)
+
+        await ctx.send(view=view)
+
+    @commands.command(hidden=True)
+    async def legend(self, ctx):
+        button = discord.ui.Button(emoji="<:legend:1003796537748504677>", style=discord.ButtonStyle.blurple)
+
+        async def legend_callback(interaction: discord.Interaction):
+            await interaction.response.send_message("<:legend:1003796537748504677>")
+
+        button.callback = legend_callback
+
+        view = discord.ui.View(timeout=None)
+        view.add_item(button)
+
+        await ctx.send(view=view)
+
+    @commands.command()
+    async def raffle(self, ctx: commands.Context):
+        author = ctx.author
+        entries = []
+
+        enter_button = discord.ui.Button(label=">enter raffle<", emoji="🎟",
+                                         style=discord.ButtonStyle.blurple)
+
+        draw_button = discord.ui.Button(label=">finish raffle<", emoji="✅",
+                                        style=discord.ButtonStyle.grey)
+
+        async def enter_raffle(interaction: discord.Interaction):
+            if interaction.user not in entries:
+                entries.append(interaction.user)
+                await interaction.response.send_message("{} entered the raffle".format(interaction.user.mention))
+            else:
+                await interaction.response.send_message("You cannot enter the raffle twice", ephemeral=True)
+                return
+
+        async def finalise_raffle(interaction: discord.Interaction):
+            if interaction.user != author:
+                await interaction.response.send_message("Only the author can finalise the raffle", ephemeral=True)
+                return
+            elif len(entries) == 0:
+                await interaction.response.send_message("Nobody has entered the raffle yet", ephemeral=True)
+            else:
+                winner = random.choice(entries)
+                await interaction.response.send_message("🎉 {} has won the raffle! 🎉".format(winner.mention))
+
+                enter_button.disabled = True
+                draw_button.disabled = True
+                await raffle.edit(view=view)
+
+        enter_button.callback = enter_raffle
+        draw_button.callback = finalise_raffle
+
+        view = discord.ui.View(timeout=None)
+        view.add_item(enter_button)
+        view.add_item(draw_button)
+
+        raffle = await ctx.send(view=view)
 
     @commands.command()
     async def animal(self, ctx: commands.Context):

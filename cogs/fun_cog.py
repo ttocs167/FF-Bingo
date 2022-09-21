@@ -237,9 +237,9 @@ class FunCog(commands.Cog):
 
     @commands.command(name="plant", hidden=False)
     async def webcam_image(self, ctx):
-
-        image_path = await picam_photo.take_image()
-        img = discord.File(image_path)
+        async with ctx.channel.typing():
+            image_path = await picam_photo.take_image()
+            img = discord.File(image_path)
         await ctx.reply("", file=img)
 
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:

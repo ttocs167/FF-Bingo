@@ -15,7 +15,7 @@ class AudioCog(commands.Cog):
 
     @commands.hybrid_command(name="sound")
     async def play_soundbite(self, ctx: commands.Context, args):
-
+        """plays a soundbite in the current channel you're in."""
         if not exists('resources/audio_clips/' + args + '.mp3'):
             return
 
@@ -42,6 +42,7 @@ class AudioCog(commands.Cog):
 
     @commands.hybrid_command()
     async def soundlist(self, ctx: commands.Context):
+        """Lists the available soundbites to play with the /sound command."""
         available_files = glob.glob('resources/audio_clips/*.mp3')
         filenames = []
         for filename in available_files:

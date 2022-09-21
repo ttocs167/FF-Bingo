@@ -41,15 +41,16 @@ class BingoCog(commands.Cog):
         time_since_last_bingo = time.time() - self.time_of_last_bingo
 
         if time_since_last_bingo > 0.5:
-            img = discord.File('output_folder/' + str(ctx.guild) + '/output_' + str(self.rolling_index) + '.jpg')
-            await ctx.reply(utils.random_animal_emoji(), file=img)
+            async with ctx.channel.typing():
+                img = discord.File('output_folder/' + str(ctx.guild) + '/output_' + str(self.rolling_index) + '.jpg')
+                await ctx.reply(utils.random_animal_emoji(), file=img)
 
-            await regenerate_images(self.rolling_index, str(ctx.guild))
+                await regenerate_images(self.rolling_index, str(ctx.guild))
 
-            print('image generated for ' + str(ctx.guild))
+                print('image generated for ' + str(ctx.guild))
 
-            self.rolling_index = (self.rolling_index + 1) % 5
-            self.time_of_last_bingo = time.time()
+                self.rolling_index = (self.rolling_index + 1) % 5
+                self.time_of_last_bingo = time.time()
 
         else:
             print("bingo command recieved in " + str(ctx.guild) + " too soon to generate!")
@@ -81,15 +82,16 @@ class BingoCog(commands.Cog):
         print(time_since_last_bingo)
 
         if time_since_last_bingo > 0.5:
-            img = discord.File('output_folder/' + str(ctx.guild) + '/big_output_' + str(self.rolling_index) + '.jpg')
-            await ctx.reply(utils.random_animal_emoji(), file=img)
+            async with ctx.channel.typing():
+                img = discord.File('output_folder/' + str(ctx.guild) + '/big_output_' + str(self.rolling_index) + '.jpg')
+                await ctx.reply(utils.random_animal_emoji(), file=img)
 
-            await regenerate_big_images(self.rolling_index, str(ctx.guild))
+                await regenerate_big_images(self.rolling_index, str(ctx.guild))
 
-            print('Big image generated for ' + str(ctx.guild))
+                print('Big image generated for ' + str(ctx.guild))
 
-            self.rolling_index = (self.rolling_index + 1) % 5
-            self.time_of_last_bingo = time.time()
+                self.rolling_index = (self.rolling_index + 1) % 5
+                self.time_of_last_bingo = time.time()
 
         else:
             print("Big bingo command recieved in " + str(ctx.guild) + " too soon to generate!")
@@ -97,13 +99,15 @@ class BingoCog(commands.Cog):
     @commands.command()
     async def refresh(self, ctx: commands.Context):
         """Regenerate all images. Called automatically on list change"""
-        await regenerate_all_images(str(ctx.guild))
+        async with ctx.channel.typing():
+            await regenerate_all_images(str(ctx.guild))
         await ctx.send("Cards refreshed!")
 
     @commands.command()
     async def bigrefresh(self, ctx: commands.Context):
         """regenerate all big images"""
-        await regenerate_all_big_images(str(ctx.guild))
+        async with ctx.channel.typing():
+            await regenerate_all_big_images(str(ctx.guild))
         await ctx.send("Big Cards refreshed!")
 
     @commands.command()

@@ -47,7 +47,7 @@ class AudioCog(commands.Cog):
         for filename in available_files:
             filenames.append(os.path.basename(filename)[:-4])
 
-        out = '\n'.join(filenames)
+        out = '\n'.join(sorted(filenames))
         await ctx.reply(out)
 
     @commands.command(name='soundurl')

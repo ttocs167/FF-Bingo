@@ -5,6 +5,8 @@ from os.path import exists
 import urllib
 import re
 import pafy
+import glob
+import os
 
 
 class AudioCog(commands.Cog):
@@ -40,8 +42,13 @@ class AudioCog(commands.Cog):
 
     @commands.command()
     async def soundlist(self, ctx: commands.Context):
+        available_files = glob.glob('resources/audio_clips/*.mp3')
+        filenames = []
+        for filename in available_files:
+            filenames.append(os.path.basename(filename)[:-4])
 
-        return NotImplementedError
+        out = '\n'.join(filenames)
+        await ctx.reply(out)
 
     @commands.command(name='soundurl')
     async def play_sound_from_url(self, ctx: commands.Context, args):

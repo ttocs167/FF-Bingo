@@ -34,6 +34,7 @@ class Bot(commands.Bot):
         print(bot.user.name)
         print(bot.user.id)
         print('------')
+        await bot.tree.sync()  # this enables slash commands to appear
 
     async def on_message(self, message):
         """Called every time a message is received. Checks if the server is new, if so folders and lists are created"""
@@ -72,6 +73,7 @@ bot = Bot()
 #         bot.send_qotd.start(bot)
 #         # send_questions.start(bot)
 #         await bot.start(os.getenv('BINGO_BOT_TOKEN'))
+
 
 bot.run(os.getenv('BINGO_BOT_TOKEN'))
 

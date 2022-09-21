@@ -13,7 +13,7 @@ class AudioCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="sound")
+    @commands.hybrid_command(name="sound")
     async def play_soundbite(self, ctx: commands.Context, args):
 
         if not exists('resources/audio_clips/' + args + '.mp3'):
@@ -40,7 +40,7 @@ class AudioCog(commands.Cog):
         else:
             await ctx.send(str(ctx.author.name) + "is not in a channel.")
 
-    @commands.command()
+    @commands.hybrid_command()
     async def soundlist(self, ctx: commands.Context):
         available_files = glob.glob('resources/audio_clips/*.mp3')
         filenames = []
@@ -50,7 +50,7 @@ class AudioCog(commands.Cog):
         out = '\n'.join(sorted(filenames))
         await ctx.reply(out)
 
-    @commands.command(name='soundurl')
+    @commands.command(name='soundurl', hidden=True)
     async def play_sound_from_url(self, ctx: commands.Context, args):
         search = args
         ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',

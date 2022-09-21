@@ -24,7 +24,7 @@ class QotdCog(commands.Cog):
         await disable_qotd(channel_id)
         await ctx.reply("_Question of the day has been disabled in this channel!_")
 
-    @tasks.loop(time=[datetime.time(11, 17, 0)])
+    @tasks.loop(time=[datetime.time(11, 20, 0)])
     async def send_qotd(self):
         """sends the question of the day to the enabled servers every day at UTC time"""
 
@@ -48,8 +48,11 @@ class QotdCog(commands.Cog):
             channel = self.bot.get_channel(int(channel_id))
             if channel is not None:
                 for pin_id in old_pin_ids:
-                    old_message = await channel.fetch_message(pin_id)
-                    await old_message.unpin()
+                    try:
+                        old_message = await channel.fetch_message(pin_id)
+                        await old_message.unpin()
+                    except discord.errors.NotFound:
+                        print("oopsie FIX THIS LATER DUMMY")
                 msg = await channel.send(question)
                 await msg.pin()
                 new_pin_ids.append(msg.id)

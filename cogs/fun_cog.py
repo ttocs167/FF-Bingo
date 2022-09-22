@@ -145,19 +145,23 @@ class FunCog(commands.Cog):
     async def legend(self, ctx):
         button = discord.ui.Button(emoji="<:legend:1003796537748504677>", style=discord.ButtonStyle.blurple)
 
-        clives = ["<:cliveHeart:963175818761212025>", "<:cliveBlush:900139281186689024>",
-                  "<:cliveWeird:925224702669103104>", "<:cliveEvil:971499391288479804>",
-                  "<:cliveCool:948872159646875678>", "<:cliveGoblin:1011346827381055619>",
-                  "<:cliveParty:939589378785828934>", "<:cliveQueen2:1017485608446333030>",
-                  "<:cliveFingerGuns:971499391263338536>", "<:cliveHeart:1003795882229112934>",
-                  "<:cliveClown:971499391393341473>", "<:cliveCopium:945748354762178600>",
-                  "<:cliveCowboy:987061799176257536>", "<:cliveCry:1002699372036890664>",
-                  "<:cliveDoubt:987140983277907988>", "<:cliveFingerGuns:910325835544805420>",
-                  "<:cliveGun:939588554231783454>", "<:cliveHuh:910328100364103711>",
-                  "<:clivePeek:933929444454842518>", "<:clivePing:984822832007643140>",
-                  "<:cliveRage:908026878445633637>", "<:cliveShy:914303922292789248>",
-                  "<:cliveSleep:974105715314688000>", "<:cliveThink:897266288630562816>",
-                  "<:cliveWizard:942812410853593118>", "<:cliveSimp:986294773864362005>"]
+        clives = ["<:cliveParty:939589378785828934>",
+                  "<:cliveClown:950563664971329566>",
+                  "<:cliveCool:948872198922321931>",
+                  "<:cliveCopium:945748416959492117>",
+                  "<:cliveCry:914303922095685743>",
+                  "<:cliveFingerGuns:914303921818828801>",
+                  "<:cliveGun:939588984160542790>",
+                  "<:cliveHuh:914303922154385448>",
+                  "<:clivePeek:939588984378650664>",
+                  "<:cliveRage:914303922175352862>",
+                  "<:cliveShy:914303922292789248>",
+                  "<:cliveThink:914303922171166800>",
+                  "<:cliveWizard:942812467132784672>",
+                  "<:cliveEvil:939588984105992272>",
+                  "<:legend:1003796537748504677>",
+                  "<:grr:1003796966976782467>"
+                  ]
 
         async def legend_callback(interaction: discord.Interaction):
             print(interaction.user)

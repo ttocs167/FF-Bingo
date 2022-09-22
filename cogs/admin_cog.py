@@ -24,3 +24,12 @@ class AdminCog(commands.Cog):
         """returns the name of the guild this command was used in"""
         current_guild = str(ctx.guild)
         await ctx.reply(current_guild)
+
+    @commands.command(pass_context=True)
+    @commands.is_owner()
+    async def clean_messages(self, ctx: commands.Context):
+        def is_bot(m):
+            return m.author == self.bot.user
+
+        deleted = await ctx.channel.purge(limit=100, check=is_bot)
+        await ctx.channel.send(f'Deleted {len(deleted)} message(s)')

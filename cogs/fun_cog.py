@@ -131,6 +131,7 @@ class FunCog(commands.Cog):
         button = discord.ui.Button(emoji="🐸", style=discord.ButtonStyle.blurple)
 
         async def frog_callback(interaction: discord.Interaction):
+            print(interaction.user)
             await interaction.response.send_message("🐸")
 
         button.callback = frog_callback
@@ -145,6 +146,7 @@ class FunCog(commands.Cog):
         button = discord.ui.Button(emoji="<:legend:1003796537748504677>", style=discord.ButtonStyle.blurple)
 
         async def legend_callback(interaction: discord.Interaction):
+            print(interaction.user)
             await interaction.response.send_message("<:legend:1003796537748504677>")
 
         button.callback = legend_callback

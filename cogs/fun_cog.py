@@ -149,15 +149,15 @@ class FunCog(commands.Cog):
                   "<:cliveWeird:925224702669103104>", "<:cliveEvil:971499391288479804>",
                   "<:cliveCool:948872159646875678>", "<:cliveGoblin:1011346827381055619>",
                   "<:cliveParty:939589378785828934>", "<:cliveQueen2:1017485608446333030>",
-                  "<:cliveFingerGuns:971499391263338536>" , "<:cliveHeart:1003795882229112934>",
+                  "<:cliveFingerGuns:971499391263338536>", "<:cliveHeart:1003795882229112934>",
                   "<:cliveClown:971499391393341473>", "<:cliveCopium:945748354762178600>",
-                  "<:cliveCowboy: 987061799176257536 >", "<:cliveCry: 1002699372036890664 >",
-                  "<:cliveDoubt: 987140983277907988 >", "<:cliveFingerGuns: 910325835544805420 >",
-                  "<:cliveGun: 939588554231783454 >", "<:cliveHuh: 910328100364103711 >",
-                  "<:clivePeek: 933929444454842518 >", "<:clivePing: 984822832007643140>",
-                  "<:cliveRage: 908026878445633637>", "<:cliveShy: 914303922292789248>",
-                  "<:cliveSleep: 974105715314688000>", "<:cliveThink: 897266288630562816>",
-                  "<:cliveWizard: 942812410853593118>", "<:cliveSimp: 986294773864362005>"]
+                  "<:cliveCowboy:987061799176257536>", "<:cliveCry:1002699372036890664>",
+                  "<:cliveDoubt:987140983277907988>", "<:cliveFingerGuns:910325835544805420>",
+                  "<:cliveGun:939588554231783454>", "<:cliveHuh:910328100364103711>",
+                  "<:clivePeek:933929444454842518>", "<:clivePing:984822832007643140>",
+                  "<:cliveRage:908026878445633637>", "<:cliveShy:914303922292789248>",
+                  "<:cliveSleep:974105715314688000>", "<:cliveThink:897266288630562816>",
+                  "<:cliveWizard:942812410853593118>", "<:cliveSimp:986294773864362005>"]
 
         async def legend_callback(interaction: discord.Interaction):
             print(interaction.user)

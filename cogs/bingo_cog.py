@@ -162,7 +162,7 @@ class BingoCog(commands.Cog):
 
     @commands.command(name='fullrefresh', hidden=True)
     @commands.is_owner()
-    async def full_refresh_all_servers(self):
+    async def full_refresh_all_servers(self, ctx: commands.Context):
         """Refreshes all cards on all servers."""
         for guild_name in self.bot.guilds:
             await regenerate_all_images(str(guild_name))

@@ -8,11 +8,17 @@ import re
 import pafy
 import glob
 import os
+import queue
 
 
 class AudioCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.Q = queue.Queue()
+        self.vc = None
+        self.source = None
+        self.paused = False
+        self.skip = False
 
     @commands.hybrid_command(name="sound")
     async def play_soundbite(self, ctx: commands.Context, args):
@@ -25,6 +31,11 @@ class AudioCog(commands.Cog):
             return
 
         voice_channel = ctx.author.voice.channel
+
+        if self.vc is not None and self.vc.is_playing():
+            await ctx.reply("The bot is already playing audio!", ephemeral=True)
+            return
+
         if voice_channel is not None:
             try:
                 vc = await voice_channel.connect()
@@ -52,9 +63,23 @@ class AudioCog(commands.Cog):
         out = '\n'.join(sorted(filenames))
         await ctx.reply(out)
 
-    @commands.command(name='soundurl', hidden=True)
-    async def play_sound_from_url(self, ctx: commands.Context, args):
-        search = args
+    @commands.command(name="addsong")
+    async def queue_song(self, ctx: commands.Context, *, args):
+        """Adds a song via YouTube url or search to the queue"""
+        search = args.replace(" ", "+")
+
+        html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search)
+        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+
+        first_result = video_ids[0]
+
+        self.Q.put(first_result)
+
+        await ctx.reply("Added new video to queue: " + "https://www.youtube.com/watch?v=" + first_result)
+
+    @commands.command(name='playsongs', hidden=True)
+    async def play_queue(self, ctx: commands.Context):
+
         ffmpeg_options = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                           'options': '-vn -filter:a "volume=0.5"'}
 
@@ -63,30 +88,59 @@ class AudioCog(commands.Cog):
             return
 
         voice_channel = ctx.author.voice.channel
-        if voice_channel is not None:
+        if voice_channel is not None and not self.Q.empty():
             try:
-                vc = await voice_channel.connect()
+                self.vc = await voice_channel.connect()
             except TimeoutError:
                 await ctx.reply("connection to voice channel timed out")
                 return
 
-        search = search.replace(" ", "+")
+        def play_from_queue():
+            video_id = self.Q.get()
 
-        html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search)
-        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+            song = pafy.new(video_id)  # creates a new pafy object
 
-        # await ctx.send("https://www.youtube.com/watch?v=" + video_ids[0])
+            audio = song.getbestaudio()  # gets an audio source
 
-        song = pafy.new(video_ids[0])  # creates a new pafy object
+            # converts the youtube audio source into a source discord can use
+            self.source = discord.FFmpegPCMAudio(audio.url, **ffmpeg_options)
+            self.vc.play(self.source)  # play the source
 
-        audio = song.getbestaudio()  # gets an audio source
+        while not self.Q.empty():
+            self.skip = False
+            play_from_queue()
 
-        source = discord.FFmpegPCMAudio(audio.url,
-                                        **ffmpeg_options)  # converts the youtube audio source into a source discord can use
+            while self.vc.is_playing() or self.paused:
+                if self.skip:
+                    break
+                await asyncio.sleep(.1)
 
-        vc.play(source)  # play the source
-        while vc.is_playing():
-            await asyncio.sleep(.1)
-        await vc.disconnect()
+        if self.vc is not None and not self.paused:
+            await self.vc.disconnect()
 
+    @commands.command()
+    async def kick_bot(self, ctx: commands.Context):
+        """removes the bot from the channel and empties the song queue"""
+        self.vc.stop()
+        self.paused = False
+        self.Q.queue.clear()
+        await self.vc.disconnect()
 
+    @commands.command()
+    async def pause(self, ctx: commands.Context):
+        """pauses the currently playing audio"""
+        if self.vc is not None:
+            if self.vc.is_playing():
+                self.paused = True
+                self.vc.pause()
+            else:
+                self.paused = False
+                self.vc.play(self.source)
+
+    @commands.command()
+    async def skip(self, ctx: commands.Context):
+        """skips the current playing song"""
+        if self.vc is not None:
+            self.vc.pause()
+            self.skip = True
+            self.paused = False

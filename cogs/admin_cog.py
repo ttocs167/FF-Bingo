@@ -25,9 +25,10 @@ class AdminCog(commands.Cog):
         current_guild = str(ctx.guild)
         await ctx.reply(current_guild)
 
-    @commands.command(pass_context=True)
+    @commands.command(pass_context=True, hidden=True)
     @commands.is_owner()
     async def clean_messages(self, ctx: commands.Context):
+        """clears the last 100 messages from the bot in the channel this is sent in"""
         def is_bot(m):
             return m.author == self.bot.user
 

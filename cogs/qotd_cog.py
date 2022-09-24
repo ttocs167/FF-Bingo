@@ -66,7 +66,9 @@ class QotdCog(commands.Cog):
     @commands.command()
     async def force_qotd(self, ctx: commands.Context):
         """forces the question of the day to be sent in this channel"""
-        question = get_todays_question()
+        s = shelve.open('qotd.db')
+        question = get_todays_question(s)
+        s.close()
         await ctx.reply(question)
 
     @commands.command(hidden=True)

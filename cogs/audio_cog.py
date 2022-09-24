@@ -51,6 +51,7 @@ class AudioCog(commands.Cog):
             await vc.disconnect()
         else:
             await ctx.send(str(ctx.author.name) + "is not in a channel.")
+        return
 
     @commands.hybrid_command()
     async def soundlist(self, ctx: commands.Context):

@@ -80,11 +80,12 @@ class QotdCog(commands.Cog):
         finally:
             s.close()
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
-    async def pin_test(self, ctx: commands.Context):
-        msg = await ctx.send("this message is pinned")
-        await msg.pin()
-        print(msg.id)
-
+    async def increment_qotd(self, ctx: commands.Context):
+        s = shelve.open('qotd.db')
+        try:
+            s['day_index'] += 1
+        finally:
+            s.close()
 

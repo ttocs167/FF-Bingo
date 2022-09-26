@@ -160,7 +160,8 @@ class FunCog(commands.Cog):
                   "<:cliveWizard:942812467132784672>",
                   "<:cliveEvil:939588984105992272>",
                   "<:legend:1003796537748504677>",
-                  "<:grr:1003796966976782467>"
+                  "<:grr:1003796966976782467>",
+                  "<:gremlin:1009824312708059317>"
                   ]
 
         async def legend_callback(interaction: discord.Interaction):

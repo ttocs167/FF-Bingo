@@ -11,6 +11,19 @@ import os
 import queue
 
 
+def youtube_url_validation(url):
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+
+    youtube_regex_match = re.match(youtube_regex, url)
+    if youtube_regex_match:
+        return youtube_regex_match
+
+    return youtube_regex_match
+
+
 class AudioCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -51,7 +64,8 @@ class AudioCog(commands.Cog):
             await vc.disconnect()
         else:
             await ctx.send(str(ctx.author.name) + "is not in a channel.")
-        return
+        if ctx.interaction:
+            await ctx.interaction.response.send_message("sound sent!", ephemeral=True)
 
     @commands.hybrid_command()
     async def soundlist(self, ctx: commands.Context):
@@ -62,21 +76,28 @@ class AudioCog(commands.Cog):
             filenames.append(os.path.basename(filename)[:-4])
 
         out = '\n'.join(sorted(filenames))
-        await ctx.reply(out)
+        if ctx.interaction:
+            await ctx.interaction.response.send_message(out, ephemeral=True)
+        else:
+            await ctx.reply(out)
 
     @commands.command(name="addsong")
     async def queue_song(self, ctx: commands.Context, *, args):
         """Adds a song via YouTube url or search to the queue"""
         search = args.replace(" ", "+")
 
-        html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search)
+        if youtube_url_validation(search):
+            html = urllib.request.urlopen(search)
+        else:
+            html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search)
         video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
 
         first_result = video_ids[0]
 
         self.Q.put(first_result)
-
-        await ctx.reply("Added new video to queue: " + "https://www.youtube.com/watch?v=" + first_result)
+        await ctx.message.edit(suppress=True)
+        await ctx.reply("{} Added new video to queue: https://www.youtube.com/watch?v={}".format(ctx.author.mention,
+                                                                                                 first_result))
 
     @commands.command(name='playsongs', hidden=True)
     async def play_queue(self, ctx: commands.Context):
@@ -106,10 +127,12 @@ class AudioCog(commands.Cog):
             # converts the youtube audio source into a source discord can use
             self.source = discord.FFmpegPCMAudio(audio.url, **ffmpeg_options)
             self.vc.play(self.source)  # play the source
+            return video_id
 
         while not self.Q.empty():
             self.skip = False
-            play_from_queue()
+            video_id = play_from_queue()
+            await ctx.send("now playing: {}".format(video_id))
 
             while self.vc.is_playing() or self.paused:
                 if self.skip:

@@ -10,8 +10,8 @@ class UtilCog(commands.Cog):
 
     @commands.command(aliases=["reminders", "reminder", "remindme"])
     async def remind(self, ctx: commands.Context, time_string, *reminder_text):
-        print(time_string)
-        print(reminder_text)
+        """Bingobot will @ you in the channel this is used after the time specified.
+         uses s, m , h, d... to format time"""
         reminder_text = ' '.join(reminder_text)
         time_string = time_string.lower()
 

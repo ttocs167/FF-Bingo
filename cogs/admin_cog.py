@@ -9,6 +9,8 @@ class AdminCog(commands.Cog):
     @commands.command(name='role')
     async def give_role(self, ctx: commands.Context, *, role_name):
         """Use this to give yourself a role! (can only gives roles lower rank than the bot."""
+        if ctx.guild is None:
+            return
         user = ctx.message.author  # user
 
         # await ctx.send("""Attempting to Verify {}""".format(user))

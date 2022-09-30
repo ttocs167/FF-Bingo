@@ -52,6 +52,9 @@ class Bot(commands.Bot):
             await bot.process_commands(message)
         elif str(message.content).lower().startswith("i love you"):
             await message.reply("<3")
+            await bot.process_commands(message)
+        if str(message.content).lower().startswith("good bot"):
+            await message.reply(":robot::heart:")
 
 
 if not os.path.isdir("lists/"):

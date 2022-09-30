@@ -38,6 +38,8 @@ class BingoCog(commands.Cog):
     @commands.command()
     async def bingo(self, ctx: commands.Context):
         """Sends pre-generated bingo card as reply to command"""
+        if ctx.guild is None:
+            return
         time_since_last_bingo = time.time() - self.time_of_last_bingo
 
         if time_since_last_bingo > 0.5:
@@ -58,6 +60,8 @@ class BingoCog(commands.Cog):
     @commands.command()
     async def add(self, ctx: commands.Context, *, line):
         """Adds a new statement to the bingo pool"""
+        if ctx.guild is None:
+            return
         await ctx.send("New line: \n_" + line + "_ \nAdded to pool!")
         await utils.add_to_list(line, str(ctx.guild))
         print("New line: _" + line + "_ Added to pool in " + str(ctx.guild) +
@@ -67,6 +71,8 @@ class BingoCog(commands.Cog):
     @commands.command()
     async def freeadd(self, ctx: commands.Context):
         """Adds a new statement to the bingo free space pool"""
+        if ctx.guild is None:
+            return
         msg = ctx.message.content
         line = msg.split("$freeadd ", 1)[1]
         await ctx.send("New line: \n_" + line + "_ \nAdded to free space pool!")
@@ -78,6 +84,8 @@ class BingoCog(commands.Cog):
     @commands.command()
     async def bigbingo(self, ctx: commands.Context):
         """Sends a large bingo card as reply to command"""
+        if ctx.guild is None:
+            return
         time_since_last_bingo = time.time() - self.time_of_last_bingo
         print(time_since_last_bingo)
 
@@ -98,6 +106,8 @@ class BingoCog(commands.Cog):
 
     @commands.command()
     async def refresh(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """Regenerate all images. Called automatically on list change"""
         async with ctx.channel.typing():
             await regenerate_all_images(str(ctx.guild))
@@ -105,6 +115,8 @@ class BingoCog(commands.Cog):
 
     @commands.command()
     async def bigrefresh(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """regenerate all big images"""
         async with ctx.channel.typing():
             await regenerate_all_big_images(str(ctx.guild))
@@ -112,6 +124,8 @@ class BingoCog(commands.Cog):
 
     @commands.command()
     async def list(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """Lists all items in bingo pool. Use the index with the del command."""
         lines = await utils.list_all_lines(str(ctx.guild))
 
@@ -121,6 +135,8 @@ class BingoCog(commands.Cog):
 
     @commands.command()
     async def freelist(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """Lists all items in free space pool. Use the index with the freedel command."""
         lines = await utils.list_all_free_lines(str(ctx.guild))
 
@@ -130,6 +146,8 @@ class BingoCog(commands.Cog):
 
     @commands.command(name='del')
     async def delete_line(self, ctx: commands.Context, *, indices):
+        if ctx.guild is None:
+            return
         """Deletes the lines at indices given in the list. Use $list command to view indices"""
         indices = indices.split(" ")
         indices.sort(reverse=True)
@@ -142,6 +160,8 @@ class BingoCog(commands.Cog):
 
     @commands.command(name='freedel')
     async def delete_free_line(self, ctx: commands.Context, index: int):
+        if ctx.guild is None:
+            return
         """Deletes the free line at [index] in the free list. Use $freelist command to view indices"""
         line = await utils.get_free_line(index, str(ctx.guild))
         await utils.delete_free_line(index, str(ctx.guild))
@@ -150,12 +170,16 @@ class BingoCog(commands.Cog):
 
     @commands.command(hidden=True)
     async def resetlist(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """Resets the bingo list to default. WARNING: lost lists are unrecoverable"""
         await utils.reset_list(str(ctx.guild))
         await ctx.send("List has been reset to default.")
 
     @commands.command(hidden=True)
     async def resetfreelist(self, ctx: commands.Context):
+        if ctx.guild is None:
+            return
         """Resets the free space bingo list to default. WARNING: lost lists are unrecoverable"""
         await utils.reset_free_list(str(ctx.guild))
         await ctx.send("Free list has been reset to default.")

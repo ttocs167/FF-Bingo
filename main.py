@@ -49,12 +49,12 @@ class Bot(commands.Bot):
             if not os.path.isdir("output_folder/" + str(message.guild)):
                 os.mkdir("output_folder/" + str(message.guild))
 
-            await bot.process_commands(message)
         elif str(message.content).lower().startswith("i love you"):
             await message.reply("<3")
-            await bot.process_commands(message)
+
         if str(message.content).lower().startswith("good bot"):
-            await message.reply(":robot::heart:")
+            await message.reply(":robot::heart:<:BingoBot:1025438478273626172>")
+        await bot.process_commands(message)
 
 
 if not os.path.isdir("lists/"):

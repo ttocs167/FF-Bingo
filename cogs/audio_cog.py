@@ -155,7 +155,7 @@ class AudioCog(commands.Cog):
         self.Q.queue.clear()
         await self.vc.disconnect()
 
-    @commands.command(aliases=["play, resume"])
+    @commands.command(aliases=["play", "resume"])
     async def pause(self, ctx: commands.Context):
         """pauses the currently playing audio"""
         if self.vc is not None:

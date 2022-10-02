@@ -12,10 +12,10 @@ class UtilCog(commands.Cog):
     @commands.command(aliases=["reminders", "reminder", "remindme"])
     async def remind(self, ctx: commands.Context, time_string, *reminder_text):
         """Bingobot will @ you in the channel this is used after the time specified.
-         uses s, m , h, d... to format time. Accepts any combination with or without spaces.
-         Also accepts 'second(s)', 'minute(s)', 'hours', 'day(s)' etc...
+        uses s, m , h, d... to format time. Accepts any combination with or without spaces.
+        Also accepts 'second(s)', 'minute(s)', 'hour(s)', 'day(s)' etc...
 
-         Reacting to the bot's initial response will also add you to the list of people
+        Reacting to the bot's initial response will also add you to the list of people
         mentioned when the timer elapses"""
         reminder_text = ' '.join(reminder_text)
         time_string = time_string.lower()

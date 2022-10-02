@@ -32,6 +32,7 @@ class AudioCog(commands.Cog):
         self.source = None
         self.paused = False
         self.skip = False
+        self.now_playing = None
 
     @commands.hybrid_command(name="sound")
     async def play_soundbite(self, ctx: commands.Context, args):
@@ -122,17 +123,18 @@ class AudioCog(commands.Cog):
 
             song = pafy.new(video_id)  # creates a new pafy object
 
+            self.now_playing = song.title
+
             audio = song.getbestaudio()  # gets an audio source
 
             # converts the youtube audio source into a source discord can use
             self.source = discord.FFmpegPCMAudio(audio.url, **ffmpeg_options)
             self.vc.play(self.source)  # play the source
-            return video_id
 
         while not self.Q.empty():
             self.skip = False
-            video_id = play_from_queue()
-            await ctx.send("now playing: {}".format(video_id))
+            play_from_queue()
+            await ctx.send("now playing: {}".format(self.now_playing))
 
             while self.vc.is_playing() or self.paused:
                 if self.skip:
@@ -140,17 +142,20 @@ class AudioCog(commands.Cog):
                 await asyncio.sleep(.1)
 
         if self.vc is not None and not self.paused:
+            self.now_playing = None
             await self.vc.disconnect()
 
     @commands.command()
     async def kick_bot(self, ctx: commands.Context):
         """removes the bot from the channel and empties the song queue"""
-        self.vc.stop()
+        if self.vc is not None:
+            self.vc.stop()
         self.paused = False
+        self.now_playing = None
         self.Q.queue.clear()
         await self.vc.disconnect()
 
-    @commands.command()
+    @commands.command(aliases=["play, resume"])
     async def pause(self, ctx: commands.Context):
         """pauses the currently playing audio"""
         if self.vc is not None:
@@ -168,3 +173,14 @@ class AudioCog(commands.Cog):
             self.vc.pause()
             self.skip = True
             self.paused = False
+
+    @commands.command(aliases=["clearqueue"])
+    async def clear_queue(self, ctx: commands.Context):
+        if self.vc is not None:
+            self.vc.stop()
+        self.Q.queue.clear()
+        self.now_playing = None
+
+    @commands.command()
+    async def now_playing(self, ctx: commands.Context):
+        await ctx.reply(self.now_playing)

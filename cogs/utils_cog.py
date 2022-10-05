@@ -5,6 +5,7 @@ import asyncio
 import datetime
 from dateutil import parser
 from dateutil.tz import gettz
+import time
 
 
 class UtilCog(commands.Cog):
@@ -136,9 +137,9 @@ class UtilCog(commands.Cog):
 
         if len(inputs) == 1:
             reminder_text = ' '.join(tokens)
-
-        message = await ctx.reply(f"Waiting **{str(datetime.timedelta(seconds=time_to_wait))}"
-                                  f"** to remind you about: **{reminder_text}**\n"
+        message = await ctx.reply(f"I will remind you <t:{int(time_of_alarm.timestamp())}:R> "
+                                  # f"Waiting **{str(datetime.timedelta(seconds=time_to_wait))}**\n"
+                                  f"about: **{reminder_text}**\n"
                                   f"_Others can react to this message to be mentioned when the reminder is up._\n"
                                   f"_React with ⛔, 🚫, or 🔕 to cancel the reminder._")
         await asyncio.sleep(time_to_wait)

@@ -4,6 +4,7 @@ import re
 import asyncio
 import datetime
 from dateutil import parser
+from dateutil.tz import gettz
 
 
 class UtilCog(commands.Cog):
@@ -97,6 +98,15 @@ class UtilCog(commands.Cog):
 
         To cancel the reminder react to the message with a "⛔", "🚫", or "🔕" emoji"""
 
+        tzinfos = {"CST": gettz("America/Chicago"),
+                   "UTC": 0,
+                   "UTC+1": +1*3600,
+                   "UTC+2": +2*3600,
+                   "UTC-1": -1*3600,
+                   "ST": 0,
+                   "BST": +1*3600,
+                   "GMT": 0}
+
         inputs = inputs.split("-")
         reminder_text = ""
 
@@ -107,15 +117,15 @@ class UtilCog(commands.Cog):
         else:
             time_string = inputs[0]
 
-        time_string = time_string.lower()
-
         try:
-            time_of_alarm, tokens = parser.parse(time_string, fuzzy_with_tokens=True)
+            time_of_alarm, tokens = parser.parse(time_string, fuzzy_with_tokens=True, tzinfos=tzinfos, ignoretz=False)
+
         except parser.ParserError:
             await ctx.reply("Sorry, I can't parse that message into a time.")
             return
-
-        time_to_wait = (time_of_alarm - datetime.datetime.now()).seconds
+        if time_of_alarm.tzinfo is None:
+            time_of_alarm = time_of_alarm.replace(tzinfo=datetime.timezone.utc)
+        time_to_wait = (time_of_alarm - datetime.datetime.now(datetime.timezone.utc)).seconds
 
         if time_to_wait < 0:
             time_to_wait += 86400  # if time is negative then the user probably means tomorrow at that time

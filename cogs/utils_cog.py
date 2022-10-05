@@ -17,7 +17,9 @@ class UtilCog(commands.Cog):
         Also accepts 'second(s)', 'minute(s)', 'hour(s)', 'day(s)' etc...
 
         Reacting to the bot's initial response will also add you to the list of people
-        mentioned when the timer elapses"""
+        mentioned when the timer elapses.
+
+        To cancel the reminder react to the message with a "⛔", "🚫", or "🔕" emoji"""
 
         reminder_text = ' '.join(reminder_text)
         time_string = time_string.lower()
@@ -67,20 +69,42 @@ class UtilCog(commands.Cog):
         cache_message = await ctx.fetch_message(message.id)  # this returns an up to date version of the message
 
         users = set()
+        users.add(ctx.author)
         for reaction in cache_message.reactions:
             async for user in reaction.users():
-                users.add(user)
+                if reaction.emoji in ["⛔", "🚫", "🔕"]:
+                    if user == ctx.author:
+                        users.remove(ctx.author)
+                    continue
+                else:
+                    users.add(user)
 
-        await ctx.send(f"{ctx.author.mention} This is your reminder about **{reminder_text}**!\n"
-                       f"{', '.join(user.mention for user in users)}")
+        if len(users) == 0:
+            return
+
+        await ctx.send(f"{', '.join(user.mention for user in users)}"
+                       f" This is your reminder about **{reminder_text}!**\n")
 
     @commands.command(aliases=["reminders", "reminder", "remindme"])
-    async def remind(self, ctx: commands.Context, *, time_string):
+    async def remind(self, ctx: commands.Context, *, inputs):
         """Bingobot will @ you in the channel this is used at the time specified.
-        The time can be formatted in any standar way, just be consistent.
+        The time can be formatted in any standard way, the reminder text should be split
+        with a "-" character.
 
         Reacting to the bot's initial response will also add you to the list of people
-        mentioned when the timer elapses"""
+        mentioned when the timer elapses.
+
+        To cancel the reminder react to the message with a "⛔", "🚫", or "🔕" emoji"""
+
+        inputs = inputs.split("-")
+        reminder_text = ""
+
+        if len(inputs) > 1:
+            reminder_text = inputs[1]
+            time_string = inputs[0]
+
+        else:
+            time_string = inputs[0]
 
         time_string = time_string.lower()
 
@@ -99,19 +123,30 @@ class UtilCog(commands.Cog):
             await ctx.reply("You cannot set a timer in the past!")
             return
 
-        reminder_text = max(tokens, key=len)
+        if len(inputs) == 1:
+            reminder_text = ' '.join(tokens)
 
         message = await ctx.reply(f"Waiting **{str(datetime.timedelta(seconds=time_to_wait))}"
                                   f"** to remind you about: **{reminder_text}**\n"
-                                  f"_Others can react to this message to be mentioned when the reminder is up._")
+                                  f"_Others can react to this message to be mentioned when the reminder is up._"
+                                  f"_React with ⛔, 🚫, or 🔕 to cancel the reminder.")
         await asyncio.sleep(time_to_wait)
 
         cache_message = await ctx.fetch_message(message.id)  # this returns an up to date version of the message
 
         users = set()
+        users.add(ctx.author)
         for reaction in cache_message.reactions:
             async for user in reaction.users():
-                users.add(user)
+                if reaction.emoji in ["⛔", "🚫", "🔕"]:
+                    if user == ctx.author:
+                        users.remove(ctx.author)
+                    continue
+                else:
+                    users.add(user)
 
-        await ctx.send(f"{ctx.author.mention} This is your reminder about **{reminder_text}!**\n"
-                       f"{', '.join(user.mention for user in users)}")
+        if len(users) == 0:
+            return
+
+        await ctx.send(f"{', '.join(user.mention for user in users)}"
+                       f" This is your reminder about **{reminder_text}!**\n")

@@ -64,7 +64,7 @@ class UtilCog(commands.Cog):
         message = await ctx.reply(f"Waiting **{str(datetime.timedelta(seconds=time_to_wait))}"
                                   f"** to remind you about: **{reminder_text}**\n"
                                   f"_Others can react to this message to be mentioned when the timer is up._\n"
-                                  f"_React with ⛔, 🚫, or 🔕 to cancel the reminder.")
+                                  f"_React with ⛔, 🚫, or 🔕 to cancel the reminder._")
         await asyncio.sleep(time_to_wait)
 
         cache_message = await ctx.fetch_message(message.id)  # this returns an up to date version of the message
@@ -130,7 +130,7 @@ class UtilCog(commands.Cog):
         message = await ctx.reply(f"Waiting **{str(datetime.timedelta(seconds=time_to_wait))}"
                                   f"** to remind you about: **{reminder_text}**\n"
                                   f"_Others can react to this message to be mentioned when the reminder is up._\n"
-                                  f"_React with ⛔, 🚫, or 🔕 to cancel the reminder.")
+                                  f"_React with ⛔, 🚫, or 🔕 to cancel the reminder._")
         await asyncio.sleep(time_to_wait)
 
         cache_message = await ctx.fetch_message(message.id)  # this returns an up to date version of the message

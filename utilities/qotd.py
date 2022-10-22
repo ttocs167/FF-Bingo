@@ -1,6 +1,7 @@
 import csv
 import shelve
 from datetime import datetime
+import random
 
 
 def get_question_at_index(index):
@@ -12,6 +13,22 @@ def get_question_at_index(index):
         num_questions = len(questions)
         question = "**_" + questions[index % num_questions][0] + "_**"
     return question
+
+
+def get_all_questions():
+    with open('./resources/qotd/shuffled_questions.csv', 'r', encoding='utf-8') as read_obj:
+        # pass the file object to reader() to get the reader object
+        csv_reader = csv.reader(read_obj, delimiter='\n')
+        # Get all rows of csv from csv_reader object as list of tuples
+        questions = list(csv_reader)
+    return questions
+
+
+def write_new_questions_to_file(questions):
+    with open('./resources/qotd/shuffled_questions.csv', 'w') as myfile:
+        wr = csv.writer(myfile, delimiter="\n")
+        wr.writerow(questions)
+    return NotImplementedError
 
 
 async def enable_qotd(channel_id):
@@ -48,3 +65,22 @@ def get_todays_question(s):
 
     question = get_question_at_index(todays_index)
     return question
+
+
+def shuffle_in_new_question(s, new_question):
+    try:
+        todays_index = s['day_index']
+    except KeyError:
+        s['day_index'] = 0
+        todays_index = 0
+
+    questions = get_all_questions()
+    past_questions = questions[:todays_index + 1]
+    future_questions = questions[todays_index + 1:]
+
+    future_questions.append(new_question)
+    random.shuffle(future_questions)
+
+    new_questions = past_questions + future_questions
+    write_new_questions_to_file(new_questions)
+    return

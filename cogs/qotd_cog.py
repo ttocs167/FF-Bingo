@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, disable_qotd
+from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question
 import datetime
 import shelve
 
@@ -89,3 +89,87 @@ class QotdCog(commands.Cog):
         finally:
             s.close()
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def addq_admin(self, ctx: commands.Context, *, new_q):
+        s = shelve.open('qotd.db')
+
+        shuffle_in_new_question(s, new_q)
+
+        s.close()
+        await ctx.reply("__Shuffled in new question__ **{}** __ to the list of future questions!__".format(new_q))
+
+    @commands.command()
+    async def addqotd(self, ctx: commands.Context, *, new_q):
+
+        yay_voters = set()
+        nay_voters = set()
+
+        yay_button = discord.ui.Button(label="", emoji="✔",
+                                       style=discord.ButtonStyle.green)
+
+        nay_button = discord.ui.Button(label="", emoji="❌",
+                                       style=discord.ButtonStyle.grey)
+
+        async def vote_yay(interaction: discord.Interaction):
+            if interaction.user not in yay_voters:
+                yay_voters.add(interaction.user)
+
+                await interaction.response.send_message("You voted **yay**", ephemeral=True)
+
+                if interaction.user in nay_voters:
+                    nay_voters.remove(interaction.user)
+
+                print(yay_voters, nay_voters)
+                await check_votes(interaction)
+            else:
+                await interaction.response.send_message("You have already voted **yay**!", ephemeral=True)
+                return
+
+        async def vote_nay(interaction: discord.Interaction):
+            if interaction.user not in nay_voters:
+                nay_voters.add(interaction.user)
+
+                await interaction.response.send_message("You voted **nay**", ephemeral=True)
+
+                if interaction.user in yay_voters:
+                    nay_voters.remove(interaction.user)
+
+                print(yay_voters, nay_voters)
+                await check_votes(interaction)
+            else:
+                await interaction.response.send_message("You have already voted **nay**!", ephemeral=True)
+                return
+
+        async def check_votes(interaction: discord.Interaction):
+            yay_votes = len(yay_voters)
+            nay_votes = len(nay_voters)
+
+            await vote.edit(content="VOTE: Add **{}** to the list of possible qotd's?\n"
+                            "_A 3 vote difference is needed for this to succeed_\n"
+                            "{} Yay votes : {} Nay votes".format(new_q, yay_votes, nay_votes), view=view)
+
+            if yay_votes - 2 > nay_votes:
+                s = shelve.open('qotd.db')
+
+                shuffle_in_new_question(s, new_q)
+
+                s.close()
+
+                await interaction.response.send_message("_Shuffled in new question_ **{}** _"
+                                                        " to the list of future questions!_".format(new_q))
+
+                yay_button.disabled = True
+                nay_button.disabled = True
+                await vote.edit(view=view)
+
+        yay_button.callback = vote_yay
+        nay_button.callback = vote_nay
+
+        view = discord.ui.View(timeout=None)
+        view.add_item(yay_button)
+        view.add_item(nay_button)
+
+        vote = await ctx.send("VOTE: Add **{}** to the list of possible qotd's?\n"
+                              "_A 3 vote difference is needed for this to succeed_\n"
+                              "{} Yay votes : {} Nay votes".format(new_q, len(yay_voters), len(nay_voters)), view=view)

@@ -108,7 +108,7 @@ class UtilCog(commands.Cog):
                    "BST": +1*3600,
                    "GMT": 0}
 
-        inputs = inputs.split("-")
+        inputs = inputs.rsplit("-")
         reminder_text = ""
 
         if len(inputs) > 1:

@@ -120,7 +120,6 @@ class QotdCog(commands.Cog):
                 if interaction.user in nay_voters:
                     nay_voters.remove(interaction.user)
 
-                print(yay_voters, nay_voters)
                 await check_votes(interaction)
             else:
                 await interaction.response.send_message("You have already voted **yay**!", ephemeral=True)
@@ -133,9 +132,9 @@ class QotdCog(commands.Cog):
                 await interaction.response.send_message("You voted **nay**", ephemeral=True)
 
                 if interaction.user in yay_voters:
-                    nay_voters.remove(interaction.user)
+                    print("removing user from yay")
+                    yay_voters.remove(interaction.user)
 
-                print(yay_voters, nay_voters)
                 await check_votes(interaction)
             else:
                 await interaction.response.send_message("You have already voted **nay**!", ephemeral=True)
@@ -156,8 +155,8 @@ class QotdCog(commands.Cog):
 
                 s.close()
 
-                await interaction.response.send_message("_Shuffled in new question_ **{}** _"
-                                                        " to the list of future questions!_".format(new_q))
+                await interaction.followup.send("_Shuffled in new question_ **{}** _"
+                                                " to the list of future questions!_".format(new_q))
 
                 yay_button.disabled = True
                 nay_button.disabled = True
@@ -172,4 +171,5 @@ class QotdCog(commands.Cog):
 
         vote = await ctx.send("VOTE: Add **{}** to the list of possible qotd's?\n"
                               "_A 3 vote difference is needed for this to succeed_\n"
-                              "{} Yay votes : {} Nay votes".format(new_q, len(yay_voters), len(nay_voters)), view=view)
+                              "{} Yay votes : {} Nay votes".format(new_q, len(yay_voters),
+                                                                   len(nay_voters)), view=view)

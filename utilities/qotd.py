@@ -20,15 +20,18 @@ def get_all_questions():
         # pass the file object to reader() to get the reader object
         csv_reader = csv.reader(read_obj, delimiter='\n')
         # Get all rows of csv from csv_reader object as list of tuples
-        questions = list(csv_reader)
-    return questions
+        questions = list(csv_reader)[:-1]
+        questions_cleaned = []
+        for item in questions:
+            questions_cleaned.append(item[0])
+    return questions_cleaned
 
 
 def write_new_questions_to_file(questions):
     with open('./resources/qotd/shuffled_questions.csv', 'w') as myfile:
         wr = csv.writer(myfile, delimiter="\n")
         wr.writerow(questions)
-    return NotImplementedError
+    return
 
 
 async def enable_qotd(channel_id):

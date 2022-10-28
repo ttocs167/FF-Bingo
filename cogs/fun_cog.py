@@ -305,8 +305,10 @@ class FunCog(commands.Cog):
                        " **{}** Minutes, and **{}** seconds since last booba".format(days, hours, minutes, seconds))
 
     @commands.command(name='resetbooba')
-    async def reset_booba_count(self, ctx):
-        days, hours, minutes, seconds = utils.booba()
+    async def reset_booba_count(self, ctx, member: discord.Member = None):
+        """resets the booba timer. You can optionally mention a user to record their offense"""
+        days, hours, minutes, seconds, msg_pt4 = utils.booba(member)
+
         msg_pt1 = ("It had been **{}** Days, **{}** Hours,"
                        " **{}** Minutes, and **{}** seconds since last booba".format(days, hours, minutes, seconds))
         utils.reset_booba()
@@ -314,7 +316,7 @@ class FunCog(commands.Cog):
         msg_pt3 = ("It now has been **{}** Days, **{}** Hours,"
                        " **{}** Minutes, and **{}** seconds since last booba".format(0, 0, 0, 0))
 
-        await ctx.send(msg_pt1 + "\n" + msg_pt2 + "\n" + msg_pt3)
+        await ctx.send(msg_pt1 + "\n" + msg_pt2 + "\n" + msg_pt3 + "\n" + msg_pt4)
 
     @commands.command(hidden=True)
     async def adv_rel(self, ctx):

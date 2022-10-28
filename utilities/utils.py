@@ -6,6 +6,7 @@ import requests
 from difflib import SequenceMatcher
 from datetime import datetime
 import shelve
+import discord
 
 riddle_answer_pairs = []
 current_riddle_answer = ""
@@ -16,6 +17,7 @@ try:
 except KeyError:
     print("no booba database found. Creating variable at datetime.now()")
     time_of_last_booba = datetime.now()
+    booba_db['booba_time'] = datetime.now()
 finally:
     booba_db.close()
 
@@ -55,7 +57,7 @@ async def list_all_lines(guild):
 
     lines = [item for sublist in lines for item in sublist]
     lines = list(map(str, lines))
-    chunks = [lines[x:x+50] for x in range(0, len(lines), 50)]
+    chunks = [lines[x:x + 50] for x in range(0, len(lines), 50)]
 
     return chunks
 
@@ -178,7 +180,9 @@ def random_wipe_reason(caller):
     return output
 
 
-def booba():
+def booba(member: discord.Member):
+    def ordinal(n): return "%d%s" % (n, "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
+
     time_since_last_booba = datetime.now() - time_of_last_booba
 
     days = time_since_last_booba.days
@@ -186,7 +190,32 @@ def booba():
     minutes = (time_since_last_booba.seconds // 60) % 60
     seconds = time_since_last_booba.seconds % 60
 
-    return days, hours, minutes, seconds
+    s = shelve.open('booba.db')
+    try:
+        booba_offenders = s['offenders']
+    except KeyError:
+        s['offenders'] = {}
+        booba_offenders = s['offenders']
+
+    try:
+        booba_offenders[member.id] += 1
+        offense_num = booba_offenders[member.id]
+    except KeyError:
+        booba_offenders[member.id] = 1
+        offense_num = 1
+
+    s['offenders'] = booba_offenders
+
+    if member.nick is not None:
+        name = member.nick
+    else:
+        name = member.name
+
+    offender_text = "This is {}'s **{}** offense.".format(name, ordinal(offense_num))
+
+    s.close()
+
+    return days, hours, minutes, seconds, offender_text
 
 
 def reset_booba():

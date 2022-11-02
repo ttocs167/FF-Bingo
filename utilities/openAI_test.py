@@ -106,7 +106,7 @@ def get_ai_response(new_text, author='Q'):
     response_text = response['choices'][0]['text']
 
     recent_history.append(response_text)
-
-    print(''.join(recent_history))
+    #
+    # print(''.join(recent_history))
 
     return response_text

@@ -104,11 +104,11 @@ def get_ai_response(new_text, author='Q'):
     response = openai.Completion.create(
         model="text-davinci-002",
         prompt=prompt_header + ''.join(recent_history),
-        temperature=0.5,
-        max_tokens=60,
-        top_p=0.3,
-        frequency_penalty=0.5,
-        presence_penalty=0.0
+        temperature=0.9,
+        max_tokens=100,
+        top_p=1,
+        frequency_penalty=0.2,
+        presence_penalty=0.6
     )
 
     response = json.loads(json.dumps(response))

@@ -41,6 +41,21 @@ def random_8ball_response():
     return output
 
 
+def random_compliment():
+    compliments = ["You look lovely today :)", "Treat yourself!", "<3", "You're great", "Keep it up",
+                   "You dont look a day over [CURRENT_AGE - 5] :)", "You are who you are", "Never change!",
+                   "We're all better off with you around :)", "You're worth more than you give yourself credit for",
+                   "You are your own worst critic", "Love yourself more, you are worth that and more",
+                   "You probably shouldn't seek self validation from a discord bot, but for what its worth,"
+                   " I think you're amazing", "You can do anything if you try",
+                   "Give yourself a break every now and then", "__hugs__", "Mistakes just mean you're trying!"]
+
+    choice = random.choices(compliments)
+
+    output = "_**" + choice + "**_"
+    return output
+
+
 async def add_to_list(new_line, guild):
     with open("lists/" + guild + "/list.txt", 'a') as file:
         file.writelines(new_line + "\n")
@@ -181,7 +196,8 @@ def random_wipe_reason(caller):
 
 
 def booba(member: discord.Member):
-    def ordinal(n): return "%d%s" % (n, "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
+    def ordinal(n):
+        return "%d%s" % (n, "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
 
     time_since_last_booba = datetime.now() - time_of_last_booba
 

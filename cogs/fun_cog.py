@@ -57,6 +57,10 @@ class FunCog(commands.Cog):
             await ctx.send(utils.random_8ball_response())
 
     @commands.command()
+    async def compliment(self, ctx: commands.Context):
+        await ctx.reply(utils.random_compliment())
+
+    @commands.command()
     async def secretbingo(self, ctx):
         """DMs the user with secret tasks"""
         await ctx.reply("Secret missions on the way...")

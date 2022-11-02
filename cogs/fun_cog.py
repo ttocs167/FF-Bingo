@@ -9,6 +9,7 @@ from utilities import wordle_cheat
 import json
 from utilities.wordle_cheat import save_user_data
 import random
+from dotenv import load_dotenv
 
 try:
     from utilities import webcam_photo, picam_photo
@@ -45,6 +46,7 @@ class FunCog(commands.Cog):
         self.bot = bot
         self.rigged_statement = None
         self.reset_wordle_counts.start()
+        load_dotenv()
 
     @commands.command(name='8ball')
     async def _ball(self, ctx):

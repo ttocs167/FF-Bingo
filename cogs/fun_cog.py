@@ -16,6 +16,8 @@ try:
 except:
     print("could not import picam module")
 
+load_dotenv()
+
 if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
     from utilities.spotipy_test import get_random_from_library
 
@@ -46,7 +48,6 @@ class FunCog(commands.Cog):
         self.bot = bot
         self.rigged_statement = None
         self.reset_wordle_counts.start()
-        load_dotenv()
 
     @commands.command(name='8ball')
     async def _ball(self, ctx):

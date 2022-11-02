@@ -50,7 +50,7 @@ def random_compliment():
                    " I think you're amazing", "You can do anything if you try",
                    "Give yourself a break every now and then", "__hugs__", "Mistakes just mean you're trying!"]
 
-    choice = random.choices(compliments)
+    choice = random.choices(compliments)[0]
 
     output = "_**" + choice + "**_"
     return output

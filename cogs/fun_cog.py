@@ -322,12 +322,12 @@ class FunCog(commands.Cog):
 
         await ctx.send(msg_pt1 + "\n" + msg_pt2 + "\n" + msg_pt3 + "\n" + msg_pt4)
 
-    @commands.command(aliases=["boobaboard", ["leaderboard",
-                                              "boobaleaderboards", "boobaleaderboard", "booba_leaderboards"]])
+    @commands.command(aliases=["boobaboard", "leaderboard",
+                                              "boobaleaderboards", "boobaleaderboard", "booba_leaderboards"])
     async def booba_leaderboard(self, ctx: commands.Context):
         """Returns the leaderboard sorted by reset offenses"""
 
-        response = utils.booba_board(ctx)
+        response = await utils.booba_board(ctx)
 
         await ctx.send(response)
 

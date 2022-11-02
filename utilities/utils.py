@@ -244,7 +244,7 @@ def reset_booba():
         s.close()
 
 
-def booba_board(ctx):
+async def booba_board(ctx):
     s = shelve.open('booba.db')
     try:
         booba_offenders = s['offenders']
@@ -256,18 +256,19 @@ def booba_board(ctx):
 
     sorted_offenders = {k: v for k, v in sorted(booba_offenders.items(), key=lambda item: item[1], reverse=True)}
 
-    output = ""
+    output = "**Booba reset leaderboard!**\n"
 
     for key in sorted_offenders:
         user_id = key
         offenses = sorted_offenders[key]
-        member = ctx.message.server.get_member(user_id)
+        member = await ctx.guild.fetch_member(user_id)
         name = member.nick
         if name is None:
             name = member.name
-        output += "**" + name + ": {}" + "**\n".format(offenses)
+        output += "**" + name + ": {}".format(offenses) + "**\n"
 
     return output
+
 
 def yolo_response(img_url):
     DETECTION_URL = "http://localhost:5000/v1/object-detection/yolov5s"

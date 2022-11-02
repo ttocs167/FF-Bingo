@@ -261,7 +261,10 @@ async def booba_board(ctx):
     for key in sorted_offenders:
         user_id = key
         offenses = sorted_offenders[key]
-        member = await ctx.guild.fetch_member(user_id)
+        try:
+            member = await ctx.guild.fetch_member(user_id)
+        except discord.errors.NotFound:
+            continue
         name = member.nick
         if name is None:
             name = member.name

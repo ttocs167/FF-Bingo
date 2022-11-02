@@ -268,7 +268,7 @@ async def booba_board(ctx):
         name = member.nick
         if name is None:
             name = member.name
-        output += "**" + name + ": {}".format(offenses) + "**\n"
+        output += "**{}**: ".format(offenses) + name + "\n"
 
     return output
 

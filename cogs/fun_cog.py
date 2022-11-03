@@ -358,19 +358,20 @@ class FunCog(commands.Cog):
         @commands.command()
         async def ai(self, ctx, *, new_prompt):
             """Get a real AI response from BingoBot!"""
-
-            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
-                author = str(ctx.message.author).split('#')[0]
-                response = get_ai_response(new_prompt, author)
-                await ctx.reply(response)
-            else:
-                await ctx.reply("Sorry, this server is not authorised to use the AI function.")
+            async with ctx.channel.typing():
+                if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                    author = str(ctx.message.author).split('#')[0]
+                    response = get_ai_response(new_prompt, author)
+                    await ctx.reply(response)
+                else:
+                    await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
         @commands.command(aliases=["ai_pun"])
         async def aipun(self, ctx: commands.Context, *, pun_prompt):
             """Get a painfully unfunny AI generated pun or joke from BingoBot!"""
-            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
-                response = get_ai_pun(pun_prompt)
-                await ctx.reply(response)
-            else:
-                await ctx.reply("Sorry, this server is not authorised to use the AI function.")
+            async with ctx.channel.typing():
+                if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                    response = get_ai_pun(pun_prompt)
+                    await ctx.reply(response)
+                else:
+                    await ctx.reply("Sorry, this server is not authorised to use the AI function.")

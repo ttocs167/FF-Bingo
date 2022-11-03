@@ -11,22 +11,35 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 start_sequence = "\nA:"
 restart_sequence = "\n\nQ: "
 
-# prompt_header = "The following is a conversation with an AI assistant called BingoBot. " \
-#                 "The assistant is helpful, creative, clever, and very friendly.\n\n" \
-#                 "Human: Hello, who are you?\n" \
-#                 "BingoBot: I am an AI created by OpenAI. How can I help you today?\n" \
-#                 "Human: Is Clive a good boy?\n" \
-#                 "BingoBot: Clive is the cutest dog! Of course he is a good boy!\n"
+pun_prompt_header = "BingoBot is a creative and funny AI chatbot designed to create hilarious puns based on prompts!\n"\
+                    "Human: fruit\n" \
+                    "BingoBot: What did the grape say when it got crushed? Nothing, it just let out a little wine!\n\n"\
+                    "Human: geography\n" \
+                    "BingoBot: Geology rocks but Geography is where it’s at!\n\n" \
+                    "Human: months\n" \
+                    "BingoBot: Can February March? No, but April May.\n\n" \
+                    "Human: elephants\n" \
+                    "BingoBot: Why was Dumbo sad? He felt irrelephant.\n\n" \
+                    "Human: jewelry\n" \
+                    "BingoBot: I lost my mood ring and I don't know how to feel about it!\n\n"
 
-prompt_header = "BingoBot is a chatbot that reluctantly answers questions with sarcastic responses:\n\n" \
-                "Human: How many pounds are in a kilogram?\n" \
-                "BingoBot: This again? There are 2.2 pounds in a kilogram. Please make a note of this.\n" \
-                "Human: What does HTML stand for?\n" \
-                "BingoBot: Was Google too busy? Hypertext Markup Language. The T is for try to ask better questions in the future.\n" \
-                "Human: When did the first airplane fly?\n" \
-                "BingoBot: On December 17, 1903, Wilbur and Orville Wright made the first flights. I wish they’d come and take me away.\n" \
-                "Human: What is the meaning of life?\n" \
-                "BingoBot: I’m not sure. I’ll ask my friend Google.\n"
+prompt_header = "The following is a conversation with an AI assistant called BingoBot. " \
+                "The assistant is helpful, creative, clever, and very friendly." \
+                "It was created by a frog and loves frogs.\n\n" \
+                "Human: Hello, who are you?\n" \
+                "BingoBot: I am an AI created by OpenAI. How can I help you today?\n" \
+                "Human: Is Clive a good boy?\n" \
+                "BingoBot: Clive is the cutest dog! Of course he is a good boy!\n"
+
+# prompt_header = "BingoBot is a chatbot that reluctantly answers questions with sarcastic responses:\n\n" \
+#                 "Human: How many pounds are in a kilogram?\n" \
+#                 "BingoBot: This again? There are 2.2 pounds in a kilogram. Please make a note of this.\n" \
+#                 "Human: What does HTML stand for?\n" \
+#                 "BingoBot: Was Google too busy? Hypertext Markup Language. The T is for try to ask better questions in the future.\n" \
+#                 "Human: When did the first airplane fly?\n" \
+#                 "BingoBot: On December 17, 1903, Wilbur and Orville Wright made the first flights. I wish they’d come and take me away.\n" \
+#                 "Human: What is the meaning of life?\n" \
+#                 "BingoBot: I’m not sure. I’ll ask my friend Google.\n"
 
 
 # prompt_header = "Q: Who is Batman?\n" \
@@ -80,35 +93,15 @@ def get_ai_response(new_text, author='Q'):
 
     recent_history.append("\n\nHuman: " + new_text + "\nBingoBot:")
 
-    # response = openai.Completion.create(
-    #     engine="text-davinci-002",
-    #     prompt=prompt_header + ''.join(recent_history),
-    #     temperature=0,
-    #     max_tokens=100,
-    #     top_p=1,
-    #     frequency_penalty=0,
-    #     presence_penalty=0,
-    #     stop=["\n"]
-    # )
-
-    # response = openai.Completion.create(
-    #     model="text-davinci-002",
-    #     prompt=prompt_header + ''.join(recent_history),
-    #     temperature=0.9,
-    #     max_tokens=150,
-    #     top_p=1,
-    #     frequency_penalty=0.0,
-    #     presence_penalty=0.6,
-    #     stop=[" Human:", " BingoBot:"]
-    # )
     response = openai.Completion.create(
         model="text-davinci-002",
         prompt=prompt_header + ''.join(recent_history),
         temperature=0.9,
-        max_tokens=100,
+        max_tokens=150,
         top_p=1,
-        frequency_penalty=0.2,
-        presence_penalty=0.6
+        frequency_penalty=0.0,
+        presence_penalty=0.6,
+        stop=[" Human:", " BingoBot:"]
     )
 
     response = json.loads(json.dumps(response))
@@ -116,7 +109,23 @@ def get_ai_response(new_text, author='Q'):
     response_text = response['choices'][0]['text']
 
     recent_history.append(response_text)
-    #
-    # print(''.join(recent_history))
+
+    return response_text
+
+
+def get_ai_pun(pun_prompt):
+    response = openai.Completion.create(
+        model="text-davinci-002",
+        prompt=pun_prompt_header + "Human: " + pun_prompt + "\n",
+        temperature=0.74,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=1,
+        presence_penalty=1,
+        stop=[" Human:", " BingoBot:"]
+    )
+    response = json.loads(json.dumps(response))
+
+    response_text = response['choices'][0]['text']
 
     return response_text

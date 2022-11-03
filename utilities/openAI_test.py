@@ -116,7 +116,7 @@ def get_ai_response(new_text, author='Q'):
 def get_ai_pun(pun_prompt):
     response = openai.Completion.create(
         model="text-davinci-002",
-        prompt=pun_prompt_header + "Human: " + pun_prompt + "\n",
+        prompt=pun_prompt_header + "Human: " + pun_prompt + "\nBingoBot: ",
         temperature=0.74,
         max_tokens=150,
         top_p=1,

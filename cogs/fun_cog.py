@@ -366,6 +366,7 @@ class FunCog(commands.Cog):
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
+        @commands.command(aliases=["ai_pun"])
         async def aipun(self, ctx: commands.Context, *, pun_prompt):
             """Get a painfully unfunny AI generated pun or joke from BingoBot!"""
             if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):

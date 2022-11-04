@@ -37,7 +37,7 @@ class AICog(commands.Cog):
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
-    @commands.command(hidden=True)
+    @commands.command(aliases=["aimod"])
     async def ai_modify_image(self, ctx: commands.Context):
         """Modify an existing image using DALLE!"""
         async with ctx.channel.typing():

@@ -32,7 +32,7 @@ class AICog(commands.Cog):
                     # arr = io.BytesIO()
                     # img.save(arr, format='PNG')
                     # arr.seek(0)
-                    img_as_file = discord.File(img_data)
+                    img_as_file = discord.File(fp=img_data, filename="")
 
                     await ctx.reply(file=img_as_file)
 
@@ -51,7 +51,7 @@ class AICog(commands.Cog):
                     file_bytes = await ctx.message.attachments[0].read()
                     image_url = get_modified_image(file_bytes)
                     img_data = requests.get(image_url).content
-                    img_as_file = discord.File(img_data)
+                    img_as_file = discord.File(fp=img_data, filename="")
                     await ctx.reply(file=img_as_file)
 
                 else:

@@ -21,9 +21,6 @@ load_dotenv()
 if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
     from utilities.spotipy_test import get_random_from_library
 
-if "OPENAI_API_KEY" in os.environ:
-    from utilities.openAI_test import get_ai_response, get_ai_pun
-
 
 async def set_status(bot: commands.Bot, activity_type, activity, url=""):
     if activity_type == "watching":
@@ -353,25 +350,3 @@ class FunCog(commands.Cog):
             """Returns a random song from my library"""
             out = get_random_from_library()
             await ctx.reply(out)
-
-    if "OPENAI_API_KEY" in os.environ:
-        @commands.command()
-        async def ai(self, ctx, *, new_prompt):
-            """Get a real AI response from BingoBot!"""
-            async with ctx.channel.typing():
-                if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
-                    author = str(ctx.message.author).split('#')[0]
-                    response = get_ai_response(new_prompt, author)
-                    await ctx.reply(response)
-                else:
-                    await ctx.reply("Sorry, this server is not authorised to use the AI function.")
-
-        @commands.command(aliases=["ai_pun"])
-        async def aipun(self, ctx: commands.Context, *, pun_prompt):
-            """Get a painfully unfunny AI generated pun or joke from BingoBot!"""
-            async with ctx.channel.typing():
-                if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
-                    response = get_ai_pun(pun_prompt)
-                    await ctx.reply(response)
-                else:
-                    await ctx.reply("Sorry, this server is not authorised to use the AI function.")

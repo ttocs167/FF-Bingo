@@ -10,6 +10,7 @@ from cogs.qotd_cog import QotdCog
 from cogs.maps_cog import MapsCog
 from cogs.audio_cog import AudioCog
 from cogs.utils_cog import UtilCog
+from cogs.ai_cog import AICog
 
 
 class Bot(commands.Bot):
@@ -29,6 +30,8 @@ class Bot(commands.Bot):
         await self.add_cog(MapsCog(bot))
         await self.add_cog(AudioCog(bot))
         await self.add_cog(UtilCog(bot))
+        if "OPENAI_API_KEY" in os.environ:
+            await self.add_cog(AICog(bot))
 
     @staticmethod
     async def on_ready():
@@ -72,14 +75,4 @@ utils.load_riddles()
 
 bot = Bot()
 
-# async def main():
-#     async with bot:
-#         bot.timed_refresh.start()
-#         bot.send_qotd.start(bot)
-#         # send_questions.start(bot)
-#         await bot.start(os.getenv('BINGO_BOT_TOKEN'))
-
-
 bot.run(os.getenv('BINGO_BOT_TOKEN'))
-
-# asyncio.run(main())

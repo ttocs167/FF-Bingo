@@ -13,14 +13,15 @@ class AICog(commands.Cog):
     @commands.command(aliases=["ai_image", "aiim", "aimage"])
     async def get_dalle_image(self, ctx: commands.Context, *, prompt):
         """Generate a DALLE image based on a prompt!"""
-        response = openai.Image.create(
-            prompt=prompt,
-            n=1,
-            size="1024x1024"
-        )
-        image_url = response['data'][0]['url']
+        async with ctx.channel.typing():
+            response = openai.Image.create(
+                prompt=prompt,
+                n=1,
+                size="1024x1024"
+            )
+            image_url = response['data'][0]['url']
 
-        await ctx.reply(image_url)
+            await ctx.reply(image_url)
 
     @commands.command()
     async def ai(self, ctx, *, new_prompt):

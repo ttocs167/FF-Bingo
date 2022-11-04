@@ -31,7 +31,7 @@ class AICog(commands.Cog):
                     temp_image_file = discord.File('dalle_temp_image.png')
 
                     await ctx.reply(file=temp_image_file)
-                    
+
                 except openai.error.InvalidRequestError:
                     await ctx.reply("**Your prompt has violated the content policy**")
             else:
@@ -43,7 +43,8 @@ class AICog(commands.Cog):
         async with ctx.channel.typing():
             if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
                 if ctx.message.attachments:
-                    file = ctx.message.attachments[0].save(Path("/resources/images/temp_ai.png"))
+                    # with open("/resources/images/temp_ai.png", "w") as filepath:
+                    file = ctx.message.attachments[0].save(f'/resources/images/temp_ai.png', use_cached=True)
                     url = get_modified_image("/resources/images/temp_ai.png")
                     await ctx.reply(url)
                 else:

@@ -9,7 +9,6 @@ class AICog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.is_owner()
     @commands.command(aliases=["ai_image", "aiim", "aimage"])
     async def get_dalle_image(self, ctx: commands.Context, *, prompt):
         """Generate a DALLE image based on a prompt!"""
@@ -17,11 +16,18 @@ class AICog(commands.Cog):
             response = openai.Image.create(
                 prompt=prompt,
                 n=1,
-                size="1024x1024"
+                size="512x512"
             )
             image_url = response['data'][0]['url']
 
             await ctx.reply(image_url)
+
+    @commands.command(hidden=True)
+    async def ai_modify_image(self, ctx: commands.Context):
+        """Modify an existing image using DALLE!"""
+        async with ctx.channel.typing():
+            # TODO add temp file saving and modification here (look at yolo for attachment saving?)
+            return NotImplementedError
 
     @commands.command()
     async def ai(self, ctx, *, new_prompt):

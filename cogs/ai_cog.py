@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands
 import openai
-from utilities.openAI_test import get_ai_response, get_ai_pun
+from utilities.openAI_test import get_ai_response, get_ai_pun, get_modified_image
 import os
+from pathlib import Path
 
 
 class AICog(commands.Cog):
@@ -13,21 +14,34 @@ class AICog(commands.Cog):
     async def get_dalle_image(self, ctx: commands.Context, *, prompt):
         """Generate a DALLE image based on a prompt!"""
         async with ctx.channel.typing():
-            response = openai.Image.create(
-                prompt=prompt,
-                n=1,
-                size="512x512"
-            )
-            image_url = response['data'][0]['url']
+            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                try:
+                    response = openai.Image.create(
+                        prompt=prompt,
+                        n=1,
+                        size="512x512"
+                    )
+                    image_url = response['data'][0]['url']
 
-            await ctx.reply(image_url)
+                    await ctx.reply(image_url)
+                except openai.error.InvalidRequestError:
+                    await ctx.reply("**Your prompt has violated the content policy**")
+            else:
+                await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command(hidden=True)
     async def ai_modify_image(self, ctx: commands.Context):
         """Modify an existing image using DALLE!"""
         async with ctx.channel.typing():
-            # TODO add temp file saving and modification here (look at yolo for attachment saving?)
-            return NotImplementedError
+            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                if ctx.message.attachments:
+                    file = ctx.message.attachments[0].save(Path("/resources/images/temp_ai.png"))
+                    url = get_modified_image("/resources/images/temp_ai.png")
+                    await ctx.reply(url)
+                else:
+                    await ctx.reply("You need to attach an image for me to modify!")
+            else:
+                await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command()
     async def ai(self, ctx, *, new_prompt):

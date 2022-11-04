@@ -129,3 +129,18 @@ def get_ai_pun(pun_prompt):
     response_text = response['choices'][0]['text']
 
     return response_text
+
+
+def get_modified_image(filepath):
+    with open(filepath) as file:
+        try:
+            response = openai.Image.create_variation(
+                image=file,
+                n=1,
+                size="512x512"
+            )
+
+            image_url = response['data'][0]['url']
+        except openai.error.InvalidRequestError:
+            return "**Your prompt has violated the content policy**"
+        return image_url

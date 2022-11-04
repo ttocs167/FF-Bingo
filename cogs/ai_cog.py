@@ -7,7 +7,6 @@ import requests
 import io
 from PIL import Image
 
-
 class AICog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -26,13 +25,13 @@ class AICog(commands.Cog):
                     image_url = response['data'][0]['url']
 
                     img_data = requests.get(image_url).content
-                    #
-                    # img = Image.frombytes(mode="RGB", size=(512, 512), data=img_data)
-                    #
-                    # arr = io.BytesIO()
-                    # img.save(arr, format='PNG')
-                    # arr.seek(0)
-                    img_as_file = discord.File(fp=img_data, filename="")
+
+                    img = Image.frombytes(mode="RGB", size=(512, 512), data=img_data)
+
+                    arr = io.BytesIO()
+                    img.save(arr, format='PNG')
+                    arr.seek(0)
+                    img_as_file = discord.File(fp=arr)
 
                     await ctx.reply(file=img_as_file)
 

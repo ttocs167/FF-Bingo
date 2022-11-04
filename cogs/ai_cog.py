@@ -43,7 +43,12 @@ class AICog(commands.Cog):
         async with ctx.channel.typing():
             if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
                 if ctx.message.attachments:
-                    file = await ctx.message.attachments[0].save("/resources/images/temp_ai.png", use_cached=True)
+                    original_im_url = ctx.message.attachments[0].url
+                    img_data = requests.get(original_im_url).content
+                    
+                    with open('/resources/images/temp_ai.png', 'wb') as handler:
+                        handler.write(img_data)
+
                     url = get_modified_image("/resources/images/temp_ai.png")
                     await ctx.reply(url)
                 else:

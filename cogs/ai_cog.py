@@ -4,6 +4,7 @@ import openai
 from utilities.openAI_test import get_ai_response, get_ai_pun, get_modified_image
 import os
 from pathlib import Path
+import requests
 
 
 class AICog(commands.Cog):
@@ -23,7 +24,14 @@ class AICog(commands.Cog):
                     )
                     image_url = response['data'][0]['url']
 
-                    await ctx.reply(image_url)
+                    img_data = requests.get(image_url).content
+                    with open('dalle_temp_image.png', 'wb') as handler:
+                        handler.write(img_data)
+
+                    temp_image_file = discord.File('dalle_temp_image.png')
+
+                    await ctx.reply(file=temp_image_file)
+                    
                 except openai.error.InvalidRequestError:
                     await ctx.reply("**Your prompt has violated the content policy**")
             else:

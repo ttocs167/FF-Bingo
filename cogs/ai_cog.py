@@ -3,8 +3,9 @@ from discord.ext import commands
 import openai
 from utilities.openAI_test import get_ai_response, get_ai_pun, get_modified_image
 import os
-from pathlib import Path
 import requests
+import io
+from PIL import Image
 
 
 class AICog(commands.Cog):
@@ -25,12 +26,15 @@ class AICog(commands.Cog):
                     image_url = response['data'][0]['url']
 
                     img_data = requests.get(image_url).content
-                    with open('dalle_temp_image.png', 'wb') as handler:
-                        handler.write(img_data)
+                    #
+                    # img = Image.frombytes(mode="RGB", size=(512, 512), data=img_data)
+                    #
+                    # arr = io.BytesIO()
+                    # img.save(arr, format='PNG')
+                    # arr.seek(0)
+                    img_as_file = discord.File(img_data)
 
-                    temp_image_file = discord.File('dalle_temp_image.png')
-
-                    await ctx.reply(file=temp_image_file)
+                    await ctx.reply(file=img_as_file)
 
                 except openai.error.InvalidRequestError:
                     await ctx.reply("**Your prompt has violated the content policy**")
@@ -45,8 +49,10 @@ class AICog(commands.Cog):
                 if ctx.message.attachments:
 
                     file_bytes = await ctx.message.attachments[0].read()
-                    url = get_modified_image(file_bytes)
-                    await ctx.reply(url)
+                    image_url = get_modified_image(file_bytes)
+                    img_data = requests.get(image_url).content
+                    img_as_file = discord.File(img_data)
+                    await ctx.reply(file=img_as_file)
 
                 else:
                     await ctx.reply("You need to attach an image for me to modify!")

@@ -276,29 +276,26 @@ async def booba_board(ctx):
 
 def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
 
-    if not os.path.exists("quotes_database/" + guild + "/"):
-        os.makedirs("quotes_database/" + guild + "/")
+    db_path = "quotes_database/{}/".format(guild)
 
-    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+    if not os.path.isdir(db_path):
+        os.makedirs(db_path)
+
+    s = shelve.open(db_path + "quote.db")
+
     try:
         quotes_list = s["quotes_list"]
+        quotes_list.append([quote, author, timestamp])
+        s["quotes_list"] = quotes_list
     except KeyError:
-        s["quotes_list"] = []
-        quotes_list = []
-
-    if not quotes_list:
-        new_quotes = [[quote, author, timestamp]]
-    else:
-        new_quotes = quotes_list.append([quote, author, timestamp])
-
-    s["quotes_list"] = new_quotes
+        s["quotes_list"] = [[quote, author, timestamp]]
 
     s.close()
 
 
 def get_random_quote(guild: str):
 
-    if not os.path.exists("quotes_database/" + guild + "/"):
+    if not os.path.isdir("quotes_database/" + guild + "/"):
         os.makedirs("quotes_database/" + guild + "/")
 
     s = shelve.open("quotes_database/{}/quote.db".format(guild))

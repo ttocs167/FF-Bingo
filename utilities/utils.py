@@ -43,7 +43,7 @@ def random_8ball_response():
 
 def random_compliment():
     compliments = ["You look lovely today :)", "Treat yourself!", "<3", "You're great", "Keep it up",
-                   "You dont look a day over [CURRENT_AGE - 5] :)", "You are who you are", "Never change!",
+                   "You dont look a day over [CURRENT AGE - 5] :)", "You are who you are", "Never change!",
                    "We're all better off with you around :)", "You're worth more than you give yourself credit for",
                    "You are your own worst critic", "Love yourself more, you are worth that and more",
                    "You probably shouldn't seek self validation from a discord bot, but for what its worth,"
@@ -271,6 +271,39 @@ async def booba_board(ctx):
         output += "**{}**: ".format(offenses) + name + "\n"
 
     return output
+
+
+def store_quote(guild: str, quote: str, author: discord.Member, timestamp: datetime):
+
+    s = shelve.open("{}/quote.db".format(guild))
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        quotes_list = s["quotes_list"]
+
+    quotes_list.append([quote, author, timestamp])
+
+    s.close()
+
+
+def get_random_quote(guild: str):
+    s = shelve.open("{}/quote.db".format(guild))
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        return None, None, None
+
+    random_quote_object = random.choice(quotes_list)
+
+    quote = random_quote_object[0]
+    author = random_quote_object[1]
+    timestamp = random_quote_object[2]
+
+    s.close()
+
+    return quote, author, timestamp
 
 
 def yolo_response(img_url):

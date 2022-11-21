@@ -350,3 +350,33 @@ class FunCog(commands.Cog):
             """Returns a random song from my library"""
             out = get_random_from_library()
             await ctx.reply(out)
+
+    @commands.command(aliases=["addquote", "aquote"])
+    async def add_quote(self, ctx: commands.Context):
+        """Reply to a quotable message with this command to add it to the quotes database"""
+        message = ctx.message
+        if ctx.message.reference.resolved is not None:
+            resolved_reference = message.reference.resolved
+
+            message_content = resolved_reference.content
+            quote_author = resolved_reference.author
+            quote_time = resolved_reference.created_at
+
+            utils.store_quote(ctx.guild.name, message_content, quote_author, quote_time)
+
+            await ctx.reply("Message added to quote database!")
+
+        else:
+            await ctx.reply("you must reply to the message you want to quote.")
+
+    @commands.command(aliases=["rquote", "randomquote", "getquote", "random_quote", "quote"])
+    async def get_random_quote(self, ctx: commands.Context):
+        """this will return a random quote from the database!"""
+        content, author, time = utils.get_random_quote(ctx.guild.name)
+
+        if content is not None:
+            out = content + author.mention + "\n" + time.strftime("%Y/%m/%d, %H:%M:%S")
+            await ctx.reply(out)
+
+        else:
+            await ctx.reply("There don't seem to be any quotes for your server...")

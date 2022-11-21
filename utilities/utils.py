@@ -286,14 +286,10 @@ def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
         s["quotes_list"] = []
         quotes_list = []
 
-    print("this is the quotes list: ", quotes_list)
-
-    if quotes_list is None or []:
+    if not quotes_list:
         new_quotes = [[quote, author, timestamp]]
     else:
         new_quotes = quotes_list.append([quote, author, timestamp])
-
-    print("these is the new quotes list: ", new_quotes)
 
     s["quotes_list"] = new_quotes
 
@@ -311,7 +307,6 @@ def get_random_quote(guild: str):
     except KeyError:
         s["quotes_list"] = []
         return None, None, None
-    print(quotes_list)
 
     random_quote_object = random.choice(quotes_list)
 

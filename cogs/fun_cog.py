@@ -359,10 +359,10 @@ class FunCog(commands.Cog):
             resolved_reference = message.reference.resolved
 
             message_content = resolved_reference.content
-            quote_author = resolved_reference.author
+            quote_author_id = resolved_reference.author.id
             quote_time = resolved_reference.created_at
 
-            utils.store_quote(ctx.guild.name, message_content, quote_author, quote_time)
+            utils.store_quote(ctx.guild.name, message_content, quote_author_id, quote_time)
 
             await ctx.reply("Message added to quote database!")
 
@@ -372,10 +372,16 @@ class FunCog(commands.Cog):
     @commands.command(aliases=["rquote", "randomquote", "getquote", "random_quote", "quote"])
     async def get_random_quote(self, ctx: commands.Context):
         """this will return a random quote from the database!"""
-        content, author, time = utils.get_random_quote(ctx.guild.name)
+        content, author_id, time = utils.get_random_quote(ctx.guild.name)
 
         if content is not None:
-            out = content + author.mention + "\n" + time.strftime("%Y/%m/%d, %H:%M:%S")
+            author = ctx.guild.get_member(author_id)
+
+            nick_or_name = author.nick
+            if nick_or_name is None:
+                nick_or_name = author.name
+
+            out = "_" + content + "_\n- **" + nick_or_name + "**" + "\n" + time.strftime("%Y/%m/%d, %H:%M:%S")
             await ctx.reply(out)
 
         else:

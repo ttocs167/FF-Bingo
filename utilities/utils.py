@@ -1,5 +1,6 @@
 import random
 import re
+import os
 import shutil
 import csv
 import requests
@@ -273,27 +274,43 @@ async def booba_board(ctx):
     return output
 
 
-def store_quote(guild: str, quote: str, author: discord.Member, timestamp: datetime):
+def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
 
-    s = shelve.open("{}/quote.db".format(guild))
+    print(guild, quote, author, timestamp)
+
+    if not os.path.exists("quotes_database/" + guild + "/"):
+        print("path doesnt exist")
+        os.makedirs("quotes_database/" + guild + "/")
+
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
     try:
         quotes_list = s["quotes_list"]
     except KeyError:
         s["quotes_list"] = []
-        quotes_list = s["quotes_list"]
+        quotes_list = []
 
-    quotes_list.append([quote, author, timestamp])
+    print("this is the quotes list: ", quotes_list)
+
+    if quotes_list is None:
+        new_quotes = [[quote, author, timestamp]]
+    else:
+        new_quotes = quotes_list.append([quote, author, timestamp])
+
+    print("these is the new quotes list: ", new_quotes)
+
+    s["quotes_list"] = new_quotes
 
     s.close()
 
 
 def get_random_quote(guild: str):
-    s = shelve.open("{}/quote.db".format(guild))
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
     try:
         quotes_list = s["quotes_list"]
     except KeyError:
         s["quotes_list"] = []
         return None, None, None
+    print(quotes_list)
 
     random_quote_object = random.choice(quotes_list)
 

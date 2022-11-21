@@ -291,7 +291,7 @@ def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
 
     print("this is the quotes list: ", quotes_list)
 
-    if quotes_list is None:
+    if quotes_list is None or []:
         new_quotes = [[quote, author, timestamp]]
     else:
         new_quotes = quotes_list.append([quote, author, timestamp])

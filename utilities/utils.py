@@ -196,7 +196,18 @@ def random_wipe_reason(caller):
     return output
 
 
-def booba(member: discord.Member):
+def get_booba_time():
+    time_since_last_booba = datetime.now() - time_of_last_booba
+
+    days = time_since_last_booba.days
+    hours = time_since_last_booba.seconds // 3600
+    minutes = (time_since_last_booba.seconds // 60) % 60
+    seconds = time_since_last_booba.seconds % 60
+
+    return days, hours, minutes, seconds
+
+
+def booba(member: discord.Member = None):
     def ordinal(n):
         return "%d%s" % (n, "tsnrhtdd"[(n // 10 % 10 != 1) * (n % 10 < 4) * n % 10::4])
 
@@ -213,23 +224,18 @@ def booba(member: discord.Member):
     except KeyError:
         s['offenders'] = {}
         booba_offenders = s['offenders']
-
     try:
         booba_offenders[member.id] += 1
         offense_num = booba_offenders[member.id]
     except KeyError:
         booba_offenders[member.id] = 1
         offense_num = 1
-
     s['offenders'] = booba_offenders
-
     if member.nick is not None:
         name = member.nick
     else:
         name = member.name
-
     offender_text = "This is {}'s **{}** offense.".format(name, ordinal(offense_num))
-
     s.close()
 
     return days, hours, minutes, seconds, offender_text

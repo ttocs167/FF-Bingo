@@ -304,7 +304,7 @@ class FunCog(commands.Cog):
 
     @commands.command(name='booba')
     async def days_since_booba(self, ctx):
-        days, hours, minutes, seconds = utils.booba()
+        days, hours, minutes, seconds = utils.get_booba_time()
         await ctx.send("It has been **{}** Days, **{}** Hours,"
                        " **{}** Minutes, and **{}** seconds since last booba".format(days, hours, minutes, seconds))
 

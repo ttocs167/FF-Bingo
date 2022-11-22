@@ -274,7 +274,7 @@ async def booba_board(ctx):
     return output
 
 
-def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
+def store_quote(guild: str, quote: str, author: int, timestamp: datetime, message_id: int = None):
 
     db_path = "quotes_database/{}/".format(guild)
 
@@ -283,14 +283,31 @@ def store_quote(guild: str, quote: str, author: int, timestamp: datetime):
 
     s = shelve.open(db_path + "quote.db")
 
+    new_data = [quote, author, timestamp]
+
+    if message_id is not None:
+        try:
+            message_ids = s["message_ids"]
+            if message_id in message_ids:
+                return "This message is already in the database"
+            else:
+                message_ids.add(message_id)
+                s["message_ids"] = message_ids
+
+        except KeyError:
+            new_id_set = set()
+            new_id_set.add(message_id)
+            s["message_ids"] = new_id_set
+
     try:
         quotes_list = s["quotes_list"]
-        quotes_list.append([quote, author, timestamp])
+        quotes_list.append(new_data)
         s["quotes_list"] = quotes_list
     except KeyError:
-        s["quotes_list"] = [[quote, author, timestamp]]
+        s["quotes_list"] = [new_data]
 
     s.close()
+    return "Message added to quote database!"
 
 
 def get_random_quote(guild: str):

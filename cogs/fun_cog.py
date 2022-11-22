@@ -361,10 +361,11 @@ class FunCog(commands.Cog):
             message_content = resolved_reference.content
             quote_author_id = resolved_reference.author.id
             quote_time = resolved_reference.created_at
+            reference_id = resolved_reference.id
 
-            utils.store_quote(ctx.guild.name, message_content, quote_author_id, quote_time)
+            output = utils.store_quote(ctx.guild.name, message_content, quote_author_id, quote_time, reference_id)
 
-            await ctx.reply("Message added to quote database!")
+            await ctx.reply(output)
 
         else:
             await ctx.reply("you must reply to the message you want to quote.")

@@ -11,10 +11,6 @@ from utilities.wordle_cheat import save_user_data
 import random
 from dotenv import load_dotenv
 
-try:
-    from utilities import webcam_photo, picam_photo
-except:
-    print("could not import picam module")
 
 load_dotenv()
 
@@ -337,12 +333,6 @@ class FunCog(commands.Cog):
         img = discord.File('resources/images/e12p2_adv_rel.png')
         await ctx.reply("", file=img)
 
-    @commands.command(name="plant", hidden=False)
-    async def webcam_image(self, ctx):
-        async with ctx.channel.typing():
-            image_path = await picam_photo.take_image()
-            img = discord.File(image_path)
-        await ctx.reply("", file=img)
 
     if "SPOTIPY_CLIENT_ID" and "SPOTIPY_CLIENT_SECRET" in os.environ:
         @commands.command()

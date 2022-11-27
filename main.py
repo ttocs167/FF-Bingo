@@ -32,8 +32,8 @@ class Bot(commands.Bot):
         await self.add_cog(AudioCog(bot))
         await self.add_cog(UtilCog(bot))
         await self.add_cog(CamCog(bot))
-        # if "OPENAI_API_KEY" in os.environ:
-        #     await self.add_cog(AICog(bot))
+        if "OPENAI_API_KEY" in os.environ:
+            await self.add_cog(AICog(bot))
 
     @staticmethod
     async def on_ready():

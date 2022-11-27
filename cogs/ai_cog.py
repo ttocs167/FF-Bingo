@@ -13,6 +13,7 @@ class AICog(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["ai_image", "aiim", "aimage"])
+    @commands.is_owner()
     async def get_dalle_image(self, ctx: commands.Context, *, prompt):
         """Generate a DALLE image based on a prompt!"""
         async with ctx.channel.typing():
@@ -40,6 +41,7 @@ class AICog(commands.Cog):
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command(aliases=["aimod"])
+    @commands.is_owner()
     async def ai_modify_image(self, ctx: commands.Context):
         """Modify an existing image using DALLE!"""
         async with ctx.channel.typing():
@@ -62,6 +64,7 @@ class AICog(commands.Cog):
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command()
+    @commands.is_owner()
     async def ai(self, ctx, *, new_prompt):
         """Get a real AI response from BingoBot!"""
         async with ctx.channel.typing():
@@ -73,6 +76,7 @@ class AICog(commands.Cog):
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command(aliases=["ai_pun"])
+    @commands.is_owner()
     async def aipun(self, ctx: commands.Context, *, pun_prompt):
         """Get a painfully unfunny AI generated pun or joke from BingoBot!"""
         async with ctx.channel.typing():

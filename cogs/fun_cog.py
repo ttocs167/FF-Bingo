@@ -391,4 +391,4 @@ class FunCog(commands.Cog):
     async def del_quote(self, ctx: commands.Context, guild: str, quote_index: int):
         """This will allow you to delete a quote from you from the database"""
         utils.delete_quote_at_index(guild, quote_index)
-        await ctx.reply("Quote at index: _{}_ in server: _{}_ has been deleted.")
+        await ctx.reply("Quote at index: _{}_ in server: _{}_ has been deleted.".format(quote_index, guild))

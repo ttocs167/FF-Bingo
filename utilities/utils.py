@@ -339,6 +339,38 @@ def get_random_quote(guild: str):
     return quote, author, timestamp
 
 
+def get_personal_quotes(guild: str, author_id: int):
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+    out = "Guild name: {}\n use this guild name when deleting quotes.\nQuotes from you: \n\n".format(guild)
+
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+
+    for item, i in enumerate(quotes_list):
+        if item[1] == author_id:
+            out += "{}: {}\n".format(i, item[i])
+
+    s.close()
+    return out
+
+
+def delete_quote_at_index(guild: str, index: int):
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        return
+
+    del quotes_list[index]
+
+    s.close()
+
+
 def yolo_response(img_url):
     DETECTION_URL = "http://localhost:5000/v1/object-detection/yolov5s"
     response = requests.post(DETECTION_URL, json={"image_url": img_url})

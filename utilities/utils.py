@@ -348,7 +348,8 @@ def get_personal_quotes(guild: str, author_id: int):
         quotes_list = s["quotes_list"]
     except KeyError:
         s["quotes_list"] = []
-        return
+        s.close()
+        return "No quotes found"
 
     for i, item in enumerate(quotes_list):
         if item[1] == author_id:
@@ -358,20 +359,61 @@ def get_personal_quotes(guild: str, author_id: int):
     return out
 
 
-def delete_quote_at_index(guild: str, index: int):
+def get_all_quotes(guild: str):
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+    out = "Guild name: {}\nUse this guild name when deleting quotes.\nQuotes from you: \n\n".format(guild)
+
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        s.close()
+        return "No quotes found"
+
+    for i, item in enumerate(quotes_list):
+        out += "{}: {}\n".format(i, item[0])
+
+    s.close()
+    return out
+
+
+def delete_quote_at_index(guild: str, index: int, author_id: int):
     s = shelve.open("quotes_database/{}/quote.db".format(guild))
 
     try:
         quotes_list = s["quotes_list"]
     except KeyError:
         s["quotes_list"] = []
-        return
+        s.close()
+        return "No quotes found"
 
-    del quotes_list[index]
+    if quotes_list[index][1] == author_id:
+        del quotes_list[index]
+    else:
+        s.close()
+        return "The index given does not belong to your quote"
 
     s["quotes_list"] = quotes_list
 
     s.close()
+
+    return "Quote at index: _{}_ in server: _{}_ has been deleted.".format(index, guild)
+
+
+def owner_del_quote_at_index(guild: str, index: int):
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        s.close()
+        return ""
+
+    del quotes_list[index]
+
+    return "deleted item"
 
 
 def yolo_response(img_url):

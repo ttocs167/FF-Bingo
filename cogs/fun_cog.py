@@ -393,5 +393,23 @@ class FunCog(commands.Cog):
     @commands.command(aliases=["dquote", "delquote", "rmquote"])
     async def del_quote(self, ctx: commands.Context, guild: str, quote_index: int):
         """This will allow you to delete a quote from you from the database"""
-        utils.delete_quote_at_index(guild, quote_index)
-        await ctx.reply("Quote at index: _{}_ in server: _{}_ has been deleted.".format(quote_index, guild))
+        out = utils.delete_quote_at_index(guild, quote_index)
+        await ctx.reply(out)
+
+    @commands.is_owner()
+    @commands.command()
+    async def get_all_quotes(self, ctx: commands.Context):
+
+        out = utils.get_all_quotes(ctx.guild.name)
+
+        author = ctx.author
+        dm = await author.create_dm()
+        await dm.send(out)
+
+    @commands.is_owner()
+    @commands.command()
+    async def owner_del_quote(self, ctx: commands.Context, guild: str, quote_index: int):
+
+        out = utils.owner_del_quote_at_index(guild, quote_index)
+
+        await ctx.reply(out)

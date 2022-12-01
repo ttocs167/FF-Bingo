@@ -378,16 +378,19 @@ class FunCog(commands.Cog):
         else:
             await ctx.reply("There don't seem to be any quotes for your server...")
 
-    @commands.command()
+    @commands.command(aliases=["getquotes", "myquotes"])
     async def get_my_quotes(self, ctx: commands.Context):
         """Use this to get a list of your quotes in the database and the index needed to delete them"""
+
+        await ctx.reply("DM with more info on the way...")
+
         out = utils.get_personal_quotes(str(ctx.guild.name), ctx.author.id)
 
         author = ctx.author
         dm = await author.create_dm()
         await dm.send(out)
 
-    @commands.command()
+    @commands.command(aliases=["dquote", "delquote", "rmquote"])
     async def del_quote(self, ctx: commands.Context, guild: str, quote_index: int):
         """This will allow you to delete a quote from you from the database"""
         utils.delete_quote_at_index(guild, quote_index)

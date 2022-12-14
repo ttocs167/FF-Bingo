@@ -363,6 +363,10 @@ class FunCog(commands.Cog):
     @commands.command(aliases=["rquote", "randomquote", "getquote", "random_quote", "quote"])
     async def get_random_quote(self, ctx: commands.Context):
         """this will return a random quote from the database!"""
+        if ctx.message.reference.resolved is not None:
+            await ctx.reply("lmao, idiot")
+            return
+
         content, author_id, time = utils.get_random_quote(ctx.guild.name)
 
         if content is not None:

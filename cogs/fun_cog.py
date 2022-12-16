@@ -345,7 +345,7 @@ class FunCog(commands.Cog):
     async def add_quote(self, ctx: commands.Context):
         """Reply to a quotable message with this command to add it to the quotes database"""
         message = ctx.message
-        if ctx.message.reference.resolved is not None:
+        if ctx.message.reference is not None:
             resolved_reference = message.reference.resolved
 
             message_content = resolved_reference.content
@@ -363,7 +363,7 @@ class FunCog(commands.Cog):
     @commands.command(aliases=["rquote", "randomquote", "getquote", "random_quote", "quote"])
     async def get_random_quote(self, ctx: commands.Context):
         """this will return a random quote from the database!"""
-        if ctx.message.reference.resolved is not None:
+        if ctx.message.reference is not None:
             await ctx.reply("lmao, idiot")
             return
 

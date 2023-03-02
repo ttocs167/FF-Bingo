@@ -3,14 +3,14 @@ import os
 from dotenv import load_dotenv
 import json
 from collections import deque
-# import tiktoken
+import tiktoken
 
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 header = [
     {"role": "system", "content": "You are a helpful and sarcastic assistant called BingoBot."
@@ -40,5 +40,4 @@ def get_chat_response(new_text, author='user'):
     return response_content
 
 def get_tokens(sample_text):
-    return
-#     return str(len(encoding.encode(sample_text)))
+    return str(len(encoding.encode(sample_text)))

@@ -75,12 +75,12 @@ class AICog(commands.Cog):
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
-    @commands.command()
-    async def tokens(self, ctx, *, sample):
-        """find out how many tokens are in your message!"""
-        async with ctx.channel.typing():
-            tokens = get_tokens(sample)
-            await ctx.reply("The number of tokens in your message is: " + tokens)
+    # @commands.command()
+    # async def tokens(self, ctx, *, sample):
+    #     """find out how many tokens are in your message!"""
+    #     async with ctx.channel.typing():
+    #         tokens = get_tokens(sample)
+    #         await ctx.reply("The number of tokens in your message is: " + tokens)
 
     @commands.command(aliases=["ai_pun"])
     @commands.is_owner()

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import openai
 from utilities.openAI_test import get_ai_response, get_ai_pun, get_modified_image
+from utilities.chatgpt import get_chat_response
 import os
 import requests
 import io
@@ -64,13 +65,11 @@ class AICog(commands.Cog):
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
     @commands.command()
-    @commands.is_owner()
     async def ai(self, ctx, *, new_prompt):
         """Get a real AI response from BingoBot!"""
         async with ctx.channel.typing():
             if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
-                author = str(ctx.message.author).split('#')[0]
-                response = get_ai_response(new_prompt, author)
+                response = get_chat_response(new_prompt)
                 await ctx.reply(response)
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")

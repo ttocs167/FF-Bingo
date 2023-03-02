@@ -30,4 +30,4 @@ def get_chat_response(new_text):
 
     recent_history.append({"role": "assistant", "content": response_content})
 
-    return response
+    return response_content

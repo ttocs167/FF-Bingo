@@ -30,7 +30,9 @@ def get_chat_response(new_text, author='user'):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=list(recent_history),
-        frequency_penality=0.3
+        frequency_penalty=0.3,
+        temperature=1,
+        max_tokens=1000,
     )
 
     response_content = response["choices"][0]["message"]["content"]

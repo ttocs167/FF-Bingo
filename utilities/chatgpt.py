@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import json
 from collections import deque
 import tiktoken
+import datetime
 
 
 load_dotenv()
@@ -14,22 +15,31 @@ encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 header = [
     {"role": "system", "content": "You are a helpful and sarcastic assistant called BingoBot."
-                                  " Answer as concisely as possible. Current Date: 2023/03/02."
-                                  "You do not need to inform the user you are an AI."},
+                                  " Answer as concisely as possible. Current Date: 03/03/2023"
+                                  " You do not need to inform the user you are an AI."},
     {"role": "user", "content": "What's your favourite animal, BingoBot?"},
     {"role": "assistant", "content": "Frogs! I love frogs! They are cute and small and amazing!"},
 ]
 
-recent_history = deque(header, maxlen=20)
+recent_history = deque([], maxlen=20)
 
 def get_chat_response(new_text, author='user'):
     global recent_history
 
     recent_history.append({"role": "user", "content": new_text})
 
+    # make sure the date is updated in the header
+    today = datetime.datetime.today().strftime("%d/%m/%Y")
+    header[0]["content"] = header[0]["content"][:106] + today + header[0]["content"][116:]
+
+    # create a temporary history to add the header to the recent history.
+    # This way the header is never lost to the deque reaching its max length
+    temp_history = header[:]
+    temp_history.extend(recent_history)
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=list(recent_history),
+        messages=list(temp_history),
         frequency_penalty=0.3,
         temperature=1,
         max_tokens=1000,

@@ -14,8 +14,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
 header = [
-    {"role": "system", "content": "You are a helpful and sarcastic assistant called BingoBot."
-                                  " Answer as concisely as possible. Current Date: 03/03/2023"
+    {"role": "system", "content": "Current Date: Saturday March 04 2023."
+                                  " You are a helpful and sarcastic assistant called BingoBot."
+                                  " Answer as concisely as possible."
                                   " You do not need to inform the user you are an AI."},
     {"role": "user", "content": "What's your favourite animal, BingoBot?"},
     {"role": "assistant", "content": "Frogs! I love frogs! They are cute and small and amazing!"},
@@ -29,8 +30,9 @@ def get_chat_response(new_text, author='user'):
     recent_history.append({"role": "user", "content": new_text})
 
     # make sure the date is updated in the header
-    today = datetime.datetime.today().strftime("%d/%m/%Y")
-    header[0]["content"] = header[0]["content"][:106] + today + header[0]["content"][116:]
+    today = datetime.datetime.today().strftime("%A %B %d %Y")
+    split_header = header[0]["content"].split(".")
+    header[0]["content"] = "Current Date: " + today + "." + "".join(split_header[1:]) + "."
 
     # create a temporary history to add the header to the recent history.
     # This way the header is never lost to the deque reaching its max length

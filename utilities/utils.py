@@ -33,9 +33,10 @@ def random_animal_emoji():
 
 
 def random_8ball_response():
-    responses = ["Yes", "No", "Maybe", "Certainly", "Surely not", "Of course", "No way",
-                 "Who cares?", "Fo Sho Dawg", ":frog:"]
-    choice = random.choices(responses, weights=[1, 1, 1, 1, 1, 1, 1, .5, .5, .05])[0]
+    responses = ["Yes", "No", "Maybe", "Certainly", "Surely not", "Of course", "No way", "Without a doubt", "Ask again later",
+                 "It's better if you don't know", "Who cares?", "Fo Sho Dawg", ":frog:"]
+    choice = random.choices(responses, weights=[1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                                .5, .5, .5, .05])[0]
 
     output = "_**" + choice + "**_"
 

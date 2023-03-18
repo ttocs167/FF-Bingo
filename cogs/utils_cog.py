@@ -6,11 +6,14 @@ import datetime
 from dateutil import parser
 from dateutil.tz import gettz
 import time
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
 class UtilCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.scheduler = AsyncIOScheduler()
+        self.scheduler.start()
 
     @commands.command(aliases=["timers", "time"])
     async def timer(self, ctx: commands.Context, time_string, *reminder_text):
@@ -126,10 +129,15 @@ class UtilCog(commands.Cog):
             return
         if time_of_alarm.tzinfo is None:
             time_of_alarm = time_of_alarm.replace(tzinfo=datetime.timezone.utc)
-        time_to_wait = (time_of_alarm - datetime.datetime.now(datetime.timezone.utc)).seconds
+
+        # convert timestamp to a value in seconds to wait
+        time_to_wait =  (time_of_alarm - datetime.datetime.now(datetime.timezone.utc)).total_seconds()
 
         if time_to_wait < 0:
-            time_to_wait += 86400  # if time is negative then the user probably means tomorrow at that time
+            # if time is negative then the user probably means tomorrow at that time
+            time_to_wait += 86400
+            # correct the time of alarm to tomorrow
+            time_of_alarm = time_of_alarm.replace(day=time_of_alarm.day + 1)
 
         if time_to_wait < 0:  # if the time is still negative then the requested time is in the past
             await ctx.reply("You cannot set a timer in the past!")
@@ -142,9 +150,18 @@ class UtilCog(commands.Cog):
                                   f"about: **{reminder_text}**\n"
                                   f"_Others can react to this message to be mentioned when the reminder is up._\n"
                                   f"_React with ⛔, 🚫, or 🔕 to cancel the reminder._")
-        await asyncio.sleep(time_to_wait)
 
-        cache_message = await ctx.fetch_message(message.id)  # this returns an up to date version of the message
+        # schedule the job to run in the future
+        self.scheduler.add_job(self.timer_reply_job,
+                               'date',
+                               run_date=time_of_alarm,
+                               args=[ctx, reminder_text, message])
+
+
+    @staticmethod
+    async def timer_reply_job(ctx: commands.Context, reminder_text: str, message: discord.Message):
+
+        cache_message = await ctx.fetch_message(message.id)  # this returns an up-to-date version of the message
 
         users = set()
         users.add(ctx.author)

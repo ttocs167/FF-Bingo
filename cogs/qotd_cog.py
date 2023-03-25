@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question, shuffle_future_questions
+from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question, shuffle_future_questions, get_remaining_questions_count
 import datetime
 import shelve
 
@@ -86,6 +86,15 @@ class QotdCog(commands.Cog):
         s = shelve.open('qotd.db')
         try:
             s['day_index'] += 1
+        finally:
+            s.close()
+
+    @commands.command()
+    async def questions_remaining(self, ctx: commands.Context):
+        s = shelve.open('qotd.db')
+        try:
+            questions_remaining = get_remaining_questions_count(s)
+            await ctx.reply("There are **{}** questions remaining!".format(questions_remaining))
         finally:
             s.close()
 

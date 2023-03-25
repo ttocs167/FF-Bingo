@@ -87,3 +87,20 @@ def shuffle_in_new_question(s, new_question):
     new_questions = past_questions + future_questions
     write_new_questions_to_file(new_questions)
     return
+
+def shuffle_future_questions(s):
+    try:
+        todays_index = s['day_index']
+    except KeyError:
+        s['day_index'] = 0
+        todays_index = 0
+
+    questions = get_all_questions()
+    past_questions = questions[:todays_index + 1]
+    future_questions = questions[todays_index + 1:]
+
+    random.shuffle(future_questions)
+
+    new_questions = past_questions + future_questions
+    write_new_questions_to_file(new_questions)
+    return

@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question
+from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question, shuffle_future_questions
 import datetime
 import shelve
 
@@ -88,6 +88,14 @@ class QotdCog(commands.Cog):
             s['day_index'] += 1
         finally:
             s.close()
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def shuffle_future_questions(self, ctx: commands.Context):
+        s = shelve.open('qotd.db')
+        shuffle_future_questions(s)
+        s.close()
+        await ctx.reply("_Shuffled future questions!_")
 
     @commands.command(hidden=True)
     @commands.is_owner()

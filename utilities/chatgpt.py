@@ -22,7 +22,7 @@ header = [
     {"role": "assistant", "content": "Frogs! I love frogs! They are cute and small and amazing!"},
 ]
 
-recent_history = deque([], maxlen=20)
+recent_history = deque([], maxlen=14)
 
 def get_chat_response(new_text, author='user'):
     global recent_history

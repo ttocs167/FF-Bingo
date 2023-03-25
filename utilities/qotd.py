@@ -20,7 +20,7 @@ def get_all_questions():
         # pass the file object to reader() to get the reader object
         csv_reader = csv.reader(read_obj, delimiter='\n')
         # Get all rows of csv from csv_reader object as list of tuples
-        questions = list(csv_reader)[:-1]
+        questions = list(csv_reader)
         questions_cleaned = []
         for item in questions:
             questions_cleaned.append(item[0])

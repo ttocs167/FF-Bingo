@@ -73,8 +73,15 @@ class AICog(commands.Cog):
                 author = str(ctx.message.author).split('#')[0]
                 response = get_chat_response(new_prompt)
 
-                lines = textwrap.wrap(response, width=1500)
-                
+                lines = textwrap.wrap(response,
+                                      width=1500,
+                                      expand_tabs=False,
+                                      replace_whitespace=False,
+                                      drop_whitespace=False,
+                                      break_on_hyphens=False,
+                                      break_long_words=False,
+                                      )
+
                 for line in lines:
                     await ctx.reply(line)
 

@@ -5,6 +5,7 @@ from utilities.openAI_test import get_ai_response, get_ai_pun, get_modified_imag
 from utilities.chatgpt import get_chat_response, get_tokens
 import os
 import requests
+import textwrap
 import io
 from PIL import Image
 
@@ -71,7 +72,12 @@ class AICog(commands.Cog):
             if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
                 author = str(ctx.message.author).split('#')[0]
                 response = get_chat_response(new_prompt)
-                await ctx.reply(response)
+
+                lines = textwrap.wrap(response, width=1500)
+                
+                for line in lines:
+                    await ctx.reply(line)
+
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 

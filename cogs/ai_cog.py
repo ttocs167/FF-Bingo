@@ -88,6 +88,30 @@ class AICog(commands.Cog):
             else:
                 await ctx.reply("Sorry, this server is not authorised to use the AI function.")
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def ai4(self, ctx, *, new_prompt):
+        """Get a real AI response from BingoBot!"""
+        async with ctx.channel.typing():
+            if str(ctx.guild) in os.getenv('GUILD_WHITELIST'):
+                author = str(ctx.message.author).split('#')[0]
+                response = get_chat_response(new_prompt, model="gpt-4")
+
+                lines = textwrap.wrap(response,
+                                      width=1500,
+                                      expand_tabs=False,
+                                      replace_whitespace=False,
+                                      drop_whitespace=False,
+                                      break_on_hyphens=False,
+                                      break_long_words=False,
+                                      )
+
+                for line in lines:
+                    await ctx.reply(line)
+
+            else:
+                await ctx.reply("Sorry, this server is not authorised to use the AI function.")
+
     @commands.command()
     async def tokens(self, ctx, *, sample):
         """find out how many tokens are in your message!"""

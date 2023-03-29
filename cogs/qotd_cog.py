@@ -89,7 +89,7 @@ class QotdCog(commands.Cog):
         finally:
             s.close()
 
-    @commands.command()
+    @commands.command(aliases=['remaining_questions'])
     async def questions_remaining(self, ctx: commands.Context):
         s = shelve.open('qotd.db')
         try:

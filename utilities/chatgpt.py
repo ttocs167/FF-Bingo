@@ -24,7 +24,7 @@ header = [
 
 recent_history = deque([], maxlen=14)
 
-def get_chat_response(new_text, author='user'):
+def get_chat_response(new_text, author='user', model="gpt-3.5-turbo"):
     global recent_history
 
     recent_history.append({"role": "user", "content": new_text})
@@ -40,7 +40,7 @@ def get_chat_response(new_text, author='user'):
     temp_history.extend(recent_history)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model=model,
         messages=list(temp_history),
         frequency_penalty=0.3,
         temperature=1,

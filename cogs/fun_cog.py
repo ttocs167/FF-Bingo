@@ -420,7 +420,11 @@ class FunCog(commands.Cog):
 
         await ctx.reply(out)
 
+<<<<<<< HEAD
     @commands.command(aliases=["hangman", "hm"])
+=======
+    @commands.command(aliases=["hm"])
+>>>>>>> 0bd908da8ef08386241187794a738711e89a98c4
     async def hangman(self, ctx: commands.Context, *, letter: str = None):
         """Starts a game of hangman or guesses a letter in the current game"""
 

@@ -435,8 +435,15 @@ class FunCog(commands.Cog):
                 return
 
             if len(letter.strip()) > 1:
-                await ctx.reply("You can only guess one letter at a time!")
-                return
+                if letter.strip() == self.hangman.word:
+                    await ctx.reply("You win!")
+                    self.hangman = None
+                    return
+                else:
+                    await ctx.reply("That's not the word!")
+                    self.hangman.guesses -= 1
+                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                    return
 
             if self.hangman.guesses > 1:
                 success, word_list = self.hangman.guess_letter(letter)
@@ -459,4 +466,16 @@ class FunCog(commands.Cog):
                     await ctx.send("The word was {}".format(self.hangman.word))
                     self.hangman = None
 
+    @commands.command()
+    async def reset_hangman(self, ctx: commands.Context):
+        """Resets the hangman game"""
+        if self.hangman is None:
+            self.hangman = hangman.Hangman()
+        else:
+            self.hangman.reset_game()
+        await ctx.reply("Hangman game reset!")
 
+    @commands.command(hidden=True)
+    async def reset_hangman_guesses(self):
+        if self.hangman is not None:
+            self.hangman.reset_guesses()

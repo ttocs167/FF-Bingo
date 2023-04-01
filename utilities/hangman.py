@@ -2,7 +2,7 @@ import random
 import discord
 
 def load_word_list():
-    with open('resources/hangman/google-10000-english-no-swears.txt', 'r') as f:
+    with open('resources/hangman/long_words.txt', 'r') as f:
         words = f.read().splitlines()
     return words
 

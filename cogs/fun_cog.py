@@ -434,7 +434,7 @@ class FunCog(commands.Cog):
                 await ctx.reply("You must guess a letter!")
                 return
 
-            if len(letter.strip()) >= 1:
+            if len(letter.strip()) > 1:
                 await ctx.reply("You can only guess one letter at a time!")
                 return
 

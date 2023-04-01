@@ -427,7 +427,7 @@ class FunCog(commands.Cog):
         if self.hangman is None:
             await ctx.reply("Starting a game of hangman...")
             self.hangman = hangman.Hangman()
-            await ctx.send("```" + self.hangman.word_list + "```")
+            await ctx.send("```" + "".join(self.hangman.word_list) + "```")
 
         else:
             if letter is None:
@@ -440,6 +440,7 @@ class FunCog(commands.Cog):
 
             if self.hangman.guesses > 1:
                 success, word_list = self.hangman.guess_letter(letter)
+                word_list = "".join(word_list)
                 if success:
                     await ctx.send("```" + word_list + "```")
                 elif self.hangman.guesses > 1:

@@ -476,6 +476,6 @@ class FunCog(commands.Cog):
         await ctx.reply("Hangman game reset!")
 
     @commands.command(hidden=True)
-    async def reset_hangman_guesses(self):
+    async def reset_hangman_guesses(self, ctx: commands.Context):
         if self.hangman is not None:
             self.hangman.reset_guesses()

@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 import datetime
 from utilities import utils
 from utilities import generate_secret_bingo as gsb
+from utilities import hangman
 import requests
 from utilities import wordle_cheat
 import json
@@ -41,6 +42,7 @@ class FunCog(commands.Cog):
         self.bot = bot
         self.rigged_statement = None
         self.reset_wordle_counts.start()
+        self.hangman = None
 
     @commands.command(name='8ball')
     async def _ball(self, ctx):
@@ -417,3 +419,37 @@ class FunCog(commands.Cog):
         out = utils.owner_del_quote_at_index(guild, quote_index)
 
         await ctx.reply(out)
+
+    @commands.command(aliases=["hm"])
+    async def hangman(self, ctx: commands.Context, *, letter: str = None):
+        """Starts a game of hangman or guesses a letter in the current game"""
+
+        if self.hangman is None:
+            await ctx.reply("Starting a game of hangman...")
+            self.hangman = hangman.Hangman()
+            await ctx.send("```" + self.hangman.word_list + "```")
+
+        else:
+            if letter is None:
+                await ctx.reply("You must guess a letter!")
+                return
+
+            if len(letter.strip()) >= 1:
+                await ctx.reply("You can only guess one letter at a time!")
+                return
+
+            if self.hangman.guesses > 1:
+                success, word_list = self.hangman.guess_letter(letter)
+                if success:
+                    await ctx.send("```" + word_list + "```")
+                elif self.hangman.guesses > 1:
+                    await ctx.send("```" + word_list + "```")
+                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                else:
+                    await ctx.send("```" + word_list + "```")
+                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                    await ctx.send("Better luck next time!")
+                    await ctx.send("The word was {}".format(self.hangman.word))
+                    self.hangman = None
+
+

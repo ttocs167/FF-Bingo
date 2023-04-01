@@ -25,17 +25,18 @@ class Hangman:
         self.word_list = set_up_game(self.word)
         self.max_guesses = 6
         self.guesses = self.max_guesses
-        self.guessed_letters = []
+        self.guessed_letters = set()
 
     def guess_letter(self, letter):
         assert len(letter) == 1, "You can only guess one letter at a time."
 
-        self.guessed_letters.append(letter)
+        letter = letter.lower()
 
         if letter in self.guessed_letters:
             return False, self.word_list, "you already guessed that letter"
 
-        letter = letter.lower()
+        self.guessed_letters.add(letter)
+
         if letter in self.word:
             for i in range(len(self.word)):
                 if letter == self.word[i]:

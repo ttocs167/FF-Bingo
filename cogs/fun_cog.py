@@ -443,6 +443,12 @@ class FunCog(commands.Cog):
                 word_list = "".join(word_list)
                 if success:
                     await ctx.send("```" + word_list + "```")
+
+                    if self.hangman.word == word_list:
+                        await ctx.send("You win!")
+                        self.hangman = None
+                        return
+
                 elif self.hangman.guesses > 1:
                     await ctx.send("```" + word_list + "```")
                     await ctx.send("You have {} guesses left".format(self.hangman.guesses))

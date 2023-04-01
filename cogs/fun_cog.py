@@ -446,7 +446,7 @@ class FunCog(commands.Cog):
                     return
 
             if self.hangman.guesses > 0:
-                success, word_list = self.hangman.guess_letter(letter)
+                success, word_list, response_text = self.hangman.guess_letter(letter)
                 word_list = "".join(word_list)
                 if success:
                     await ctx.send("```" + word_list + "```")
@@ -457,6 +457,9 @@ class FunCog(commands.Cog):
                         return
 
                 elif self.hangman.guesses > 0:
+                    if response_text is not None:
+                        await ctx.send(response_text)
+
                     await ctx.send("```" + word_list + "```")
                     await ctx.send("You have {} guesses left".format(self.hangman.guesses))
                 else:

@@ -30,8 +30,10 @@ class Hangman:
     def guess_letter(self, letter):
         assert len(letter) == 1, "You can only guess one letter at a time."
 
+        self.guessed_letters.append(letter)
+
         if letter in self.guessed_letters:
-            return False, self.word_list
+            return False, self.word_list, "you already guessed that letter"
 
         letter = letter.lower()
         if letter in self.word:
@@ -39,12 +41,11 @@ class Hangman:
                 if letter == self.word[i]:
                     self.word_list[i] = letter
 
-            self.guessed_letters.append(letter)
             success = True
         else:
             self.guesses -= 1
             success = False
-        return success, self.word_list
+        return success, self.word_list, None
 
     def reset_game(self):
         self.word = generate_random_word()

@@ -1,10 +1,17 @@
 import random
+import os
 
 def load_word_list(language='en'):
     if language == 'es':
         encoding = "latin-1"
     else:
         encoding = "utf8"
+
+    filepath = 'resources/hangman/{}_long_words.txt'.format(language)
+
+    if not os.path.exists(filepath):
+        raise FileNotFoundError("File '{}' not found.".format(filepath))
+
     with open('resources/hangman/{}_long_words.txt'.format(language), 'r', encoding=encoding) as f:
         words = f.read().splitlines()
     return words
@@ -23,8 +30,8 @@ def set_up_game(word):
 
 
 class Hangman:
-    def __init__(self):
-        self.word = generate_random_word()
+    def __init__(self, language='en'):
+        self.word = generate_random_word(language)
         self.word_list = set_up_game(self.word)
         self.max_guesses = 6
         self.guesses = self.max_guesses

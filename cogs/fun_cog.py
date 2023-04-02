@@ -421,7 +421,7 @@ class FunCog(commands.Cog):
         await ctx.reply(out)
 
     @commands.command(aliases=["hm"])
-    async def hangman(self, ctx: commands.Context, *, letter: str = None):
+    async def hangman(self, ctx: commands.Context, *, argument: str = None):
         """Starts a game of hangman or guesses a letter in the current game"""
 
         guild_id = ctx.guild.id
@@ -433,19 +433,23 @@ class FunCog(commands.Cog):
 
         if game_ref is None:
             await ctx.reply("Starting a game of hangman...")
-            self.hangmans[guild_id] = hangman.Hangman()
+            if argument is None:
+                self.hangmans[guild_id] = hangman.Hangman()
+            else:
+                language = argument.lower().strip()
+                self.hangmans[guild_id] = hangman.Hangman(language)
             game_ref = self.hangmans[guild_id]
             await ctx.send("```" + "".join(game_ref.word_list) + "```")
 
         else:
-            if letter is None:
+            if argument is None:
                 await ctx.reply("You must guess a letter!")
                 return
 
-            letter = letter.lower().strip()
+            argument = argument.lower().strip()
 
-            if len(letter) > 1:
-                if letter == game_ref.word:
+            if len(argument) > 1:
+                if argument == game_ref.word:
                     await ctx.reply("You win!")
                     self.hangmans[guild_id] = None
                     return
@@ -456,7 +460,7 @@ class FunCog(commands.Cog):
                     return
 
             if game_ref.guesses > 0:
-                success, word_list, response_text = game_ref.guess_letter(letter)
+                success, word_list, response_text = game_ref.guess_letter(argument)
                 word_list = "".join(word_list)
                 if success:
                     await ctx.send("```" + word_list + "```")
@@ -483,13 +487,14 @@ class FunCog(commands.Cog):
     async def reset_hangman(self, ctx: commands.Context, *, language: str = 'en'):
         """Resets the hangman game"""
         guild_id = ctx.guild.id
+        language = language.lower().strip()
         try:
             game_ref = self.hangmans[guild_id]
         except KeyError:
             game_ref = None
 
         if game_ref is None:
-            self.hangmans[guild_id] = hangman.Hangman()
+            self.hangmans[guild_id] = hangman.Hangman(language)
             game_ref = self.hangmans[guild_id]
         else:
             game_ref.reset_game(language)

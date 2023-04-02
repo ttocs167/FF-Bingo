@@ -432,14 +432,15 @@ class FunCog(commands.Cog):
             game_ref = None
 
         if game_ref is None:
-            await ctx.reply("Starting a game of hangman...")
             if argument is None:
                 self.hangmans[guild_id] = hangman.Hangman()
             else:
                 language = argument.lower().strip()
                 self.hangmans[guild_id] = hangman.Hangman(language)
             game_ref = self.hangmans[guild_id]
-            await ctx.send("```" + "".join(game_ref.word_list) + "```")
+            msg = "Starting a game of hangman..."
+            msg += "\n" + "You have {} guesses".format(game_ref.guesses)
+            await ctx.send(msg)
 
         else:
             if argument is None:
@@ -480,10 +481,10 @@ class FunCog(commands.Cog):
                     await ctx.send(msg)
                 else:
                     msg = ""
-                    msg +="`" + word_list + "`"
-                    msg += "You have {} guesses left".format(game_ref.guesses)
-                    msg += "Better luck next time!"
-                    msg += "The word was {}".format(game_ref.word)
+                    msg += "`" + word_list + "`"
+                    msg += "\nYou have {} guesses left".format(game_ref.guesses)
+                    msg += "\nBetter luck next time!"
+                    msg += "\nThe word was {}".format(game_ref.word)
                     await ctx.send(msg)
                     self.hangmans[guild_id] = None
 
@@ -503,7 +504,7 @@ class FunCog(commands.Cog):
         else:
             game_ref.reset_game(language)
         msg = "Hangman game reset!"
-        msg += "`" + "".join(game_ref.word_list) + "`"
+        msg += "\n`" + "".join(game_ref.word_list) + "`"
         await ctx.send(msg)
 
     @commands.command(hidden=True)

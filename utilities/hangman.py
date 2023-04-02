@@ -51,8 +51,8 @@ class Hangman:
     def reset_game(self):
         self.word = generate_random_word()
         self.word_list = set_up_game(self.word)
-        self.guesses = 6
-        self.guessed_letters = []
+        self.guesses = self.max_guesses
+        self.guessed_letters = set()
 
     def reset_guesses(self):
         self.guesses = self.max_guesses

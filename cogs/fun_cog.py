@@ -434,8 +434,10 @@ class FunCog(commands.Cog):
                 await ctx.reply("You must guess a letter!")
                 return
 
-            if len(letter.strip()) > 1:
-                if letter.strip() == self.hangman.word:
+            letter = letter.strip()
+
+            if len(letter) > 1:
+                if letter == self.hangman.word:
                     await ctx.reply("You win!")
                     self.hangman = None
                     return

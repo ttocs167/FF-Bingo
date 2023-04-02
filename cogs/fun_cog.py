@@ -439,6 +439,7 @@ class FunCog(commands.Cog):
                 self.hangmans[guild_id] = hangman.Hangman(language)
             game_ref = self.hangmans[guild_id]
             msg = "Starting a game of hangman..."
+            msg += "\n" + "`" + "".join(game_ref.word_list) + "`"
             msg += "\n" + "You have {} guesses".format(game_ref.guesses)
             await ctx.send(msg)
 

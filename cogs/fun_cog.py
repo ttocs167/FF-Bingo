@@ -42,7 +42,7 @@ class FunCog(commands.Cog):
         self.bot = bot
         self.rigged_statement = None
         self.reset_wordle_counts.start()
-        self.hangman = None
+        self.hangmans = {}
 
     @commands.command(name='8ball')
     async def _ball(self, ctx):
@@ -424,64 +424,86 @@ class FunCog(commands.Cog):
     async def hangman(self, ctx: commands.Context, *, letter: str = None):
         """Starts a game of hangman or guesses a letter in the current game"""
 
-        if self.hangman is None:
+        guild_id = ctx.guild.id
+
+        try:
+            game_ref = self.hangmans[guild_id]
+        except KeyError:
+            game_ref = None
+
+        if game_ref is None:
             await ctx.reply("Starting a game of hangman...")
-            self.hangman = hangman.Hangman()
-            await ctx.send("```" + "".join(self.hangman.word_list) + "```")
+            self.hangmans[guild_id] = hangman.Hangman()
+            game_ref = self.hangmans[guild_id]
+            await ctx.send("```" + "".join(game_ref.word_list) + "```")
 
         else:
             if letter is None:
                 await ctx.reply("You must guess a letter!")
                 return
 
-            letter = letter.strip()
+            letter = letter.lower().strip()
 
             if len(letter) > 1:
-                if letter == self.hangman.word:
+                if letter == game_ref.word:
                     await ctx.reply("You win!")
-                    self.hangman = None
+                    game_ref = None
                     return
                 else:
                     await ctx.reply("That's not the word!")
-                    self.hangman.guesses -= 1
-                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                    game_ref.guesses -= 1
+                    await ctx.send("You have {} guesses left".format(game_ref.guesses))
                     return
 
-            if self.hangman.guesses > 0:
-                success, word_list, response_text = self.hangman.guess_letter(letter)
+            if game_ref.guesses > 0:
+                success, word_list, response_text = game_ref.guess_letter(letter)
                 word_list = "".join(word_list)
                 if success:
                     await ctx.send("```" + word_list + "```")
 
-                    if self.hangman.word == word_list:
+                    if game_ref.word == word_list:
                         await ctx.send("You win!")
-                        self.hangman = None
+                        game_ref = None
                         return
 
-                elif self.hangman.guesses > 0:
+                elif game_ref.guesses > 0:
                     if response_text is not None:
                         await ctx.send(response_text)
 
                     await ctx.send("```" + word_list + "```")
-                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                    await ctx.send("You have {} guesses left".format(game_ref.guesses))
                 else:
                     await ctx.send("```" + word_list + "```")
-                    await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+                    await ctx.send("You have {} guesses left".format(game_ref.guesses))
                     await ctx.send("Better luck next time!")
-                    await ctx.send("The word was {}".format(self.hangman.word))
-                    self.hangman = None
+                    await ctx.send("The word was {}".format(game_ref.word))
+                    game_ref = None
 
     @commands.command()
     async def reset_hangman(self, ctx: commands.Context):
         """Resets the hangman game"""
-        if self.hangman is None:
-            self.hangman = hangman.Hangman()
+        guild_id = ctx.guild.id
+        try:
+            game_ref = self.hangmans[guild_id]
+        except KeyError:
+            game_ref = None
+
+        if game_ref is None:
+            self.hangmans[guild_id] = hangman.Hangman()
+            game_ref = self.hangmans[guild_id]
         else:
-            self.hangman.reset_game()
+            game_ref.reset_game()
         await ctx.reply("Hangman game reset!")
+        await ctx.send("```" + "".join(game_ref.word_list) + "```")
 
     @commands.command(hidden=True)
     async def reset_hangman_guesses(self, ctx: commands.Context):
-        if self.hangman is not None:
-            self.hangman.reset_guesses()
-            await ctx.send("You have {} guesses left".format(self.hangman.guesses))
+        guild_id = ctx.guild.id
+        try:
+            game_ref = self.hangmans[guild_id]
+        except KeyError:
+            game_ref = None
+
+        if game_ref is not None:
+            game_ref.reset_guesses()
+            await ctx.send("You have {} guesses left".format(game_ref.guesses))

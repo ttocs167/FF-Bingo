@@ -30,8 +30,6 @@ class Hangman:
     def guess_letter(self, letter):
         assert len(letter) == 1, "You can only guess one letter at a time."
 
-        letter = letter.lower()
-
         if letter in self.guessed_letters:
             return False, self.word_list, "you already guessed that letter"
 

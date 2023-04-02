@@ -1,14 +1,13 @@
 import random
-import discord
 
-def load_word_list():
-    with open('resources/hangman/long_words.txt', 'r') as f:
+def load_word_list(language='en'):
+    with open('resources/hangman/{}_long_words.txt'.format(language), 'r') as f:
         words = f.read().splitlines()
     return words
 
 
-def generate_random_word():
-    word = random.choice(load_word_list()).lower()
+def generate_random_word(language='en'):
+    word = random.choice(load_word_list(language)).lower()
     return word
 
 
@@ -46,8 +45,8 @@ class Hangman:
             success = False
         return success, self.word_list, None
 
-    def reset_game(self):
-        self.word = generate_random_word()
+    def reset_game(self, language='en'):
+        self.word = generate_random_word(language)
         self.word_list = set_up_game(self.word)
         self.guesses = self.max_guesses
         self.guessed_letters = set()

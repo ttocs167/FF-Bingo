@@ -480,7 +480,7 @@ class FunCog(commands.Cog):
                     self.hangmans[guild_id] = None
 
     @commands.command()
-    async def reset_hangman(self, ctx: commands.Context):
+    async def reset_hangman(self, ctx: commands.Context, *, language: str = 'en'):
         """Resets the hangman game"""
         guild_id = ctx.guild.id
         try:
@@ -492,7 +492,7 @@ class FunCog(commands.Cog):
             self.hangmans[guild_id] = hangman.Hangman()
             game_ref = self.hangmans[guild_id]
         else:
-            game_ref.reset_game()
+            game_ref.reset_game(language)
         await ctx.reply("Hangman game reset!")
         await ctx.send("```" + "".join(game_ref.word_list) + "```")
 

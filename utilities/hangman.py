@@ -1,7 +1,11 @@
 import random
 
 def load_word_list(language='en'):
-    with open('resources/hangman/{}_long_words.txt'.format(language), 'r') as f:
+    if language == 'es':
+        encoding = "latin-1"
+    else:
+        encoding = "utf8"
+    with open('resources/hangman/{}_long_words.txt'.format(language), 'r', encoding=encoding) as f:
         words = f.read().splitlines()
     return words
 

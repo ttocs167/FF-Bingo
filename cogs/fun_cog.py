@@ -447,7 +447,7 @@ class FunCog(commands.Cog):
             if len(letter) > 1:
                 if letter == game_ref.word:
                     await ctx.reply("You win!")
-                    game_ref = None
+                    self.hangmans[guild_id] = None
                     return
                 else:
                     await ctx.reply("That's not the word!")
@@ -463,7 +463,7 @@ class FunCog(commands.Cog):
 
                     if game_ref.word == word_list:
                         await ctx.send("You win!")
-                        game_ref = None
+                        self.hangmans[guild_id] = None
                         return
 
                 elif game_ref.guesses > 0:
@@ -477,7 +477,7 @@ class FunCog(commands.Cog):
                     await ctx.send("You have {} guesses left".format(game_ref.guesses))
                     await ctx.send("Better luck next time!")
                     await ctx.send("The word was {}".format(game_ref.word))
-                    game_ref = None
+                    self.hangmans[guild_id] = None
 
     @commands.command()
     async def reset_hangman(self, ctx: commands.Context):

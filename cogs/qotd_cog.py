@@ -89,6 +89,15 @@ class QotdCog(commands.Cog):
         finally:
             s.close()
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def decrement_qotd(self, ctx: commands.Context):
+        s = shelve.open('qotd.db')
+        try:
+            s['day_index'] -= 1
+        finally:
+            s.close()
+
     @commands.command(aliases=['remaining_questions'])
     async def questions_remaining(self, ctx: commands.Context):
         s = shelve.open('qotd.db')

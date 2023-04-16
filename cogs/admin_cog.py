@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands, tasks
-
+import platform
+import os
 
 class AdminCog(commands.Cog):
     def __init__(self, bot):
@@ -36,3 +37,13 @@ class AdminCog(commands.Cog):
 
         deleted = await ctx.channel.purge(limit=100, check=is_bot)
         await ctx.channel.send(f'Deleted {len(deleted)} message(s)')
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def reboot(self, ctx: commands.Context):
+        """reboots the bot"""
+        if platform.machine() in ('armv7l', 'armv6l'):
+            await ctx.reply("Rebooting... This may take up to 2 minutes.")
+            os.system("sudo reboot")
+        else:
+            await ctx.reply("The system is running in development mode and cannot be rebooted.")

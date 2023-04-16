@@ -5,7 +5,7 @@ def load_word_list(language='en'):
     if language == 'es':
         encoding = "latin-1"
     else:
-        encoding = "utf8"
+        encoding = "utf-8"
 
     filepath = 'resources/hangman/{}_long_words.txt'.format(language)
 

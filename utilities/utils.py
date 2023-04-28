@@ -379,6 +379,29 @@ def get_all_quotes(guild: str):
     return out
 
 
+def get_quote_summary(guild: str):
+    s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+    quote_count_dict = {}
+
+    try:
+        quotes_list = s["quotes_list"]
+    except KeyError:
+        s["quotes_list"] = []
+        s.close()
+        return "No quotes found"
+
+    for i, item in enumerate(quotes_list):
+        item_author = item[1]
+        if item_author in quote_count_dict:
+            quote_count_dict[item_author] += 1
+        else:
+            quote_count_dict[item_author] = 1
+
+    s.close()
+
+    return quote_count_dict
+
 def delete_quote_at_index(guild: str, index: int, author_id: int):
     s = shelve.open("quotes_database/{}/quote.db".format(guild))
 

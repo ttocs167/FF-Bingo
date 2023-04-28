@@ -384,6 +384,24 @@ class FunCog(commands.Cog):
         else:
             await ctx.reply("There don't seem to be any quotes for your server...")
 
+    @commands.command()
+    async def quote_summary(self, ctx: commands.Context):
+        """Returns a summary of the quotes in the database"""
+        summary_dict = utils.get_quote_summary(ctx.guild.name)
+
+        # format the dictionary into a readable string with newlines
+        out = ""
+        for key in summary_dict:
+            author = ctx.guild.get_member(key)
+
+            nick_or_name = author.nick
+            if nick_or_name is None:
+                nick_or_name = author.name
+
+            out += "{}: {}\n".format(nick_or_name, summary_dict[key])
+
+        await ctx.reply(out)
+
     @commands.command(aliases=["getquotes", "myquotes"])
     async def get_my_quotes(self, ctx: commands.Context):
         """Use this to get a list of your quotes in the database and the index needed to delete them"""

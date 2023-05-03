@@ -12,6 +12,7 @@ from cogs.audio_cog import AudioCog
 from cogs.utils_cog import UtilCog
 from cogs.ai_cog import AICog
 from cogs.camera_cog import CamCog
+from cogs.birthdays_cog import BirthdaysCog
 
 
 class Bot(commands.Bot):
@@ -32,6 +33,7 @@ class Bot(commands.Bot):
         await self.add_cog(AudioCog(bot))
         await self.add_cog(UtilCog(bot))
         await self.add_cog(CamCog(bot))
+        await self.add_cog(BirthdaysCog(bot))
         if "OPENAI_API_KEY" in os.environ:
             await self.add_cog(AICog(bot))
 

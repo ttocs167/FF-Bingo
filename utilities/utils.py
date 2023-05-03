@@ -400,7 +400,7 @@ def get_quote_summary(guild: str):
 
     # sort the dictionary by value
     quote_count_dict = {k: v for k, v in sorted(quote_count_dict.items(), key=lambda item: item[1], reverse=True)}
-    
+
     s.close()
 
     return quote_count_dict

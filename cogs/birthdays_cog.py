@@ -3,7 +3,7 @@ from discord.ext import commands, tasks
 import shelve
 import datetime
 
-class BirthdaysCog(commands.cog):
+class BirthdaysCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.send_birthday.start()

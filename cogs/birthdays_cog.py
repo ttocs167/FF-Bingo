@@ -96,13 +96,13 @@ class BirthdaysCog(commands.Cog):
         s.close()
 
     @commands.command()
-    async def my_birthday(self, ctx: commands.Context, month: int, day: int):
-        """Sets your birthday"""
-        self.set_birthday(ctx.author.id, month, day)
+    async def my_birthday(self, ctx: commands.Context, day: int, month: int):
+        """Set your birthday with the format 'day month' (e.g. 1 1 for January 1st)"""
+        self.set_birthday(ctx.author.id, day, month)
         await ctx.reply("_Your birthday has been set!_")
 
     @staticmethod
-    def set_birthday(user_id, month, day):
+    def set_birthday(user_id, day, month):
         key = str(day) + '/' + str(month)
         s = shelve.open('birthdays.db')
         try:

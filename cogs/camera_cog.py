@@ -1,5 +1,6 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+import datetime
 
 try:
     from utilities import webcam_photo, picam_photo
@@ -19,3 +20,8 @@ class CamCog(commands.Cog):
             image_path = await picam_photo.take_image()
             img = discord.File(image_path)
         await ctx.reply("", file=img)
+
+    @tasks.loop(time=[datetime.time(13, 0, 0)])
+    async def auto_image(self):
+        _ = await picam_photo.take_image()
+        return

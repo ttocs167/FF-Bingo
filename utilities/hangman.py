@@ -1,6 +1,7 @@
 import random
 import os
 
+
 def load_word_list(language='en'):
     if language == 'es':
         encoding = "latin-1"
@@ -25,7 +26,7 @@ def generate_random_word(language='en'):
 def set_up_game(word):
     word_list = list(word)
     word_length = len(word_list)
-    word_list = ['_ ' for _ in range(word_length)]
+    word_list = [' _ ' for _ in range(word_length)]
     return word_list
 
 

@@ -469,13 +469,14 @@ class FunCog(commands.Cog):
             argument = argument.lower().strip()
 
             if len(argument) > 1:
-                success, word_list, response_text = game_ref.guess_word(argument)
+                success, word_list, response_text, complete = game_ref.guess_word(argument)
             else:
                 success, word_list, response_text = game_ref.guess_letter(argument)
+                complete = game_ref.word == word_list
             word_list = "".join(word_list)
             if success:
                 await ctx.send("```" + word_list + "```")
-                if game_ref.word == word_list:
+                if complete:
                     await ctx.send("You win!")
                     self.hangmans[guild_id] = None
                     return

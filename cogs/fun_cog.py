@@ -475,11 +475,13 @@ class FunCog(commands.Cog):
                 complete = game_ref.word == word_list
             word_list = "".join(word_list)
             if success:
-                await ctx.send("```" + word_list + "```")
                 if complete:
+                    await ctx.send("```" + game_ref.word + "```")
                     await ctx.send("You win!")
                     self.hangmans[guild_id] = None
                     return
+                else:
+                    await ctx.send("```" + word_list + "```")
 
             elif game_ref.guesses > 0:
                 msg = ""

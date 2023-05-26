@@ -52,22 +52,26 @@ class Hangman:
                     self.word_list[i] = letter
 
             success = True
+            response_text = None
         else:
             self.guesses -= 1
             success = False
-        return success, self.word_list, None
+            response_text = "That's not in the word"
+        return success, self.word_list, response_text
 
     def guess_word(self, guess):
         if guess == self.word:
             success = True
             complete = True
+            response_text = "Correct!"
 
         else:
             self.guesses -= 1
             success = False
             complete = False
+            response_text = "That's not the word!"
 
-        return success, self.word_list, None, complete
+        return success, self.word_list, response_text, complete
 
     def reset_game(self, language='en'):
         self.word = generate_random_word(language)

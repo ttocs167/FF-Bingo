@@ -57,6 +57,16 @@ class Hangman:
             success = False
         return success, self.word_list, None
 
+    def guess_word(self, guess):
+        if guess == self.word:
+            success = True
+
+        else:
+            self.guesses -= 1
+            success = False
+
+        return success, self.word_list, None
+
     def reset_game(self, language='en'):
         self.word = generate_random_word(language)
         self.word_list = set_up_game(self.word)

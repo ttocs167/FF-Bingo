@@ -481,7 +481,7 @@ class FunCog(commands.Cog):
                     msg = ""
                     msg += "\n```" + game_ref.word + "```"
                     msg += "\nYou win!"
-                    msg += "\nHangmen saved: {}.\n Hangmen lost: {}" \
+                    msg += "\nHangmen saved: **{}**.\nHangmen lost: **{}**" \
                         .format(hangman.get_hangman_success_count(), hangman.get_hangman_failure_count())
                     await ctx.send(msg)
                     self.hangmans[guild_id] = None
@@ -505,7 +505,7 @@ class FunCog(commands.Cog):
                 msg += "\nYou have {} guesses left".format(game_ref.guesses)
                 msg += "\nBetter luck next time!"
                 msg += "\nThe word was {}".format(game_ref.word)
-                msg += "\nHangmen saved: {}.\n Hangmen lost: {}"\
+                msg += "\nHangmen saved: **{}**.\nHangmen lost: **{}**"\
                     .format(hangman.get_hangman_success_count(), hangman.get_hangman_failure_count())
                 await ctx.send(msg)
                 self.hangmans[guild_id] = None

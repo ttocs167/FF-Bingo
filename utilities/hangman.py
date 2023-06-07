@@ -1,5 +1,6 @@
 import random
 import os
+import shelve
 
 
 def load_word_list(language='en'):
@@ -28,6 +29,56 @@ def set_up_game(word):
     word_length = len(word_list)
     word_list = [' _ ' for _ in range(word_length)]
     return word_list
+
+
+def increment_hangman_failure_count():
+    s = shelve.open("hangman.db")
+    try:
+        count = s['failure_count']
+        count += 1
+        s['failure_count'] = count
+    except KeyError:
+        s['failure_count'] = 1
+    finally:
+        s.close()
+        return
+
+
+def get_hangman_failure_count():
+    count = 0
+    s = shelve.open("hangman.db")
+    try:
+        count = s['failure_count']
+    except KeyError:
+        count = 0
+    finally:
+        s.close()
+        return count
+
+
+def increment_hangman_success_count():
+    s = shelve.open("hangman.db")
+    try:
+        count = s['success_count']
+        count += 1
+        s['success_count'] = count
+    except KeyError:
+        s['success_count'] = 1
+    finally:
+        s.close()
+        return
+
+
+def get_hangman_success_count():
+    count = 0
+    s = shelve.open("hangman.db")
+    try:
+        count = s['success_count']
+    except KeyError:
+        count = 0
+    finally:
+        s.close()
+        return count
 
 
 class Hangman:

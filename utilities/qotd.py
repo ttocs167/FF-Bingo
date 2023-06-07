@@ -88,6 +88,7 @@ def shuffle_in_new_question(s, new_question):
     write_new_questions_to_file(new_questions)
     return
 
+
 def get_remaining_questions_count(s):
     try:
         todays_index = s['day_index']
@@ -98,6 +99,7 @@ def get_remaining_questions_count(s):
     questions = get_all_questions()
     remaining_questions = len(questions) - todays_index
     return remaining_questions
+
 
 def shuffle_future_questions(s):
     try:

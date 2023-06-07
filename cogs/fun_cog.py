@@ -472,14 +472,18 @@ class FunCog(commands.Cog):
                 success, word_list, response_text, complete = game_ref.guess_word(argument)
             else:
                 success, word_list, response_text = game_ref.guess_letter(argument)
-                complete = game_ref.word == word_list
+                complete = game_ref.word == "".join(word_list)
             word_list = "".join(word_list)
             if success:
                 if complete:
                     # successful completion state
                     hangman.increment_hangman_success_count()
-                    await ctx.send("```" + game_ref.word + "```")
-                    await ctx.send("You win!")
+                    msg = ""
+                    msg += "\n```" + game_ref.word + "```"
+                    msg += "\nYou win!"
+                    msg += "\nHangmen saved: {}.\n Hangmen lost: {}" \
+                        .format(hangman.get_hangman_success_count(), hangman.get_hangman_failure_count())
+                    await ctx.send(msg)
                     self.hangmans[guild_id] = None
                     return
                 else:

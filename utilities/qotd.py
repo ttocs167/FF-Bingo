@@ -117,3 +117,16 @@ def shuffle_future_questions(s):
     new_questions = past_questions + future_questions
     write_new_questions_to_file(new_questions)
     return
+
+
+def append_new_questions_from_file():
+    with open('./resources/qotd/new_questions.csv', 'r', encoding='utf-8') as read_obj:
+        # pass the file object to reader() to get the reader object
+        csv_reader = csv.reader(read_obj, delimiter='\n')
+        # Get all rows of csv from csv_reader object as list of tuples
+        new_questions = list(csv_reader)
+        new_questions_cleaned = []
+        for item in new_questions:
+            new_questions_cleaned.append(item[0])
+        write_new_questions_to_file(new_questions_cleaned)
+    return

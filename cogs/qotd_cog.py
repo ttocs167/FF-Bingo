@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands, tasks
-from utilities.qotd import enable_qotd, get_todays_question, disable_qotd, shuffle_in_new_question, shuffle_future_questions, get_remaining_questions_count
+from utilities.qotd import *
 import datetime
 import shelve
 
@@ -124,6 +124,14 @@ class QotdCog(commands.Cog):
 
         s.close()
         await ctx.reply("__Shuffled in new question__ **{}** __ to the list of future questions!__".format(new_q))
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def append_new_questions_from_file(self, ctx: commands.Context):
+
+        append_new_questions_from_file()
+
+        await ctx.reply("_Appended new questions from file_")
 
     @commands.command()
     async def addqotd(self, ctx: commands.Context, *, new_q):

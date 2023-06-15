@@ -23,9 +23,7 @@ donde
 hacer
 quién
 nunca
-nada
 hace
-ella
 hasta
 señor
 entonces
@@ -60,7 +58,6 @@ necesitar
 después
 hecho
 nuestro
-vida
 quien
 hablar
 ellos
@@ -96,7 +93,6 @@ entre
 buenas
 parte
 pues
-casi
 amigo
 hora
 quizás
@@ -135,7 +131,6 @@ bajo
 acuerdo
 volver
 suponer
-toma
 siquiera
 chica
 aunque
@@ -245,7 +240,6 @@ agente
 comida
 buscar
 muerto
-cara
 falta
 acabar
 probablemente
@@ -517,7 +511,6 @@ preferir
 ayer
 perfecto
 coronel
-honor
 capaz
 contacto
 confiar
@@ -533,7 +526,6 @@ sargento
 comandante
 Jesús
 médico
-dulce
 carta
 vista
 piso
@@ -573,9 +565,7 @@ especialmente
 espíritu
 papel
 decisión
-alma
 gato
-estrella
 escribir
 edificio
 obra
@@ -623,7 +613,6 @@ energía
 terrible
 servir
 llenar
-reina
 consejo
 interesar
 destino
@@ -641,7 +630,6 @@ bomba
 derecha
 evitar
 largar
-alta
 proteger
 navidad
 informe
@@ -658,7 +646,6 @@ vestido
 enemigo
 arreglar
 bajar
-vera
 crimen
 área
 adentro
@@ -725,7 +712,6 @@ horrible
 animal
 sección
 suelo
-bella
 piel
 perdonar
 pago
@@ -812,7 +798,6 @@ ejemplo
 ciento
 sugerir
 repente
-lana
 opinión
 bola
 costa
@@ -950,7 +935,6 @@ durar
 convertir
 víctima
 resolver
-victoria
 truco
 menudo
 dato
@@ -963,7 +947,6 @@ vacaciones
 tensión
 carro
 oeste
-flor
 éxito
 revisar
 beso
@@ -1070,7 +1053,6 @@ hallar
 valiente
 colegio
 cruzar
-meta
 americano
 numero
 fecha
@@ -1170,7 +1152,6 @@ sábado
 temporada
 campamento
 autobús
-mina
 jueves
 protección
 paquete
@@ -1242,7 +1223,6 @@ Europa
 rogar
 orgullo
 habilidad
-gloria
 junta
 periódico
 nación
@@ -1298,7 +1278,6 @@ sensación
 noble
 templo
 clima
-rose
 ciertamente
 bruja
 agujero
@@ -1327,7 +1306,6 @@ estudiar
 televisión
 tubo
 carretera
-rosa
 rata
 plato
 frontera
@@ -1408,7 +1386,6 @@ entregar
 tecnología
 documento
 casar
-alla
 vigilancia
 conductor
 alcalde
@@ -1480,7 +1457,6 @@ indicar
 representar
 pene
 patrulla
-gracia
 chiste
 globo
 suave
@@ -1518,7 +1494,6 @@ bello
 sufrido
 napoleón
 funeral
-cristal
 voler
 muro
 cometer
@@ -1686,12 +1661,10 @@ abrigo
 pizza
 olvido
 ocupado
-miranda
 combustible
 arresto
 septiembre
 competencia
-charla
 cazar
 academia
 tiburón
@@ -1847,7 +1820,6 @@ junio
 identificación
 gerente
 escoger
-elle
 alejado
 tradición
 móvil
@@ -1898,7 +1870,6 @@ izquierdo
 interrumpir
 chofer
 África
-tina
 rango
 primavera
 obispo
@@ -1955,7 +1926,6 @@ gigante
 desnudo
 popular
 nacimiento
-joya
 involucrado
 homicidio
 aguja
@@ -1989,7 +1959,6 @@ estelar
 ayudado
 sospecha
 sencillo
-ronda
 rifle
 posesión
 pesadilla
@@ -2002,7 +1971,6 @@ tragedia
 pasta
 hierro
 despacho
-clara
 cercano
 casualidad
 audiencia
@@ -2128,7 +2096,6 @@ medianoche
 hacho
 grito
 desarrollo
-caro
 tardar
 muelle
 instinto
@@ -2269,7 +2236,6 @@ petición
 organizar
 mental
 aliento
-perla
 marihuana
 estrategia
 comparado
@@ -2365,7 +2331,6 @@ tira
 tabaco
 respetar
 recientemente
-quinta
 profundamente
 práctica
 impedir
@@ -2406,7 +2371,6 @@ rutina
 radar
 potencial
 polo
-mona
 electricidad
 colgar
 cicatriz
@@ -2497,7 +2461,6 @@ actualmente
 terminal
 político
 notar
-norma
 criado
 cosecha
 camiseta
@@ -2577,7 +2540,6 @@ apropiado
 aniversario
 almorzar
 solicitar
-risa
 músculo
 marcar
 idioma
@@ -2634,7 +2596,6 @@ fianza
 eterno
 escapado
 crucero
-bebe
 arrestar
 provenir
 investigador
@@ -2716,7 +2677,6 @@ condesa
 brillo
 barato
 babe
-austin
 alquiler
 ácido
 vencido
@@ -2746,7 +2706,6 @@ creído
 costumbre
 contratado
 bendición
-teresa
 susto
 sirviente
 radiación
@@ -2756,7 +2715,6 @@ lamentablemente
 feria
 dondequiera
 convención
-claudia
 choque
 campana
 adolescente
@@ -2776,7 +2734,6 @@ simón
 protocolo
 programado
 perspectiva
-pamela
 musical
 mismísimo
 identificado
@@ -2803,7 +2760,6 @@ agalla
 salario
 pluma
 nieto
-lila
 drama
 chocar
 bloque
@@ -2912,7 +2868,6 @@ séptimo
 sensible
 mamita
 filete
-diana
 comunicar
 puñado
 policial
@@ -3242,7 +3197,6 @@ pobreza
 ogro
 matrícula
 liberación
-jade
 iris
 estrellar
 estacar
@@ -3282,7 +3236,6 @@ procurar
 porno
 pabellón
 metrópolis
-gene
 estacionamiento
 corregir
 cepillo
@@ -3340,7 +3293,6 @@ comercio
 cofre
 cocinero
 champán
-bell
 baúl
 anual
 alérgico
@@ -3640,7 +3592,6 @@ exhibición
 dificultad
 descenso
 desaparición
-consuelo
 confusión
 chaval
 chau
@@ -3687,7 +3638,6 @@ portero
 organismo
 obstante
 nudo
-nina
 negado
 naval
 linterna
@@ -3783,7 +3733,6 @@ espina
 distribución
 cuervo
 cosmo
-carmen
 cancha
 boletín
 bigote
@@ -3848,7 +3797,6 @@ pronóstico
 preparación
 portador
 orbe
-manda
 interferencia
 insultar
 inscripción
@@ -3870,7 +3818,6 @@ revólver
 reflejar
 propina
 nombrar
-marge
 inusual
 imaginado
 habitual
@@ -3975,7 +3922,6 @@ fastidiar
 escoria
 Egipto
 disfrutado
-devon
 deducir
 contrabando
 catéter
@@ -4016,7 +3962,6 @@ concernir
 comunicado
 bienestar
 argumento
-amber
 altitud
 agotado
 acontecimiento
@@ -4080,7 +4025,6 @@ anular
 anfitrión
 tolerar
 tirada
-rana
 profeta
 ocupación
 novedad
@@ -4103,7 +4047,6 @@ chistoso
 caviar
 categoría
 cajero
-brear
 balazo
 apartado
 agradecimiento
@@ -4309,7 +4252,6 @@ obstrucción
 numeroso
 mocoso
 mexicano
-marla
 irónico
 interferir
 intenso
@@ -4390,7 +4332,6 @@ encubierto
 efectivamente
 disfrazado
 concreto
-clementina
 clavo
 chispa
 chester
@@ -4446,7 +4387,6 @@ banana
 avergonzar
 aula
 amén
-amargo
 ahorro
 ahogar
 aduana
@@ -4658,7 +4598,6 @@ cuadrado
 compartimiento
 cómic
 carruaje
-camilla
 caligrafía
 búfalo
 banquero
@@ -4870,7 +4809,6 @@ bolsón
 besado
 bañera
 angustia
-aleta
 alcaide
 vacuna
 trasladado
@@ -4917,7 +4855,6 @@ arrogancia
 árbitro
 vector
 señalar
-sella
 recluta
 psíquico
 prototipo
@@ -4925,7 +4862,6 @@ propulsor
 pezón
 mapache
 manicomio
-linea
 lmpiar
 intuición
 interponer
@@ -5071,7 +5007,6 @@ noreste
 niñez
 Merlín
 manto
-magdalena
 maese
 lodo
 localización
@@ -5104,7 +5039,6 @@ caldera
 buscador
 buró
 batear
-aura
 atorado
 apostado
 anticipo
@@ -5135,7 +5069,6 @@ percibir
 pediatría
 pedacito
 parce
-paloma
 ofensa
 némesis
 narcótico
@@ -5248,10 +5181,8 @@ penetrar
 patinar
 oposición
 natal
-nana
 miga
 mártir
-margarita
 Maldonado
 limitado
 Irán
@@ -5352,7 +5283,6 @@ vals
 traído
 taquilla
 tapar
-tamar
 supervisión
 status
 robótica
@@ -5446,7 +5376,6 @@ deletrear
 dardo
 criterio
 compartido
-celeste
 castrar
 carpintero
 carnaval
@@ -5512,7 +5441,6 @@ contracción
 consejera
 competente
 cerda
-celia
 caña
 calcio
 bioquímico
@@ -5533,7 +5461,6 @@ pulga
 proyector
 perpetuo
 pelvis
-patience
 Oregón
 obstáculo
 moro
@@ -6215,7 +6142,6 @@ coleccionar
 chacal
 centenar
 caspasian
-carita
 capricho
 cáliz
 cagada
@@ -6297,7 +6223,6 @@ distracción
 diccionario
 detonador
 criticar
-coral
 consumido
 concuerdo
 comarca
@@ -6348,7 +6273,6 @@ modificar
 metete
 metáfora
 marioneta
-marina
 manchado
 malta
 Maine
@@ -6419,7 +6343,6 @@ telescopio
 tambor
 subestimar
 Siria
-serena
 sarcasmo
 safari
 runa
@@ -6537,7 +6460,6 @@ manía
 malinterpretar
 madriguera
 llevad
-liza
 liebre
 intubación
 intelecto
@@ -6625,7 +6547,6 @@ modificación
 merienda
 mentirosos
 mediocre
-mariana
 maravillosamente
 maquinas
 magnate
@@ -6892,7 +6813,6 @@ montada
 monde
 mola
 modificados
-modestia
 micropunto
 métase
 mesías
@@ -7027,7 +6947,6 @@ bajarme
 avisarles
 avergüences
 auténticos
-aurora
 augusto
 atrapas
 atacaré
@@ -7300,7 +7219,6 @@ asignaron
 aseguraron
 arrancando
 ardor
-arden
 apéndice
 apagué
 analisis
@@ -7617,7 +7535,6 @@ antigüedades
 anotado
 angelito
 alterada
-alameda
 ahogo
 agradecerme
 admiradora
@@ -7976,7 +7893,6 @@ sanatorio
 saldo
 sabotaje
 ruleta
-rosita
 robara
 revuelo
 revelarse
@@ -8464,7 +8380,6 @@ edén
 ecuaciones
 durara
 duplicado
-dona
 distrae
 distinguidos
 disparaba
@@ -8710,7 +8625,6 @@ mándalo
 maiz
 lustré
 luchaban
-lona
 logrando
 llevándose
 llenes
@@ -8805,7 +8719,6 @@ diras
 diós
 difunta
 dificulta
-devora
 destruí
 desprecia
 despiertos
@@ -9055,11 +8968,8 @@ montarme
 monitorear
 molestarse
 modificado
-modesta
 miden
-melina
 mataria
-marga
 mareo
 manténlo
 mandos
@@ -9194,7 +9104,6 @@ contesten
 consumí
 construyes
 construidas
-constancia
 conocerse
 conocería
 confundí
@@ -9233,7 +9142,6 @@ barcelona
 barcaza
 banqueros
 bancaria
-bambi
 bajío
 bajad
 avisarte
@@ -9350,7 +9258,6 @@ salia
 sagrados
 sacame
 sabroso
-sabra
 rurales
 rufianes
 ruegue
@@ -9460,7 +9367,6 @@ matador
 masacraron
 mareado
 marcianos
-marcia
 mantenerlas
 maniático
 luzca
@@ -9848,7 +9754,6 @@ prometa
 profecías
 produzca
 procesando
-pris
 principiantes
 prever
 preguntándote
@@ -10359,7 +10264,6 @@ lléveselo
 llevase
 llamarada
 liderando
-leona
 leerte
 lastimaste
 juzguen
@@ -10624,7 +10528,6 @@ analizado
 ambientes
 amaban
 almanaque
-alisa
 alimenticia
 alimentado
 alcancé

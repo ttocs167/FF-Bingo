@@ -28,7 +28,7 @@ def get_all_questions():
 
 
 def write_new_questions_to_file(questions):
-    with open('./resources/qotd/shuffled_questions.csv', 'w') as myfile:
+    with open('./resources/qotd/shuffled_questions.csv', 'a') as myfile:
         wr = csv.writer(myfile, delimiter="\n")
         wr.writerow(questions)
     return

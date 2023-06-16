@@ -27,8 +27,12 @@ def get_all_questions():
     return questions_cleaned
 
 
-def write_new_questions_to_file(questions):
-    with open('./resources/qotd/shuffled_questions.csv', 'a') as myfile:
+def write_new_questions_to_file(questions, append=False):
+    if append:
+        open_mode = 'a'
+    else:
+        open_mode = 'w'
+    with open('./resources/qotd/shuffled_questions.csv', open_mode) as myfile:
         wr = csv.writer(myfile, delimiter="\n")
         wr.writerow(questions)
     return
@@ -128,5 +132,5 @@ def append_new_questions_from_file():
         new_questions_cleaned = []
         for item in new_questions:
             new_questions_cleaned.append(item[0])
-        write_new_questions_to_file(new_questions_cleaned)
+        write_new_questions_to_file(new_questions_cleaned, append=True)
     return

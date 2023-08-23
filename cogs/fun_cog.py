@@ -438,6 +438,12 @@ class FunCog(commands.Cog):
 
         await ctx.reply(out)
 
+    @commands.command(hidden=True)
+    async def DELETE_ALL_MY_QUOTES(self, ctx: commands.Context, guild: str = None):
+        """Deletes all of your quotes from the database. This is irreversible."""
+        out = utils.delete_all_my_quotes(guild, ctx.author.id)
+        await ctx.reply(out)
+
     @commands.command(aliases=["hm"])
     async def hangman(self, ctx: commands.Context, *, argument: str = None):
         """Starts a game of hangman or guesses a letter in the current game"""

@@ -405,6 +405,7 @@ def get_quote_summary(guild: str):
 
     return quote_count_dict
 
+
 def delete_quote_at_index(guild: str, index: int, author_id: int):
     s = shelve.open("quotes_database/{}/quote.db".format(guild))
 
@@ -482,3 +483,49 @@ def emoji_free_text(text):
 
     text = emoji_pattern.sub(r'', text)
     return text
+
+
+def delete_all_my_quotes(guild_name, author_id):
+
+    counter = 0
+
+    if guild_name is None:
+        # delete all quotes from all guilds
+        for guild in os.listdir("quotes_database/"):
+            s = shelve.open("quotes_database/{}/quote.db".format(guild))
+
+            try:
+                quotes_list = s["quotes_list"]
+            except KeyError:
+                s["quotes_list"] = []
+                s.close()
+                continue
+
+            for i, item in enumerate(quotes_list):
+                if item[1] == author_id:
+                    del quotes_list[i]
+                    counter += 1
+
+            s["quotes_list"] = quotes_list
+
+            s.close()
+
+    else:
+        # delete all quotes from a specific guild
+        s = shelve.open("quotes_database/{}/quote.db".format(guild_name))
+
+        try:
+            quotes_list = s["quotes_list"]
+        except KeyError:
+            s["quotes_list"] = []
+            s.close()
+            return "No quotes found"
+
+        for i, item in enumerate(quotes_list):
+            if item[1] == author_id:
+                del quotes_list[i]
+                counter += 1
+        s["quotes_list"] = quotes_list
+
+        s.close()
+    return "Deleted {} quotes".format(counter)

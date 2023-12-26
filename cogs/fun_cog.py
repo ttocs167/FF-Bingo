@@ -43,6 +43,7 @@ class FunCog(commands.Cog):
         self.rigged_statement = None
         self.reset_wordle_counts.start()
         self.hangmans = {}
+        self.april_fools_mode = False
 
     @commands.command(name='8ball')
     async def _ball(self, ctx):
@@ -379,6 +380,11 @@ class FunCog(commands.Cog):
             except AttributeError as e:
                 nick_or_name = "Unknown"
 
+            # April fools clause
+            if self.april_fools_mode:
+                random_author = random.choice(ctx.guild.members)
+                nick_or_name = random_author.display_name
+
             out = "_" + content + "_\n- **" + nick_or_name + "**" + "\n" + time.strftime("%Y/%m/%d, %H:%M:%S")
             await ctx.reply(out)
 
@@ -439,6 +445,15 @@ class FunCog(commands.Cog):
         out = utils.owner_del_quote_at_index(guild, quote_index)
 
         await ctx.reply(out)
+
+    @commands.is_owner()
+    @commands.command()
+    async def toggle_april_fools_mode(self, ctx: commands.Context):
+        self.april_fools_mode = not self.april_fools_mode
+        if self.april_fools_mode:
+            await ctx.reply(":wink:")
+        else:
+            await ctx.reply("saluting_face")
 
     @commands.command(hidden=True)
     async def DELETE_ALL_MY_QUOTES(self, ctx: commands.Context, guild: str = None):

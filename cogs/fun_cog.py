@@ -374,7 +374,7 @@ class FunCog(commands.Cog):
         if content is not None:
             author = ctx.guild.get_member(author_id)
 
-            nick_or_name = author.nick
+            nick_or_name = author.display_name
             if nick_or_name is None:
                 nick_or_name = author.name
 
@@ -394,7 +394,7 @@ class FunCog(commands.Cog):
         for key in summary_dict:
             author = ctx.guild.get_member(key)
 
-            nick_or_name = author.nick
+            nick_or_name = author.display_name
             if nick_or_name is None:
                 nick_or_name = author.name
 

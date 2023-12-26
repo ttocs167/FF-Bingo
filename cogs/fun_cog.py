@@ -372,11 +372,12 @@ class FunCog(commands.Cog):
         content, author_id, time = utils.get_random_quote(ctx.guild.name)
 
         if content is not None:
-            author = ctx.guild.get_member(author_id)
+            try:
+                author = ctx.guild.get_member(author_id)
+                nick_or_name = author.display_name
 
-            nick_or_name = author.display_name
-            if nick_or_name is None:
-                nick_or_name = author.name
+            except AttributeError as e:
+                nick_or_name = "Unknown"
 
             out = "_" + content + "_\n- **" + nick_or_name + "**" + "\n" + time.strftime("%Y/%m/%d, %H:%M:%S")
             await ctx.reply(out)
@@ -392,11 +393,12 @@ class FunCog(commands.Cog):
         # format the dictionary into a readable string with newlines
         out = ""
         for key in summary_dict:
-            author = ctx.guild.get_member(key)
+            try:
+                author = ctx.guild.get_member(key)
+                nick_or_name = author.display_name
 
-            nick_or_name = author.display_name
-            if nick_or_name is None:
-                nick_or_name = author.name
+            except AttributeError as e:
+                nick_or_name = "Unknown"
 
             out += "{}: {}\n".format(nick_or_name, summary_dict[key])
 

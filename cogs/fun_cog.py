@@ -453,7 +453,7 @@ class FunCog(commands.Cog):
         if self.april_fools_mode:
             await ctx.reply(":wink:")
         else:
-            await ctx.reply("saluting_face")
+            await ctx.reply(":saluting_face:")
 
     @commands.command(hidden=True)
     async def DELETE_ALL_MY_QUOTES(self, ctx: commands.Context, guild: str = None):

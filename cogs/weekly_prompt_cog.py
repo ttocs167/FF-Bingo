@@ -239,3 +239,10 @@ class WeeklyPromptCog(commands.Cog):
         set_day_index(day)
 
         await ctx.reply(f"_The weekly prompt will now be sent on {self.days_of_week[day]}!_")
+
+    @commands.command()
+    async def echo_prompt(self, ctx: commands.Context, prompt: str):
+        """Echo the prompt to the channel"""
+
+        await ctx.reply(prompt)
+        return

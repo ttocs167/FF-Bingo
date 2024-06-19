@@ -151,7 +151,7 @@ class WeeklyPromptCog(commands.Cog):
         self.days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         self.pinned_message_ids = []
 
-    @tasks.loop(time=[datetime.time(11, 0, 0)])
+    @tasks.loop(time=[datetime.time(12, 14, 0)])
     async def send_weekly_prompt(self):
         """sends the weekly prompt to the enabled servers every week at UTC time"""
         self.current_day_index = datetime.datetime.today().weekday()

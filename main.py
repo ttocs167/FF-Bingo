@@ -13,6 +13,7 @@ from cogs.utils_cog import UtilCog
 from cogs.ai_cog import AICog
 from cogs.camera_cog import CamCog
 from cogs.birthdays_cog import BirthdaysCog
+from cogs.weekly_prompt_cog import WeeklyPromptCog
 
 
 class Bot(commands.Bot):
@@ -34,6 +35,7 @@ class Bot(commands.Bot):
         await self.add_cog(UtilCog(bot))
         await self.add_cog(CamCog(bot))
         await self.add_cog(BirthdaysCog(bot))
+        await self.add_cog(WeeklyPromptCog(bot))
         if "OPENAI_API_KEY" in os.environ:
             await self.add_cog(AICog(bot))
 

@@ -1,4 +1,6 @@
 import os
+import textwrap
+
 import discord
 from discord.ext import commands, tasks
 import datetime
@@ -418,9 +420,22 @@ class FunCog(commands.Cog):
 
         out = utils.get_personal_quotes(str(ctx.guild.name), ctx.author.id)
 
+        # split the output into 3000 character chunks
+
+        chunks = textwrap.wrap(out,
+                               width=3000,
+                               expand_tabs=False,
+                               replace_whitespace=False,
+                               drop_whitespace=False,
+                               break_on_hyphens=False,
+                               break_long_words=False,
+                               )
+
         author = ctx.author
         dm = await author.create_dm()
-        await dm.send(out)
+
+        for chunk in chunks:
+            await dm.send(chunk)
 
     @commands.command(aliases=["dquote", "delquote", "rmquote"])
     async def del_quote(self, ctx: commands.Context, guild: str, quote_index: int):

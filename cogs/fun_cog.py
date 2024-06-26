@@ -423,7 +423,7 @@ class FunCog(commands.Cog):
         # split the output into 3000 character chunks
 
         chunks = textwrap.wrap(out,
-                               width=3000,
+                               width=1500,
                                expand_tabs=False,
                                replace_whitespace=False,
                                drop_whitespace=False,

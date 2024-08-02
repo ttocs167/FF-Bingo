@@ -185,6 +185,29 @@ class WeeklyPromptCog(commands.Cog):
             return
 
     @commands.command()
+    async def force_weekly_prompt(self, ctx: commands.Context):
+        """Force the weekly prompt to be sent"""
+
+        # check that the current channel is in the list of enabled channels
+        enabled_channels = get_enabled_channels()
+        if ctx.channel.id not in enabled_channels:
+            await ctx.reply("_The weekly prompt has not been enabled in this channel_")
+            return
+
+        # now we can be sure that the weekly prompt is enabled in this channel
+
+        # load the prompt
+        prompts = load_prompts()
+        current_prompt_index = load_current_prompt_index()
+
+        prompt = prompts[current_prompt_index]
+
+        # send the prompt
+        await ctx.channel.send(prompt)
+        
+        return
+
+    @commands.command()
     async def enable_weekly_prompt(self, ctx: commands.Context):
         """Enable the weekly prompt message in the channel this command is sent"""
         channel_id = ctx.channel.id

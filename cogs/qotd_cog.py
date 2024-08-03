@@ -49,8 +49,11 @@ class QotdCog(commands.Cog):
             msg_id = int(channel_id_msg_pair[1])
 
             channel = self.bot.get_channel(channel_id)
-            old_msg = await channel.fetch_message(msg_id)
-            await old_msg.unpin()
+            try:
+                old_msg = await channel.fetch_message(msg_id)
+                await old_msg.unpin()
+            except AttributeError:
+                pass
 
         for channel_id in channel_ids:
             channel = self.bot.get_channel(int(channel_id))

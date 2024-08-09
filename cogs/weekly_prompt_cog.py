@@ -147,9 +147,10 @@ class WeeklyPromptCog(commands.Cog):
         self.bot = bot
         self.day_index = load_day_index()
         self.current_day_index = datetime.datetime.today().weekday()
-        self.send_weekly_prompt.start()
         self.days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         self.pinned_message_ids = []
+
+        self.send_weekly_prompt.start()
 
     @tasks.loop(time=[datetime.time(11, 0, 0)])
     async def send_weekly_prompt(self):
@@ -172,8 +173,12 @@ class WeeklyPromptCog(commands.Cog):
                     for channel_id_msg_pair in self.pinned_message_ids:
                         if channel_id_msg_pair[0] == channel_id:
                             msg_id = channel_id_msg_pair[1]
-                            old_msg = await channel.fetch_message(msg_id)
-                            await old_msg.unpin()
+
+                            try:
+                                old_msg = await channel.fetch_message(msg_id)
+                                await old_msg.unpin()
+                            except AttributeError:
+                                pass
 
                     # send the new message and pin it
                     msg = await channel.send(prompt)
@@ -211,8 +216,11 @@ class WeeklyPromptCog(commands.Cog):
     async def enable_weekly_prompt(self, ctx: commands.Context):
         """Enable the weekly prompt message in the channel this command is sent"""
         channel_id = ctx.channel.id
-        await enable_weekly_prompt(channel_id)
-        await ctx.reply("_Weekly prompt has been enabled in this channel!_")
+
+        if channel_id not in get_enabled_channels():
+
+            await enable_weekly_prompt(channel_id)
+            await ctx.reply("_Weekly prompt has been enabled in this channel!_")
 
     @commands.command()
     async def disable_weekly_prompt(self, ctx: commands.Context):
